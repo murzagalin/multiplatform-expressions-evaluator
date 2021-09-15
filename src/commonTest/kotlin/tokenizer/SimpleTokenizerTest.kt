@@ -1,8 +1,12 @@
+package tokenizer
+
+import Token
+import Tokenizer
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
-internal class TokenizerTest {
+internal class SimpleTokenizerTest {
 
     private val subject = Tokenizer()
 

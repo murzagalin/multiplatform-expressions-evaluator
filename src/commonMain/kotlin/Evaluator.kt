@@ -22,6 +22,7 @@ class Evaluator {
                     Token.Operand(base.pow(power))
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
+                else -> TODO("unary minus and plus")
             }
 
             temp.add(newToken)

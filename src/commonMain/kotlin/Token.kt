@@ -13,6 +13,8 @@ sealed interface Token {
         object Mult : Operator(2, Associativity.LEFT)
         object Div : Operator(2, Associativity.LEFT)
         object Pow : Operator(3, Associativity.RIGHT)
+        object UnaryMinus : Operator(4, Associativity.RIGHT)
+        object UnaryPlus : Operator(4, Associativity.RIGHT)
     }
 
     sealed class Bracket : Token {

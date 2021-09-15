@@ -14,9 +14,21 @@ class Tokenizer {
 
             when (symbol) {
                 in digitChars -> number = if (number == null) symbol.digitToInt() else number * 10 + symbol.digitToInt()
-                '+' -> nextToken = Token.Operator.Sum
+                '+' -> {
+                    nextToken = if (supposedToBeUnaryOperator(result, number)) {
+                        Token.Operator.UnaryPlus
+                    } else {
+                        Token.Operator.Sum
+                    }
+                }
+                '-' -> {
+                    nextToken = if (supposedToBeUnaryOperator(result, number)) {
+                        Token.Operator.UnaryMinus
+                    } else {
+                        Token.Operator.Sub
+                    }
+                }
                 '*' -> nextToken = Token.Operator.Mult
-                '-' -> nextToken = Token.Operator.Sub
                 '/' -> nextToken = Token.Operator.Div
                 '^' -> nextToken = Token.Operator.Pow
                 '(' -> nextToken = Token.Bracket.Left
@@ -37,5 +49,9 @@ class Tokenizer {
         }
 
         return result
+    }
+
+    private fun supposedToBeUnaryOperator(result: MutableList<Token>, pendingNumber: Int?): Boolean {
+        return (result.isEmpty() || result.last() !is Token.Operand ) && pendingNumber == null
     }
 }
