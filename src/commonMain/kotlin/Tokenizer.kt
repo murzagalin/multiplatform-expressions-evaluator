@@ -20,6 +20,7 @@ class Tokenizer {
                 '*' -> nextToken = Token.Operator.Mult
                 '-' -> nextToken = Token.Operator.Sub
                 '/' -> nextToken = Token.Operator.Div
+                '^' -> nextToken = Token.Operator.Pow
             }
 
             ix++

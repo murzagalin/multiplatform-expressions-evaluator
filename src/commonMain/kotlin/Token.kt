@@ -7,11 +7,15 @@ sealed interface Token {
         value class NInteger(val value: Int): Operand
     }
 
-    sealed interface Operator : Token {
-        object Sum : Operator
-        object Mult : Operator
-        object Sub : Operator
-        object Div : Operator
+    sealed class Operator(val priority: Int, val associativity: Associativity) : Token {
+        object Sum : Operator(1, Associativity.LEFT)
+        object Sub : Operator(1, Associativity.LEFT)
+        object Mult : Operator(2, Associativity.LEFT)
+        object Div : Operator(2, Associativity.LEFT)
+        object Pow : Operator(3, Associativity.RIGHT)
     }
 
+    enum class Associativity {
+        LEFT, RIGHT
+    }
 }

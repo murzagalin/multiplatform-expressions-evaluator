@@ -45,6 +45,20 @@ internal class TokenizerTest {
     }
 
     @Test
+    fun pow_of_2_simple_operands() {
+        val result = subject.tokenize("33^4")
+        assertEquals(3, result.size)
+        assertContentEquals(
+            listOf(
+                Token.Operand.NInteger(33),
+                Token.Operator.Pow,
+                Token.Operand.NInteger(4)
+            ),
+            result
+        )
+    }
+
+    @Test
     fun division_of_2_operands() {
         val result = subject.tokenize("2536/575")
         assertEquals(3, result.size)
