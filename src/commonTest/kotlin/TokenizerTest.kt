@@ -11,7 +11,7 @@ internal class TokenizerTest {
         val result = subject.tokenize("12345")
 
         assertContentEquals(
-            listOf(Token.Operand.NInteger(12345)),
+            listOf(Token.Operand(12345)),
             result
         )
     }
@@ -22,9 +22,9 @@ internal class TokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(3),
+                Token.Operand(3),
                 Token.Operator.Sum,
-                Token.Operand.NInteger(4)
+                Token.Operand(4)
             ),
             result
         )
@@ -36,9 +36,9 @@ internal class TokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(9683),
+                Token.Operand(9683),
                 Token.Operator.Sub,
-                Token.Operand.NInteger(2365)
+                Token.Operand(2365)
             ),
             result
         )
@@ -50,9 +50,9 @@ internal class TokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(33),
+                Token.Operand(33),
                 Token.Operator.Pow,
-                Token.Operand.NInteger(4)
+                Token.Operand(4)
             ),
             result
         )
@@ -64,9 +64,9 @@ internal class TokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(2536),
+                Token.Operand(2536),
                 Token.Operator.Div,
-                Token.Operand.NInteger(575)
+                Token.Operand(575)
             ),
             result
         )
@@ -78,9 +78,9 @@ internal class TokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(3),
+                Token.Operand(3),
                 Token.Operator.Sum,
-                Token.Operand.NInteger(4)
+                Token.Operand(4)
             ),
             result
         )
@@ -92,9 +92,9 @@ internal class TokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(5325),
+                Token.Operand(5325),
                 Token.Operator.Mult,
-                Token.Operand.NInteger(289)
+                Token.Operand(289)
             ),
             result
         )
@@ -106,11 +106,11 @@ internal class TokenizerTest {
         assertEquals(5, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(1),
+                Token.Operand(1),
                 Token.Operator.Sum,
-                Token.Operand.NInteger(8),
+                Token.Operand(8),
                 Token.Operator.Mult,
-                Token.Operand.NInteger(9)
+                Token.Operand(9)
             ),
             result
         )
@@ -122,11 +122,11 @@ internal class TokenizerTest {
         assertEquals(5, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.NInteger(1432),
+                Token.Operand(1432),
                 Token.Operator.Sum,
-                Token.Operand.NInteger(8585),
+                Token.Operand(8585),
                 Token.Operator.Mult,
-                Token.Operand.NInteger(9346)
+                Token.Operand(9346)
             ),
             result
         )

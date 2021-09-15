@@ -2,9 +2,9 @@ import kotlin.jvm.JvmInline
 
 sealed interface Token {
 
-    sealed interface Operand : Token {
-        @JvmInline
-        value class NInteger(val value: Int): Operand
+    @JvmInline
+    value class Operand(val value: Double): Token {
+        constructor(value: Int): this(value.toDouble())
     }
 
     sealed class Operator(val priority: Int, val associativity: Associativity) : Token {

@@ -26,7 +26,7 @@ class Tokenizer {
             ix++
 
             if (number != null && (symbol !in digitChars || ix >= expression.length)) {
-                result.add(Token.Operand.NInteger(number))
+                result.add(Token.Operand(number))
                 number = null
             }
 
