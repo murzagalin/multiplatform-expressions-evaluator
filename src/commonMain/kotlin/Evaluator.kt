@@ -27,7 +27,7 @@ class Evaluator {
             temp.add(newToken)
         }
 
-        require(temp.size == 1)
+        require(temp.size == 1) { "malformed expression" }
 
         return temp.popLastOperand.value
     }

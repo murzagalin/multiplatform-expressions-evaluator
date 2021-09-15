@@ -4,6 +4,7 @@ import evaluate
 import kotlin.math.pow
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class BracketsIntegrationTests {
 
@@ -17,5 +18,10 @@ class BracketsIntegrationTests {
     fun division_powered() {
         assertEquals((12 + 32).toDouble().pow(3), "(12+32)^3".evaluate())
         assertEquals(12 + 32.0.pow(3), "12+32^3".evaluate())
+    }
+
+    @Test
+    fun just_brackets() {
+        assertFailsWith(IllegalArgumentException::class, "malformed expression") { "()".evaluate() }
     }
 }
