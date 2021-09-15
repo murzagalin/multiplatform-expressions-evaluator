@@ -1,3 +1,6 @@
+package integration
+
+import evaluate
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -39,7 +42,7 @@ class SimpleIntegrationTests {
             val expressionBuilder = StringBuilder()
             var result = 1
             for (operandIx in 0 until operandsCount) {
-                val newOperand = random.nextInt(0, 99)
+                val newOperand = random.nextInt(10, 29)
                 expressionBuilder.append(newOperand).append('*')
                 result *= newOperand
             }

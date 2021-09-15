@@ -131,4 +131,22 @@ internal class TokenizerTest {
             result
         )
     }
+
+    @Test
+    fun expression_with_brackets() {
+        val result = subject.tokenize("(1432 + 8585)*9346")
+        assertEquals(7, result.size)
+        assertContentEquals(
+            listOf(
+                Token.Bracket.Left,
+                Token.Operand(1432),
+                Token.Operator.Sum,
+                Token.Operand(8585),
+                Token.Bracket.Right,
+                Token.Operator.Mult,
+                Token.Operand(9346)
+            ),
+            result
+        )
+    }
 }

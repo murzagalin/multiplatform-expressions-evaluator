@@ -15,6 +15,11 @@ sealed interface Token {
         object Pow : Operator(3, Associativity.RIGHT)
     }
 
+    sealed class Bracket : Token {
+        object Left : Bracket()
+        object Right : Bracket()
+    }
+
     enum class Associativity {
         LEFT, RIGHT
     }

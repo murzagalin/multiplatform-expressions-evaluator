@@ -21,6 +21,7 @@ class Evaluator {
                     val base = temp.popLastOperand.value
                     Token.Operand(base.pow(power))
                 }
+                is Token.Bracket -> error("Brackets must not appear in postfix expressions")
             }
 
             temp.add(newToken)

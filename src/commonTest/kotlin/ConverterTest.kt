@@ -1,5 +1,6 @@
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertFailsWith
 
 class ConverterTest {
 
@@ -191,6 +192,86 @@ class ConverterTest {
                 Token.Operand(4),
                 Token.Operator.Pow,
                 Token.Operator.Div
+            ),
+            result
+        )
+    }
+
+    @Test
+    fun sum_in_brackets_multiplied() {
+        val expression = listOf(
+            Token.Bracket.Left,
+            Token.Operand(321),
+            Token.Operator.Sum,
+            Token.Operand(749),
+            Token.Bracket.Right,
+            Token.Operator.Mult,
+            Token.Operand(9)
+        )
+        val result = subject.convert(expression)
+
+        assertContentEquals(
+            listOf(
+                Token.Operand(321),
+                Token.Operand(749),
+                Token.Operator.Sum,
+                Token.Operand(9),
+                Token.Operator.Mult
+            ),
+            result
+        )
+    }
+
+    @Test
+    fun sum_in_brackets_without_left_bracket_multiplied() {
+        val expression = listOf(
+            Token.Operand(321),
+            Token.Operator.Sum,
+            Token.Operand(749),
+            Token.Bracket.Right,
+            Token.Operator.Mult,
+            Token.Operand(9)
+        )
+        assertFailsWith(IllegalArgumentException::class, "mismatched parenthesis") {
+            subject.convert(expression)
+        }
+    }
+
+    @Test
+    fun sum_in_brackets_without_right_bracket_multiplied() {
+        val expression = listOf(
+            Token.Bracket.Left,
+            Token.Operand(321),
+            Token.Operator.Sum,
+            Token.Operand(749),
+            Token.Operator.Mult,
+            Token.Operand(9)
+        )
+        assertFailsWith(IllegalArgumentException::class, "mismatched parenthesis") {
+            subject.convert(expression)
+        }
+    }
+
+    @Test
+    fun div_in_brackets_powered() {
+        val expression = listOf(
+            Token.Bracket.Left,
+            Token.Operand(321),
+            Token.Operator.Div,
+            Token.Operand(749),
+            Token.Bracket.Right,
+            Token.Operator.Pow,
+            Token.Operand(9)
+        )
+        val result = subject.convert(expression)
+
+        assertContentEquals(
+            listOf(
+                Token.Operand(321),
+                Token.Operand(749),
+                Token.Operator.Div,
+                Token.Operand(9),
+                Token.Operator.Pow
             ),
             result
         )

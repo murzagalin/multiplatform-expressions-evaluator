@@ -13,14 +13,14 @@ class Tokenizer {
             val symbol = expression[ix]
 
             when (symbol) {
-                in digitChars -> {
-                    number = if (number == null) symbol.digitToInt() else number * 10 + symbol.digitToInt()
-                }
+                in digitChars -> number = if (number == null) symbol.digitToInt() else number * 10 + symbol.digitToInt()
                 '+' -> nextToken = Token.Operator.Sum
                 '*' -> nextToken = Token.Operator.Mult
                 '-' -> nextToken = Token.Operator.Sub
                 '/' -> nextToken = Token.Operator.Div
                 '^' -> nextToken = Token.Operator.Pow
+                '(' -> nextToken = Token.Bracket.Left
+                ')' -> nextToken = Token.Bracket.Right
             }
 
             ix++
