@@ -21,8 +21,9 @@ class Evaluator {
                     val base = temp.popLastOperand.value
                     Token.Operand(base.pow(power))
                 }
+                is Token.Operator.UnaryMinus -> Token.Operand(- temp.popLastOperand.value)
+                is Token.Operator.UnaryPlus -> temp.popLastOperand
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
-                else -> TODO("unary minus and plus")
             }
 
             temp.add(newToken)
