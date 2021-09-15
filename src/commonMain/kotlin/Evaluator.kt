@@ -9,7 +9,7 @@ class Evaluator {
             val newToken = when (token) {
                 is Token.Operand -> token
                 is Token.Operator.Sum -> Token.Operand(temp.popLastOperand.value + temp.popLastOperand.value)
-                is Token.Operator.Sub -> Token.Operand(- temp.popLastOperand.value + temp.popLastOperand.value)
+                is Token.Operator.Sub -> Token.Operand(-temp.popLastOperand.value + temp.popLastOperand.value)
                 is Token.Operator.Mult -> Token.Operand(temp.popLastOperand.value * temp.popLastOperand.value)
                 is Token.Operator.Div -> {
                     val denominator = temp.popLastOperand.value
@@ -21,7 +21,7 @@ class Evaluator {
                     val base = temp.popLastOperand.value
                     Token.Operand(base.pow(power))
                 }
-                is Token.Operator.UnaryMinus -> Token.Operand(- temp.popLastOperand.value)
+                is Token.Operator.UnaryMinus -> Token.Operand(-temp.popLastOperand.value)
                 is Token.Operator.UnaryPlus -> temp.popLastOperand
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
             }
