@@ -9,7 +9,9 @@ sealed interface Token {
 
     sealed interface Operator : Token {
         object Sum : Operator
-        object Multiplication : Operator
+        object Mult : Operator
+        object Sub : Operator
+        object Div : Operator
     }
 
 }

@@ -5,11 +5,33 @@ class Tokenizer {
     fun tokenize(expression: String): List<Token> {
         val result = mutableListOf<Token>()
 
-        for (symbol in expression) {
-            when {
-                symbol in digitChars -> result.add(Token.Operand.NInteger(symbol.digitToInt()))
-                symbol == '+' -> result.add(Token.Operator.Sum)
-                symbol == '*' -> result.add(Token.Operator.Multiplication)
+        var ix = 0
+        var number: Int? = null
+        var nextToken: Token? = null
+
+        while (ix < expression.length) {
+            val symbol = expression[ix]
+
+            when (symbol) {
+                in digitChars -> {
+                    number = if (number == null) symbol.digitToInt() else number * 10 + symbol.digitToInt()
+                }
+                '+' -> nextToken = Token.Operator.Sum
+                '*' -> nextToken = Token.Operator.Mult
+                '-' -> nextToken = Token.Operator.Sub
+                '/' -> nextToken = Token.Operator.Div
+            }
+
+            ix++
+
+            if (number != null && (symbol !in digitChars || ix >= expression.length)) {
+                result.add(Token.Operand.NInteger(number))
+                number = null
+            }
+
+            if (nextToken != null) {
+                result.add(nextToken)
+                nextToken = null
             }
         }
 
