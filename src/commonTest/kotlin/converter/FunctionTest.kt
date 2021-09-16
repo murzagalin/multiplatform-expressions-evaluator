@@ -94,4 +94,28 @@ class FunctionTest {
             subject.convert(expression)
         )
     }
+
+    @Test
+    fun multi_var_function_with_calculated_first_param() {
+        val expression = listOf(
+            Token.Function.Log,
+            Token.Bracket.Left,
+            Token.Operand(2),
+            Token.Operator.Mult,
+            Token.Operand(2),
+            Token.Function.Delimeter,
+            Token.Operand(3),
+            Token.Bracket.Right
+        )
+        assertContentEquals(
+            listOf(
+                Token.Operand(2),
+                Token.Operand(2),
+                Token.Operator.Mult,
+                Token.Operand(3),
+                Token.Function.Log
+            ),
+            subject.convert(expression)
+        )
+    }
 }

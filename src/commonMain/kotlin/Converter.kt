@@ -33,7 +33,12 @@ class Converter {
                     operators.addLast(token)
                 }
                 is Token.Function -> operators.add(token)
-                is Token.Function.Delimeter -> { /* just ignore it */ }
+                is Token.Function.Delimeter -> {
+                    while (operators.lastOrNull() != Token.Bracket.Left) {
+                        require(operators.isNotEmpty()) { "mismatched parenthesis" }
+                        output.add(operators.removeLast())
+                    }
+                }
             }
         }
 
