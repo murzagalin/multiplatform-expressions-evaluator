@@ -4,7 +4,7 @@ import evaluate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UnaryOperatorsIntegrationTests {
+class UnaryOperatorsTests {
 
     @Test
     fun several_unary_minuses() {

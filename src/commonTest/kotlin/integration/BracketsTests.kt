@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class BracketsIntegrationTests {
+class BracketsTests {
 
     @Test
     fun sum_in_brackets_multiplied() {

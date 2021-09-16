@@ -6,23 +6,25 @@ class Tokenizer {
         val result = mutableListOf<Token>()
 
         var ix = 0
-        var number: Int? = null
         var nextToken: Token? = null
+
+        val num = StringBuilder()
 
         while (ix < expression.length) {
             val symbol = expression[ix]
 
             when (symbol) {
-                in digitChars -> number = if (number == null) symbol.digitToInt() else number * 10 + symbol.digitToInt()
+                in digitChars -> num.append(symbol.digitToInt())
+                '.' -> num.append('.')
                 '+' -> {
-                    nextToken = if (supposedToBeUnaryOperator(result, number)) {
+                    nextToken = if (supposedToBeUnaryOperator(result, num.toString())) {
                         Token.Operator.UnaryPlus
                     } else {
                         Token.Operator.Sum
                     }
                 }
                 '-' -> {
-                    nextToken = if (supposedToBeUnaryOperator(result, number)) {
+                    nextToken = if (supposedToBeUnaryOperator(result, num.toString())) {
                         Token.Operator.UnaryMinus
                     } else {
                         Token.Operator.Sub
@@ -37,9 +39,12 @@ class Tokenizer {
 
             ix++
 
-            if (number != null && (symbol !in digitChars || ix >= expression.length)) {
-                result.add(Token.Operand(number))
-                number = null
+            if (num.isNotEmpty() && (symbol !in digitChars && symbol != '.' || ix >= expression.length)) {
+                val parsedNumber = requireNotNull(num.toString().toDoubleOrNull()) {
+                    "error parsing number $num"
+                }
+                result.add(Token.Operand(parsedNumber))
+                num.clear()
             }
 
             if (nextToken != null) {
@@ -51,7 +56,7 @@ class Tokenizer {
         return result
     }
 
-    private fun supposedToBeUnaryOperator(result: MutableList<Token>, pendingNumber: Int?): Boolean {
-        return (result.isEmpty() || result.last() !is Token.Operand ) && pendingNumber == null
+    private fun supposedToBeUnaryOperator(result: MutableList<Token>, pendingNumber: String): Boolean {
+        return (result.isEmpty() || result.last() !is Token.Operand ) && pendingNumber.isEmpty()
     }
 }
