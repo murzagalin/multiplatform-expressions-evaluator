@@ -17,6 +17,26 @@ sealed interface Token {
         object UnaryPlus : Operator(4, Associativity.RIGHT)
     }
 
+    sealed class Function : Token {
+        object Cos : Function()
+        object Sin : Function()
+        object Tan : Function()
+        object Ctan : Function()
+        object Ln : Function()
+
+        object Delimeter: Token
+
+        companion object {
+            val allFunctions = mapOf(
+                "cos" to Cos,
+                "sin" to Sin,
+                "tan" to Tan,
+                "ctan" to Ctan,
+                "ln" to Ln
+            )
+        }
+    }
+
     sealed class Bracket : Token {
         object Left : Bracket()
         object Right : Bracket()

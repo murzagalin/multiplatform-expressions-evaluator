@@ -34,6 +34,35 @@ internal class SimpleTokenizerTest {
         )
     }
 
+
+    @Test
+    fun plus_an_minus_after_brackets() {
+        assertContentEquals(
+            listOf(
+                Token.Bracket.Left,
+                Token.Operand(12),
+                Token.Operator.Sum,
+                Token.Operand(32),
+                Token.Bracket.Right,
+                Token.Operator.Sub,
+                Token.Operand(3)
+            ),
+            subject.tokenize("(12+32)-3")
+        )
+        assertContentEquals(
+            listOf(
+                Token.Bracket.Left,
+                Token.Operand(12),
+                Token.Operator.Sum,
+                Token.Operand(32),
+                Token.Bracket.Right,
+                Token.Operator.Sum,
+                Token.Operand(3)
+            ),
+            subject.tokenize("(12+32)+3")
+        )
+    }
+
     @Test
     fun sub_of_2_operands() {
         val result = subject.tokenize("9683-2365")

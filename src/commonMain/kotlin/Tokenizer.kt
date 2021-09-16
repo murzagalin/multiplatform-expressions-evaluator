@@ -1,6 +1,9 @@
-
 class Tokenizer {
     private val digitChars = '0'..'9'
+    private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet()
+
+    private val allFunctions = Token.Function.allFunctions
+    private val functionKeys = allFunctions.keys
 
     fun tokenize(expression: String): List<Token> {
         val result = mutableListOf<Token>()
@@ -15,6 +18,17 @@ class Tokenizer {
 
             when (symbol) {
                 in digitChars -> num.append(symbol.digitToInt())
+                in letterChars -> {
+                    val restOfExpression = expression.substring(ix)
+                    val functionUsed = requireNotNull(
+                        functionKeys.find { restOfExpression.startsWith("$it(") }
+                    ) {
+                        "unknown symbol $symbol"
+                    }
+                    nextToken = allFunctions[functionUsed]
+                    ix += functionUsed.length - 1
+                }
+                ',' -> nextToken = Token.Function.Delimeter
                 '.' -> num.append('.')
                 '+' -> {
                     nextToken = if (supposedToBeUnaryOperator(result, num.toString())) {
@@ -57,6 +71,10 @@ class Tokenizer {
     }
 
     private fun supposedToBeUnaryOperator(result: MutableList<Token>, pendingNumber: String): Boolean {
-        return (result.isEmpty() || result.last() !is Token.Operand ) && pendingNumber.isEmpty()
+        return (
+                result.isEmpty() ||
+                        result.last() !is Token.Operand &&
+                        result.last() !is Token.Bracket.Right
+                ) && pendingNumber.isEmpty()
     }
 }
