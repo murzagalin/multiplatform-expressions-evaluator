@@ -1,6 +1,7 @@
 package converter
 
 import Converter
+import kotlin.math.exp
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
@@ -70,6 +71,27 @@ class FunctionTest {
                 Token.Function.Cos
             ),
             result
+        )
+    }
+
+    @Test
+    fun function_with_two_params() {
+        val expression = listOf(
+            Token.Function.Log,
+            Token.Bracket.Left,
+            Token.Operand(10.0),
+            Token.Function.Delimeter,
+            Token.Operand(12.0),
+            Token.Bracket.Right
+        )
+
+        assertContentEquals(
+            listOf(
+                Token.Operand(10.0),
+                Token.Operand(12.0),
+                Token.Function.Log
+            ),
+            subject.convert(expression)
         )
     }
 }

@@ -1,9 +1,19 @@
 class Tokenizer {
-    private val digitChars = '0'..'9'
-    private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet()
 
-    private val allFunctions = Token.Function.allFunctions
-    private val functionKeys = allFunctions.keys
+    companion object {
+        val allFunctions = mapOf(
+            "cos" to Token.Function.Cos,
+            "sin" to Token.Function.Sin,
+            "tan" to Token.Function.Tan,
+            "ctan" to Token.Function.Ctan,
+            "ln" to Token.Function.Ln,
+            "log" to Token.Function.Log
+        )
+
+        private val digitChars = '0'..'9'
+        private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet() + '_'
+        private val functionKeys = allFunctions.keys
+    }
 
     fun tokenize(expression: String): List<Token> {
         val result = mutableListOf<Token>()

@@ -10,7 +10,7 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_numbers() {
-        Token.Function.allFunctions.forEach { (stringRep, token) ->
+        Tokenizer.allFunctions.forEach { (stringRep, token) ->
             assertContentEquals(
                 listOf(
                     token,
@@ -25,7 +25,7 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_2_numbers() {
-        Token.Function.allFunctions.forEach { (stringRep, token) ->
+        Tokenizer.allFunctions.forEach { (stringRep, token) ->
             assertContentEquals(
                 listOf(
                     token,
