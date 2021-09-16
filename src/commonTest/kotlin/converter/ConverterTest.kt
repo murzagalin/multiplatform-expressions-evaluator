@@ -1,3 +1,7 @@
+package converter
+
+import Converter
+import Token
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertFailsWith

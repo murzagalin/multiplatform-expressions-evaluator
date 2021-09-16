@@ -1,12 +1,5 @@
 import kotlin.math.exp
 
-private val ArrayDeque<Token>.lastOperator: Token.Operator
-    get() {
-        val lastOp = last()
-        require(lastOp is Token.Operator) { "last operator is not supported" }
-        return lastOp
-    }
-
 class Converter {
 
     private val operators = ArrayDeque<Token>()
@@ -27,6 +20,9 @@ class Converter {
                     }
                     require(operators.lastOrNull() == Token.Bracket.Left) { "mismatched parenthesis" }
                     operators.removeLast()
+                    if (operators.isNotEmpty() && operators.last() is Token.Function) {
+                        output.add(operators.removeLast())
+                    }
                 }
                 is Token.Operator -> {
                     while (
@@ -36,6 +32,8 @@ class Converter {
                     ) output.add(operators.removeLast())
                     operators.addLast(token)
                 }
+                is Token.Function -> operators.add(token)
+                is Token.Function.Delimeter -> { /* just ignore it */ }
             }
         }
 
@@ -61,4 +59,12 @@ class Converter {
 
     private val Token.Operator.isLeftAssociative: Boolean
         get() = this.associativity == Token.Associativity.LEFT
+
+
+    private val ArrayDeque<Token>.lastOperator: Token.Operator
+        get() {
+            val lastOp = last()
+            require(lastOp is Token.Operator) { "last operator is not supported" }
+            return lastOp
+        }
 }
