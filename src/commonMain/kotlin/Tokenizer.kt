@@ -5,7 +5,6 @@ class Tokenizer {
             "cos" to Token.Function.Cos,
             "sin" to Token.Function.Sin,
             "tan" to Token.Function.Tan,
-            "ctan" to Token.Function.Ctan,
             "ln" to Token.Function.Ln,
             "log" to Token.Function.Log
         )

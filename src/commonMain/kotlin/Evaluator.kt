@@ -1,4 +1,4 @@
-import kotlin.math.pow
+import kotlin.math.*
 
 class Evaluator {
 
@@ -23,8 +23,17 @@ class Evaluator {
                 }
                 is Token.Operator.UnaryMinus -> Token.Operand(-temp.popLastOperand.value)
                 is Token.Operator.UnaryPlus -> temp.popLastOperand
+                is Token.Function.Cos -> Token.Operand(cos(temp.popLastOperand.value))
+                is Token.Function.Ln -> Token.Operand(ln(temp.popLastOperand.value))
+                is Token.Function.Tan -> Token.Operand(tan(temp.popLastOperand.value))
+                is Token.Function.Sin -> Token.Operand(sin(temp.popLastOperand.value))
+                is Token.Function.Log -> {
+                    val base = temp.popLastOperand.value
+                    val argument = temp.popLastOperand.value
+                    Token.Operand(log(argument, base))
+                }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
-                else -> TODO("functions")
+                is Token.Function.Delimeter -> error("Function delimeters must not appear in postfix expressions")
             }
 
             temp.add(newToken)

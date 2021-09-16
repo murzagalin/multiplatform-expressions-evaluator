@@ -21,7 +21,6 @@ sealed interface Token {
         object Cos : Function()
         object Sin : Function()
         object Tan : Function()
-        object Ctan : Function()
         object Ln : Function()
         object Log : Function()
 
