@@ -1,6 +1,7 @@
 
 
 fun String.evaluate(
+    values: Map<String, Double> = emptyMap(),
     tokenizer: Tokenizer = Tokenizer(),
     converter: Converter = Converter(),
     evaluator: Evaluator = Evaluator()
@@ -8,5 +9,5 @@ fun String.evaluate(
     val tokenized = tokenizer.tokenize(this)
     val converted = converter.convert(tokenized)
 
-    return evaluator.evaluate(converted)
+    return evaluator.evaluate(converted, values)
 }
