@@ -12,6 +12,7 @@ class Converter {
         for (token in expression) {
             when (token) {
                 is Token.Operand -> output.add(token)
+                is Token.Variable -> output.add(token)
                 is Token.Bracket.Left -> operators.add(token)
                 is Token.Bracket.Right -> {
                     while (operators.lastOrNull() != Token.Bracket.Left) {
