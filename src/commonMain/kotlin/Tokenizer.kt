@@ -29,13 +29,19 @@ class Tokenizer {
                 in digitChars -> num.append(symbol.digitToInt())
                 in letterChars -> {
                     val restOfExpression = expression.substring(ix)
-                    val functionUsed = requireNotNull(
-                        functionKeys.find { restOfExpression.startsWith("$it(") }
-                    ) {
-                        "unknown symbol $symbol"
+                    val functionUsed = functionKeys.find { restOfExpression.startsWith("$it(") }
+                    if (functionUsed != null) {
+                        nextToken = allFunctions[functionUsed]
+                        ix += functionUsed.length - 1
+                    } else {
+                        var lastIxOfVar = restOfExpression.indexOfFirst {
+                            it !in letterChars && it !in digitChars
+                        }
+                        if (lastIxOfVar == -1) lastIxOfVar = restOfExpression.length
+
+                        nextToken = Token.Variable(restOfExpression.substring(0, lastIxOfVar))
+                        ix += lastIxOfVar - 1
                     }
-                    nextToken = allFunctions[functionUsed]
-                    ix += functionUsed.length - 1
                 }
                 ',' -> nextToken = Token.Function.Delimeter
                 '.' -> num.append('.')
@@ -83,7 +89,8 @@ class Tokenizer {
         return (
                 result.isEmpty() ||
                         result.last() !is Token.Operand &&
-                        result.last() !is Token.Bracket.Right
+                        result.last() !is Token.Bracket.Right &&
+                        result.last() !is Token.Variable
                 ) && pendingNumber.isEmpty()
     }
 }

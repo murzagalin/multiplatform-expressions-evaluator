@@ -34,6 +34,7 @@ class Evaluator {
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
                 is Token.Function.Delimeter -> error("Function delimeters must not appear in postfix expressions")
+                else -> TODO("variables")
             }
 
             temp.add(newToken)
