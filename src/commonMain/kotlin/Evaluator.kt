@@ -2,12 +2,18 @@ import kotlin.math.*
 
 class Evaluator {
 
-    fun evaluate(postfixExpression: List<Token>): Double {
+    fun evaluate(postfixExpression: List<Token>, values: Map<String, Double> = emptyMap()): Double {
         val temp = ArrayDeque<Token>()
 
         for (token in postfixExpression) {
             val newToken = when (token) {
                 is Token.Operand -> token
+                is Token.Variable -> {
+                    val value = requireNotNull(values[token.value]) {
+                        "Could not resolve variable '${token.value}'"
+                    }
+                    Token.Operand(value)
+                }
                 is Token.Operator.Sum -> Token.Operand(temp.popLastOperand.value + temp.popLastOperand.value)
                 is Token.Operator.Sub -> Token.Operand(-temp.popLastOperand.value + temp.popLastOperand.value)
                 is Token.Operator.Mult -> Token.Operand(temp.popLastOperand.value * temp.popLastOperand.value)
@@ -33,8 +39,7 @@ class Evaluator {
                     Token.Operand(log(argument, base))
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
-                is Token.Function.Delimeter -> error("Function delimeters must not appear in postfix expressions")
-                else -> TODO("variables")
+                is Token.Function.Delimeter -> error("Function delimiters must not appear in postfix expressions")
             }
 
             temp.add(newToken)
