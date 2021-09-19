@@ -23,42 +23,51 @@ class Tokenizer(
         var ix = 0
 
         while (ix < expression.length) {
-            var nextToken: Token? = null
             val symbol = expression[ix]
             val restOfExpression = expression.substring(ix)
 
-            when (symbol) {
-                in digitChars -> {
+            val nextToken = when {
+                symbol in digitChars -> {
                     var lastIxOfNumber = restOfExpression.indexOfFirst { it !in (digitChars + doubleDelimiter) }
                     if (lastIxOfNumber == -1) lastIxOfNumber = restOfExpression.length
                     val strNum = restOfExpression.substring(0, lastIxOfNumber)
                     val parsedNumber = requireNotNull(strNum.toDoubleOrNull()) { "error parsing number '$strNum'" }
-                    result.add(Token.Operand.Num(parsedNumber))
                     ix += lastIxOfNumber - 1
+                    Token.Operand.Num(parsedNumber)
                 }
-                in letterChars -> {
+                symbol in letterChars -> {
                     val functionUsed = functionKeys.find { restOfExpression.startsWith("$it(") }
                     if (functionUsed != null) {
-                        nextToken = allFunctions[functionUsed]
                         ix += functionUsed.length - 1
+                        allFunctions[functionUsed]
                     } else {
                         var lastIxOfVar = restOfExpression.indexOfFirst {
                             it !in letterChars && it !in digitChars
                         }
                         if (lastIxOfVar == -1) lastIxOfVar = restOfExpression.length
 
-                        nextToken = Token.Operand.Variable(restOfExpression.substring(0, lastIxOfVar))
                         ix += lastIxOfVar - 1
+                        Token.Operand.Variable(restOfExpression.substring(0, lastIxOfVar))
                     }
                 }
-                argumentsDelimiter -> nextToken = Token.Function.Delimiter
-                '+' -> nextToken = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum
-                '-' -> nextToken = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub
-                '*' -> nextToken = Token.Operator.Mult
-                '/' -> nextToken = Token.Operator.Div
-                '^' -> nextToken = Token.Operator.Pow
-                '(' -> nextToken = Token.Bracket.Left
-                ')' -> nextToken = Token.Bracket.Right
+                symbol == argumentsDelimiter -> Token.Function.Delimiter
+                symbol == '+' -> if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum
+                symbol == '-' -> if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub
+                symbol == '*' -> Token.Operator.Mult
+                symbol == '/' -> Token.Operator.Div
+                symbol == '^' -> Token.Operator.Pow
+                symbol == '(' -> Token.Bracket.Left
+                symbol == ')' -> Token.Bracket.Right
+                restOfExpression.startsWith("&&") -> {
+                    ix++
+                    Token.Operator.And
+                }
+                restOfExpression.startsWith("||") -> {
+                    ix++
+                    Token.Operator.Or
+                }
+                symbol == '!' -> Token.Operator.Not
+                else -> null
             }
 
             if (nextToken != null) result.add(nextToken)

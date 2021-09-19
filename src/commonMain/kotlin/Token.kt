@@ -20,6 +20,10 @@ sealed interface Token {
         object Pow : Operator(3, Associativity.RIGHT)
         object UnaryMinus : Operator(4, Associativity.RIGHT)
         object UnaryPlus : Operator(4, Associativity.RIGHT)
+
+        object And : Operator(2, Associativity.LEFT)
+        object Or : Operator(1, Associativity.LEFT)
+        object Not: Operator(4, Associativity.LEFT)
     }
 
     sealed class Function : Token {
