@@ -66,6 +66,24 @@ class Tokenizer(
                     ix++
                     Token.Operator.Or
                 }
+                restOfExpression.startsWith("<=") -> {
+                    ix++
+                    Token.Operator.LessEqualThan
+                }
+                restOfExpression.startsWith(">=") -> {
+                    ix++
+                    Token.Operator.GreaterEqualThan
+                }
+                restOfExpression.startsWith("==") -> {
+                    ix++
+                    Token.Operator.Equal
+                }
+                restOfExpression.startsWith("!=") -> {
+                    ix++
+                    Token.Operator.NotEqual
+                }
+                symbol == '<' -> Token.Operator.LessThan
+                symbol == '>' -> Token.Operator.GreaterThan
                 symbol == '!' -> Token.Operator.Not
                 else -> null
             }

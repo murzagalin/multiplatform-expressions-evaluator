@@ -3,6 +3,7 @@ package tokenizer
 import Tokenizer
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class BooleanTests {
 
@@ -35,6 +36,58 @@ class BooleanTests {
                 Token.Operand.Variable("var2")
             ),
             subject.tokenize("!var1||!var2")
+        )
+    }
+
+    @Test
+    fun comparison() {
+        assertEquals(
+            listOf(
+                Token.Operand.Num(1),
+                Token.Operator.LessThan,
+                Token.Operand.Num(2)
+            ),
+            subject.tokenize("1<2")
+        )
+        assertEquals(
+            listOf(
+                Token.Operand.Num(1),
+                Token.Operator.GreaterThan,
+                Token.Operand.Num(2)
+            ),
+            subject.tokenize("1>2")
+        )
+        assertEquals(
+            listOf(
+                Token.Operand.Num(1),
+                Token.Operator.LessEqualThan,
+                Token.Operand.Num(2)
+            ),
+            subject.tokenize("1<=2")
+        )
+        assertEquals(
+            listOf(
+                Token.Operand.Num(1),
+                Token.Operator.GreaterEqualThan,
+                Token.Operand.Num(2)
+            ),
+            subject.tokenize("1>=2")
+        )
+        assertEquals(
+            listOf(
+                Token.Operand.Num(1),
+                Token.Operator.Equal,
+                Token.Operand.Num(2)
+            ),
+            subject.tokenize("1==2")
+        )
+        assertEquals(
+            listOf(
+                Token.Operand.Num(1),
+                Token.Operator.NotEqual,
+                Token.Operand.Num(2)
+            ),
+            subject.tokenize("1!=2")
         )
     }
 }
