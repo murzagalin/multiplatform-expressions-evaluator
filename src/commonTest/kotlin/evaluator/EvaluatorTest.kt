@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class EvaluatorTest {
 
-    private val subject = Evaluator()
+    private val subject = DoubleEvaluator()
 
     @Test
     fun simple_sum() {

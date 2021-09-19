@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class VariableTest {
 
-    private val subject = Evaluator()
+    private val subject = DoubleEvaluator()
 
     @Test
     fun just_variable_test() {
