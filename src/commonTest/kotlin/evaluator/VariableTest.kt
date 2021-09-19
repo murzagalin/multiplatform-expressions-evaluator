@@ -10,7 +10,7 @@ class VariableTest {
 
     @Test
     fun just_variable_test() {
-        val expression = listOf(Token.Variable("var1"))
+        val expression = listOf(Token.Operand.Variable("var1"))
         val values = mapOf("var1" to 3.0)
         assertEquals(
             3.0,
@@ -21,8 +21,8 @@ class VariableTest {
     @Test
     fun multiplication_of_two_variables() {
         val expression = listOf(
-            Token.Variable("x"),
-            Token.Variable("y"),
+            Token.Operand.Variable("x"),
+            Token.Operand.Variable("y"),
             Token.Operator.Mult
         )
         assertEquals(

@@ -1,5 +1,3 @@
-import kotlin.math.exp
-
 class Converter {
 
     private val operators = ArrayDeque<Token>()
@@ -11,8 +9,8 @@ class Converter {
 
         for (token in expression) {
             when (token) {
-                is Token.Operand -> output.add(token)
-                is Token.Variable -> output.add(token)
+                is Token.Operand.Num -> output.add(token)
+                is Token.Operand.Variable -> output.add(token)
                 is Token.Bracket.Left -> operators.add(token)
                 is Token.Bracket.Right -> {
                     while (operators.lastOrNull() != Token.Bracket.Left) {
@@ -34,7 +32,7 @@ class Converter {
                     operators.addLast(token)
                 }
                 is Token.Function -> operators.add(token)
-                is Token.Function.Delimeter -> {
+                is Token.Function.Delimiter -> {
                     while (operators.lastOrNull() != Token.Bracket.Left) {
                         require(operators.isNotEmpty()) { "mismatched parenthesis" }
                         output.add(operators.removeLast())

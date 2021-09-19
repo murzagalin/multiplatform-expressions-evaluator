@@ -13,16 +13,16 @@ class ConverterTest {
     @Test
     fun convert_sum() {
         val expression = listOf(
-            Token.Operand(4),
+            Token.Operand.Num(4),
             Token.Operator.Sum,
-            Token.Operand(3)
+            Token.Operand.Num(3)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(4),
-                Token.Operand(3),
+                Token.Operand.Num(4),
+                Token.Operand.Num(3),
                 Token.Operator.Sum
             ),
             result
@@ -32,16 +32,16 @@ class ConverterTest {
     @Test
     fun convert_mult() {
         val expression = listOf(
-            Token.Operand(5),
+            Token.Operand.Num(5),
             Token.Operator.Mult,
-            Token.Operand(6)
+            Token.Operand.Num(6)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(5),
-                Token.Operand(6),
+                Token.Operand.Num(5),
+                Token.Operand.Num(6),
                 Token.Operator.Mult
             ),
             result
@@ -51,16 +51,16 @@ class ConverterTest {
     @Test
     fun convert_sub() {
         val expression = listOf(
-            Token.Operand(3),
+            Token.Operand.Num(3),
             Token.Operator.Sub,
-            Token.Operand(1)
+            Token.Operand.Num(1)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(3),
-                Token.Operand(1),
+                Token.Operand.Num(3),
+                Token.Operand.Num(1),
                 Token.Operator.Sub
             ),
             result
@@ -70,16 +70,16 @@ class ConverterTest {
     @Test
     fun convert_div() {
         val expression = listOf(
-            Token.Operand(8),
+            Token.Operand.Num(8),
             Token.Operator.Div,
-            Token.Operand(6)
+            Token.Operand.Num(6)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(8),
-                Token.Operand(6),
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
                 Token.Operator.Div
             ),
             result
@@ -89,19 +89,19 @@ class ConverterTest {
     @Test
     fun convert_sum_mult() {
         val expression = listOf(
-            Token.Operand(8),
+            Token.Operand.Num(8),
             Token.Operator.Sum,
-            Token.Operand(6),
+            Token.Operand.Num(6),
             Token.Operator.Mult,
-            Token.Operand(4)
+            Token.Operand.Num(4)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(8),
-                Token.Operand(6),
-                Token.Operand(4),
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
+                Token.Operand.Num(4),
                 Token.Operator.Mult,
                 Token.Operator.Sum,
             ),
@@ -112,20 +112,20 @@ class ConverterTest {
     @Test
     fun convert_mult_sum() {
         val expression = listOf(
-            Token.Operand(8),
+            Token.Operand.Num(8),
             Token.Operator.Mult,
-            Token.Operand(6),
+            Token.Operand.Num(6),
             Token.Operator.Sum,
-            Token.Operand(4)
+            Token.Operand.Num(4)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(8),
-                Token.Operand(6),
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
                 Token.Operator.Mult,
-                Token.Operand(4),
+                Token.Operand.Num(4),
                 Token.Operator.Sum,
             ),
             result
@@ -135,19 +135,19 @@ class ConverterTest {
     @Test
     fun convert_sub_mult() {
         val expression = listOf(
-            Token.Operand(8),
+            Token.Operand.Num(8),
             Token.Operator.Sub,
-            Token.Operand(6),
+            Token.Operand.Num(6),
             Token.Operator.Mult,
-            Token.Operand(4)
+            Token.Operand.Num(4)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(8),
-                Token.Operand(6),
-                Token.Operand(4),
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
+                Token.Operand.Num(4),
                 Token.Operator.Mult,
                 Token.Operator.Sub,
             ),
@@ -158,20 +158,20 @@ class ConverterTest {
     @Test
     fun convert_div_mult() {
         val expression = listOf(
-            Token.Operand(8),
+            Token.Operand.Num(8),
             Token.Operator.Div,
-            Token.Operand(6),
+            Token.Operand.Num(6),
             Token.Operator.Mult,
-            Token.Operand(4)
+            Token.Operand.Num(4)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(8),
-                Token.Operand(6),
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
                 Token.Operator.Div,
-                Token.Operand(4),
+                Token.Operand.Num(4),
                 Token.Operator.Mult,
             ),
             result
@@ -181,19 +181,19 @@ class ConverterTest {
     @Test
     fun convert_div_pow() {
         val expression = listOf(
-            Token.Operand(8),
+            Token.Operand.Num(8),
             Token.Operator.Div,
-            Token.Operand(6),
+            Token.Operand.Num(6),
             Token.Operator.Pow,
-            Token.Operand(4)
+            Token.Operand.Num(4)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(8),
-                Token.Operand(6),
-                Token.Operand(4),
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
+                Token.Operand.Num(4),
                 Token.Operator.Pow,
                 Token.Operator.Div
             ),
@@ -205,21 +205,21 @@ class ConverterTest {
     fun sum_in_brackets_multiplied() {
         val expression = listOf(
             Token.Bracket.Left,
-            Token.Operand(321),
+            Token.Operand.Num(321),
             Token.Operator.Sum,
-            Token.Operand(749),
+            Token.Operand.Num(749),
             Token.Bracket.Right,
             Token.Operator.Mult,
-            Token.Operand(9)
+            Token.Operand.Num(9)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(321),
-                Token.Operand(749),
+                Token.Operand.Num(321),
+                Token.Operand.Num(749),
                 Token.Operator.Sum,
-                Token.Operand(9),
+                Token.Operand.Num(9),
                 Token.Operator.Mult
             ),
             result
@@ -229,12 +229,12 @@ class ConverterTest {
     @Test
     fun sum_in_brackets_without_left_bracket_multiplied() {
         val expression = listOf(
-            Token.Operand(321),
+            Token.Operand.Num(321),
             Token.Operator.Sum,
-            Token.Operand(749),
+            Token.Operand.Num(749),
             Token.Bracket.Right,
             Token.Operator.Mult,
-            Token.Operand(9)
+            Token.Operand.Num(9)
         )
         assertFailsWith(IllegalArgumentException::class, "mismatched parenthesis") {
             subject.convert(expression)
@@ -245,11 +245,11 @@ class ConverterTest {
     fun sum_in_brackets_without_right_bracket_multiplied() {
         val expression = listOf(
             Token.Bracket.Left,
-            Token.Operand(321),
+            Token.Operand.Num(321),
             Token.Operator.Sum,
-            Token.Operand(749),
+            Token.Operand.Num(749),
             Token.Operator.Mult,
-            Token.Operand(9)
+            Token.Operand.Num(9)
         )
         assertFailsWith(IllegalArgumentException::class, "mismatched parenthesis") {
             subject.convert(expression)
@@ -260,21 +260,21 @@ class ConverterTest {
     fun div_in_brackets_powered() {
         val expression = listOf(
             Token.Bracket.Left,
-            Token.Operand(321),
+            Token.Operand.Num(321),
             Token.Operator.Div,
-            Token.Operand(749),
+            Token.Operand.Num(749),
             Token.Bracket.Right,
             Token.Operator.Pow,
-            Token.Operand(9)
+            Token.Operand.Num(9)
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand(321),
-                Token.Operand(749),
+                Token.Operand.Num(321),
+                Token.Operand.Num(749),
                 Token.Operator.Div,
-                Token.Operand(9),
+                Token.Operand.Num(9),
                 Token.Operator.Pow
             ),
             result

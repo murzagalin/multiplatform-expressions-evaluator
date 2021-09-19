@@ -12,8 +12,8 @@ class EvaluatorTest {
     @Test
     fun simple_sum() {
         val expression = listOf(
-            Token.Operand(4),
-            Token.Operand(3),
+            Token.Operand.Num(4),
+            Token.Operand.Num(3),
             Token.Operator.Sum
         )
         val result = subject.evaluate(expression)
@@ -23,8 +23,8 @@ class EvaluatorTest {
     @Test
     fun simple_mult() {
         val expression = listOf(
-            Token.Operand(4),
-            Token.Operand(3),
+            Token.Operand.Num(4),
+            Token.Operand.Num(3),
             Token.Operator.Mult
         )
         val result = subject.evaluate(expression)
@@ -34,8 +34,8 @@ class EvaluatorTest {
     @Test
     fun simple_div() {
         val expression = listOf(
-            Token.Operand(8),
-            Token.Operand(2),
+            Token.Operand.Num(8),
+            Token.Operand.Num(2),
             Token.Operator.Div
         )
         val result = subject.evaluate(expression)
@@ -45,8 +45,8 @@ class EvaluatorTest {
     @Test
     fun simple_sub() {
         val expression = listOf(
-            Token.Operand(4),
-            Token.Operand(3),
+            Token.Operand.Num(4),
+            Token.Operand.Num(3),
             Token.Operator.Sub
         )
         val result = subject.evaluate(expression)
@@ -56,8 +56,8 @@ class EvaluatorTest {
     @Test
     fun simple_pow() {
         val expression = listOf(
-            Token.Operand(4),
-            Token.Operand(3),
+            Token.Operand.Num(4),
+            Token.Operand.Num(3),
             Token.Operator.Pow
         )
         val result = subject.evaluate(expression)
@@ -67,10 +67,10 @@ class EvaluatorTest {
     @Test
     fun mult_sum() {
         val expression = listOf(
-            Token.Operand(8),
-            Token.Operand(6),
+            Token.Operand.Num(8),
+            Token.Operand.Num(6),
             Token.Operator.Mult,
-            Token.Operand(4),
+            Token.Operand.Num(4),
             Token.Operator.Sum
         )
         val result = subject.evaluate(expression)
@@ -80,9 +80,9 @@ class EvaluatorTest {
     @Test
     fun sum_mult() {
         val expression = listOf(
-            Token.Operand(8),
-            Token.Operand(6),
-            Token.Operand(4),
+            Token.Operand.Num(8),
+            Token.Operand.Num(6),
+            Token.Operand.Num(4),
             Token.Operator.Mult,
             Token.Operator.Sum,
         )
@@ -93,9 +93,9 @@ class EvaluatorTest {
     @Test
     fun div_pow() {
         val expression = listOf(
-            Token.Operand(8),
-            Token.Operand(2),
-            Token.Operand(2),
+            Token.Operand.Num(8),
+            Token.Operand.Num(2),
+            Token.Operand.Num(2),
             Token.Operator.Pow,
             Token.Operator.Div
         )
@@ -106,10 +106,10 @@ class EvaluatorTest {
     @Test
     fun div_mult() {
         val expression = listOf(
-            Token.Operand(9),
-            Token.Operand(3),
+            Token.Operand.Num(9),
+            Token.Operand.Num(3),
             Token.Operator.Div,
-            Token.Operand(4),
+            Token.Operand.Num(4),
             Token.Operator.Mult,
         )
         val result = subject.evaluate(expression)

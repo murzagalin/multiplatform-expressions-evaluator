@@ -2,13 +2,15 @@ import kotlin.jvm.JvmInline
 
 sealed interface Token {
 
-    @JvmInline
-    value class Operand(val value: Double) : Token {
-        constructor(value: Int): this(value.toDouble())
-    }
+    sealed interface Operand : Token {
+        @JvmInline
+        value class Num(val value: Double) : Operand {
+            constructor(value: Int): this(value.toDouble())
+        }
 
-    @JvmInline
-    value class Variable(val value: String) : Token
+        @JvmInline
+        value class Variable(val value: String) : Operand
+    }
 
     sealed class Operator(val priority: Int, val associativity: Associativity) : Token {
         object Sum : Operator(1, Associativity.LEFT)
@@ -27,7 +29,7 @@ sealed interface Token {
         object Ln : Function()
         object Log : Function()
 
-        object Delimeter: Token
+        object Delimiter: Token
     }
 
     sealed class Bracket : Token {

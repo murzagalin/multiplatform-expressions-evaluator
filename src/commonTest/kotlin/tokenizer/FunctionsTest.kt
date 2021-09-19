@@ -15,7 +15,7 @@ class FunctionsTest {
                 listOf(
                     token,
                     Token.Bracket.Left,
-                    Token.Operand(1),
+                    Token.Operand.Num(1),
                     Token.Bracket.Right
                 ),
                 subject.tokenize("$stringRep(1.0)")
@@ -30,9 +30,9 @@ class FunctionsTest {
                 listOf(
                     token,
                     Token.Bracket.Left,
-                    Token.Operand(1),
-                    Token.Function.Delimeter,
-                    Token.Operand(2.2),
+                    Token.Operand.Num(1),
+                    Token.Function.Delimiter,
+                    Token.Operand.Num(2.2),
                     Token.Bracket.Right
                 ),
                 subject.tokenize("$stringRep(1.0, 2.2)")
@@ -44,31 +44,31 @@ class FunctionsTest {
     fun expressions_with_functions() {
         assertContentEquals(
             listOf(
-                Token.Operand(1.0),
+                Token.Operand.Num(1.0),
                 Token.Operator.Sum,
                 Token.Function.Cos,
                 Token.Bracket.Left,
-                Token.Operand(1),
+                Token.Operand.Num(1),
                 Token.Bracket.Right,
                 Token.Operator.Mult,
-                Token.Operand(5.0)
+                Token.Operand.Num(5.0)
             ),
             subject.tokenize("1+cos(1.0)*5.0")
         )
         assertContentEquals(
             listOf(
                 Token.Bracket.Left,
-                Token.Operand(1.0),
+                Token.Operand.Num(1.0),
                 Token.Operator.Div,
                 Token.Function.Cos,
                 Token.Bracket.Left,
-                Token.Operand(1.0),
+                Token.Operand.Num(1.0),
                 Token.Bracket.Right,
                 Token.Bracket.Right,
                 Token.Operator.Pow,
-                Token.Operand(4.2),
+                Token.Operand.Num(4.2),
                 Token.Operator.Mult,
-                Token.Operand(5.0)
+                Token.Operand.Num(5.0)
             ),
             subject.tokenize("(1/cos(1.0))^4.2*5.0")
         )
@@ -82,7 +82,7 @@ class FunctionsTest {
                 Token.Bracket.Left,
                 Token.Function.Ln,
                 Token.Bracket.Left,
-                Token.Operand(10.0),
+                Token.Operand.Num(10.0),
                 Token.Bracket.Right,
                 Token.Bracket.Right
             ),
@@ -96,14 +96,14 @@ class FunctionsTest {
             listOf(
                 Token.Function.Cos,
                 Token.Bracket.Left,
-                Token.Operand(2.0),
+                Token.Operand.Num(2.0),
                 Token.Operator.Mult,
                 Token.Function.Ln,
                 Token.Bracket.Left,
-                Token.Operand(10.0),
+                Token.Operand.Num(10.0),
                 Token.Bracket.Right,
                 Token.Operator.Sum,
-                Token.Operand(1.0),
+                Token.Operand.Num(1.0),
                 Token.Bracket.Right
             ),
             subject.tokenize("cos(2*ln(10)+1)")

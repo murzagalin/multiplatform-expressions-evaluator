@@ -33,7 +33,7 @@ class Tokenizer(
                     if (lastIxOfNumber == -1) lastIxOfNumber = restOfExpression.length
                     val strNum = restOfExpression.substring(0, lastIxOfNumber)
                     val parsedNumber = requireNotNull(strNum.toDoubleOrNull()) { "error parsing number '$strNum'" }
-                    result.add(Token.Operand(parsedNumber))
+                    result.add(Token.Operand.Num(parsedNumber))
                     ix += lastIxOfNumber - 1
                 }
                 in letterChars -> {
@@ -47,11 +47,11 @@ class Tokenizer(
                         }
                         if (lastIxOfVar == -1) lastIxOfVar = restOfExpression.length
 
-                        nextToken = Token.Variable(restOfExpression.substring(0, lastIxOfVar))
+                        nextToken = Token.Operand.Variable(restOfExpression.substring(0, lastIxOfVar))
                         ix += lastIxOfVar - 1
                     }
                 }
-                argumentsDelimiter -> nextToken = Token.Function.Delimeter
+                argumentsDelimiter -> nextToken = Token.Function.Delimiter
                 '+' -> nextToken = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum
                 '-' -> nextToken = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub
                 '*' -> nextToken = Token.Operator.Mult
@@ -70,8 +70,8 @@ class Tokenizer(
 
     private fun supposedToBeUnaryOperator(result: MutableList<Token>): Boolean {
         return result.isEmpty() ||
-                result.last() !is Token.Operand &&
+                result.last() !is Token.Operand.Num &&
                 result.last() !is Token.Bracket.Right &&
-                result.last() !is Token.Variable
+                result.last() !is Token.Operand.Variable
     }
 }
