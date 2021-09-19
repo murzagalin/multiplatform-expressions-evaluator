@@ -1,4 +1,7 @@
-class Tokenizer {
+class Tokenizer(
+    private val doubleDelimiter: Char = '.',
+    private val argumentsDelimiter: Char = ','
+) {
 
     companion object {
         val allFunctions = mapOf(
@@ -9,7 +12,7 @@ class Tokenizer {
             "log" to Token.Function.Log
         )
 
-        private val digitChars = '0'..'9'
+        private val digitChars = ('0'..'9').toSet()
         private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet() + '_'
         private val functionKeys = allFunctions.keys
     }
@@ -18,17 +21,22 @@ class Tokenizer {
         val result = mutableListOf<Token>()
 
         var ix = 0
-        var nextToken: Token? = null
-
-        val num = StringBuilder()
 
         while (ix < expression.length) {
+            var nextToken: Token? = null
             val symbol = expression[ix]
+            val restOfExpression = expression.substring(ix)
 
             when (symbol) {
-                in digitChars -> num.append(symbol.digitToInt())
+                in digitChars -> {
+                    var lastIxOfNumber = restOfExpression.indexOfFirst { it !in (digitChars + doubleDelimiter) }
+                    if (lastIxOfNumber == -1) lastIxOfNumber = restOfExpression.length
+                    val strNum = restOfExpression.substring(0, lastIxOfNumber)
+                    val parsedNumber = requireNotNull(strNum.toDoubleOrNull()) { "error parsing number '$strNum'" }
+                    result.add(Token.Operand(parsedNumber))
+                    ix += lastIxOfNumber - 1
+                }
                 in letterChars -> {
-                    val restOfExpression = expression.substring(ix)
                     val functionUsed = functionKeys.find { restOfExpression.startsWith("$it(") }
                     if (functionUsed != null) {
                         nextToken = allFunctions[functionUsed]
@@ -43,22 +51,9 @@ class Tokenizer {
                         ix += lastIxOfVar - 1
                     }
                 }
-                ',' -> nextToken = Token.Function.Delimeter
-                '.' -> num.append('.')
-                '+' -> {
-                    nextToken = if (supposedToBeUnaryOperator(result, num.toString())) {
-                        Token.Operator.UnaryPlus
-                    } else {
-                        Token.Operator.Sum
-                    }
-                }
-                '-' -> {
-                    nextToken = if (supposedToBeUnaryOperator(result, num.toString())) {
-                        Token.Operator.UnaryMinus
-                    } else {
-                        Token.Operator.Sub
-                    }
-                }
+                argumentsDelimiter -> nextToken = Token.Function.Delimeter
+                '+' -> nextToken = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum
+                '-' -> nextToken = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub
                 '*' -> nextToken = Token.Operator.Mult
                 '/' -> nextToken = Token.Operator.Div
                 '^' -> nextToken = Token.Operator.Pow
@@ -66,31 +61,17 @@ class Tokenizer {
                 ')' -> nextToken = Token.Bracket.Right
             }
 
+            if (nextToken != null) result.add(nextToken)
             ix++
-
-            if (num.isNotEmpty() && (symbol !in digitChars && symbol != '.' || ix >= expression.length)) {
-                val parsedNumber = requireNotNull(num.toString().toDoubleOrNull()) {
-                    "error parsing number $num"
-                }
-                result.add(Token.Operand(parsedNumber))
-                num.clear()
-            }
-
-            if (nextToken != null) {
-                result.add(nextToken)
-                nextToken = null
-            }
         }
 
         return result
     }
 
-    private fun supposedToBeUnaryOperator(result: MutableList<Token>, pendingNumber: String): Boolean {
-        return (
-                result.isEmpty() ||
-                        result.last() !is Token.Operand &&
-                        result.last() !is Token.Bracket.Right &&
-                        result.last() !is Token.Variable
-                ) && pendingNumber.isEmpty()
+    private fun supposedToBeUnaryOperator(result: MutableList<Token>): Boolean {
+        return result.isEmpty() ||
+                result.last() !is Token.Operand &&
+                result.last() !is Token.Bracket.Right &&
+                result.last() !is Token.Variable
     }
 }

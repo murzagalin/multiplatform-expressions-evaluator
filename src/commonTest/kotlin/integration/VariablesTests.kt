@@ -4,6 +4,7 @@ import evaluate
 import kotlin.math.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class VariablesTests {
 
@@ -40,5 +41,12 @@ class VariablesTests {
                 mapOf("var1" to 5.0, "var2" to 99.0, "var3" to -1.0)
             )
         )
+    }
+
+    @Test
+    fun fail_resolving_test() {
+        assertFailsWith<IllegalArgumentException>("Could not resolve variable 'y'") {
+            "1 + cos(x*12+y)".evaluate(mapOf("x" to 1.0))
+        }
     }
 }
