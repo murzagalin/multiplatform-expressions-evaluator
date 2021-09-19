@@ -1,3 +1,6 @@
+package evaluator
+
+import Token
 import kotlin.math.*
 
 class Evaluator {
@@ -14,28 +17,28 @@ class Evaluator {
                     }
                     Token.Operand.Num(value)
                 }
-                is Token.Operator.Sum -> Token.Operand.Num(temp.popLastOperand.value + temp.popLastOperand.value)
-                is Token.Operator.Sub -> Token.Operand.Num(-temp.popLastOperand.value + temp.popLastOperand.value)
-                is Token.Operator.Mult -> Token.Operand.Num(temp.popLastOperand.value * temp.popLastOperand.value)
+                is Token.Operator.Sum -> Token.Operand.Num(temp.popLastNum.value + temp.popLastNum.value)
+                is Token.Operator.Sub -> Token.Operand.Num(-temp.popLastNum.value + temp.popLastNum.value)
+                is Token.Operator.Mult -> Token.Operand.Num(temp.popLastNum.value * temp.popLastNum.value)
                 is Token.Operator.Div -> {
-                    val denominator = temp.popLastOperand.value
-                    val numerator = temp.popLastOperand.value
+                    val denominator = temp.popLastNum.value
+                    val numerator = temp.popLastNum.value
                     Token.Operand.Num(numerator / denominator)
                 }
                 is Token.Operator.Pow -> {
-                    val power = temp.popLastOperand.value
-                    val base = temp.popLastOperand.value
+                    val power = temp.popLastNum.value
+                    val base = temp.popLastNum.value
                     Token.Operand.Num(base.pow(power))
                 }
-                is Token.Operator.UnaryMinus -> Token.Operand.Num(-temp.popLastOperand.value)
-                is Token.Operator.UnaryPlus -> temp.popLastOperand
-                is Token.Function.Cos -> Token.Operand.Num(cos(temp.popLastOperand.value))
-                is Token.Function.Ln -> Token.Operand.Num(ln(temp.popLastOperand.value))
-                is Token.Function.Tan -> Token.Operand.Num(tan(temp.popLastOperand.value))
-                is Token.Function.Sin -> Token.Operand.Num(sin(temp.popLastOperand.value))
+                is Token.Operator.UnaryMinus -> Token.Operand.Num(-temp.popLastNum.value)
+                is Token.Operator.UnaryPlus -> temp.popLastNum
+                is Token.Function.Cos -> Token.Operand.Num(cos(temp.popLastNum.value))
+                is Token.Function.Ln -> Token.Operand.Num(ln(temp.popLastNum.value))
+                is Token.Function.Tan -> Token.Operand.Num(tan(temp.popLastNum.value))
+                is Token.Function.Sin -> Token.Operand.Num(sin(temp.popLastNum.value))
                 is Token.Function.Log -> {
-                    val base = temp.popLastOperand.value
-                    val argument = temp.popLastOperand.value
+                    val base = temp.popLastNum.value
+                    val argument = temp.popLastNum.value
                     Token.Operand.Num(log(argument, base))
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
@@ -48,10 +51,10 @@ class Evaluator {
 
         require(temp.size == 1) { "malformed expression" }
 
-        return temp.popLastOperand.value
+        return temp.popLastNum.value
     }
 
-    private val ArrayDeque<Token>.popLastOperand: Token.Operand.Num
+    private val ArrayDeque<Token>.popLastNum: Token.Operand.Num
         get() {
             val last = removeLast()
             require(last is Token.Operand.Num)

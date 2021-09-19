@@ -27,6 +27,14 @@ class Tokenizer(
             val restOfExpression = expression.substring(ix)
 
             val nextToken = when {
+                restOfExpression.startsWith("true") -> {
+                    ix += 3
+                    Token.Operand.Bool(true)
+                }
+                restOfExpression.startsWith("false") -> {
+                    ix += 4
+                    Token.Operand.Bool(false)
+                }
                 symbol in digitChars -> {
                     var lastIxOfNumber = restOfExpression.indexOfFirst { it !in (digitChars + doubleDelimiter) }
                     if (lastIxOfNumber == -1) lastIxOfNumber = restOfExpression.length

@@ -1,6 +1,5 @@
 package evaluator
 
-import Evaluator
 import Token
 import kotlin.test.Test
 import kotlin.test.assertEquals

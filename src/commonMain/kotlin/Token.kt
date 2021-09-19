@@ -9,6 +9,9 @@ sealed interface Token {
         }
 
         @JvmInline
+        value class Bool(val value: Boolean) : Operand
+
+        @JvmInline
         value class Variable(val value: String) : Operand
     }
 

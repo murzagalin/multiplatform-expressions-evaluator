@@ -10,6 +10,27 @@ class BooleanTests {
     private val subject = Tokenizer()
 
     @Test
+    fun simple_boolean_constants() {
+        assertContentEquals(
+            listOf(Token.Operand.Bool(true)),
+            subject.tokenize("true")
+        )
+        assertContentEquals(
+            listOf(Token.Operand.Bool(false)),
+            subject.tokenize("false")
+        )
+        assertContentEquals(
+            listOf(
+                Token.Operator.Not,
+                Token.Operand.Bool(false),
+                Token.Operator.And,
+                Token.Operand.Bool(true)
+            ),
+            subject.tokenize("!false&&true")
+        )
+    }
+
+    @Test
     fun boolean_operators() {
         assertContentEquals(
             listOf(
