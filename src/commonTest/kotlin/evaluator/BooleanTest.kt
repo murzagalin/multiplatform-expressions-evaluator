@@ -69,5 +69,6 @@ class BooleanTest {
         assertEquals(false, "1 < 2 && var".evaluateBoolean(values = mapOf("var" to false)))
         assertEquals(true, "1 < 2 && !var".evaluateBoolean(values = mapOf("var" to false)))
         assertEquals(false, "!(1 < 2) && !var".evaluateBoolean(values = mapOf("var" to false)))
+        assertEquals(true, "x > 1 && var".evaluateBoolean(values = mapOf("x" to 3, "var" to true)))
     }
 }
