@@ -98,19 +98,19 @@ class Tokenizer(
     }
 
     private fun String.parseVarOrFunction(): ParsedUnit {
-        val functionUsed = functionKeys.find { startsWith("$it(") }
+        var lastIxOfName = indexOfFirst { it !in letterChars && it !in digitChars }
 
-        return if (functionUsed != null) {
-            val function = requireNotNull(allFunctions[functionUsed]) {
-                "error parsing function $functionUsed"
+        return if (lastIxOfName != -1 && get(lastIxOfName) == '(') {
+            val functionName = substring(0, lastIxOfName)
+            val function = requireNotNull(allFunctions[substring(0, lastIxOfName)]) {
+                "error parsing function $functionName"
             }
 
-            ParsedUnit(function, functionUsed.length)
+            ParsedUnit(function, functionName.length)
         } else {
-            var lastIxOfVar = indexOfFirst { it !in letterChars && it !in digitChars }
-            if (lastIxOfVar == -1) lastIxOfVar = length
+            if (lastIxOfName == -1) lastIxOfName = length
 
-            ParsedUnit(Token.Operand.Variable(substring(0, lastIxOfVar)), lastIxOfVar)
+            ParsedUnit(Token.Operand.Variable(substring(0, lastIxOfName)), lastIxOfName)
         }
     }
 

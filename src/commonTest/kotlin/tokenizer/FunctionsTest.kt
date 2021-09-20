@@ -3,6 +3,7 @@ package tokenizer
 import Tokenizer
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertFailsWith
 
 class FunctionsTest {
 
@@ -108,5 +109,14 @@ class FunctionsTest {
             ),
             subject.tokenize("cos(2*ln(10)+1)")
         )
+    }
+
+
+    @Test
+    fun non_recognized_function() {
+        val nonExistingFunctionName = "fiction_function"
+        assertFailsWith<IllegalArgumentException>("Couldn't recognize function '$nonExistingFunctionName'") {
+            subject.tokenize("$nonExistingFunctionName(1.0)")
+        }
     }
 }
