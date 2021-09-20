@@ -75,17 +75,15 @@ class Tokenizer(
         }
     }
 
-    private fun getPlus(result: List<Token>): ParsedUnit {
-        val operator = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum
+    private fun getPlus(result: List<Token>) = ParsedUnit(
+        if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum,
+        1
+    )
 
-        return ParsedUnit(operator, 1)
-    }
-
-    private fun getMinus(result: List<Token>): ParsedUnit {
-        val operator = if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub
-
-        return ParsedUnit(operator, 1)
-    }
+    private fun getMinus(result: List<Token>) = ParsedUnit(
+        if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub,
+        1
+    )
 
     private fun String.parseStartingNumber(): ParsedUnit {
         var lastIxOfNumber = indexOfFirst { it !in (digitChars + doubleDelimiter) }
