@@ -14,7 +14,6 @@ class Tokenizer(
 
         private val digitChars = ('0'..'9').toSet()
         private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet() + '_'
-        private val functionKeys = allFunctions.keys
     }
 
     fun tokenize(expression: String): List<Token> {
