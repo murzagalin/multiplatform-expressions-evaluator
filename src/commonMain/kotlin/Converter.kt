@@ -1,9 +1,8 @@
 class Converter {
 
-    private val operators = ArrayDeque<Token>()
-
     fun convert(expression: List<Token>): List<Token> {
         val output = mutableListOf<Token>()
+        val operators = ArrayDeque<Token>()
 
         checkSyntax(expression)
 
