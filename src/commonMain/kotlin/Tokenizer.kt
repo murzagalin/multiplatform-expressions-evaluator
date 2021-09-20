@@ -51,8 +51,8 @@ class Tokenizer(
         val symbol = restOfExpression.first()
 
         return when {
-            restOfExpression.startsWith("true") -> getTrueUnit()
-            restOfExpression.startsWith("false") -> getFalseUnit()
+            restOfExpression.startsWith("true") -> ParsedUnit(Token.Operand.Bool(true), 4)
+            restOfExpression.startsWith("false") -> ParsedUnit(Token.Operand.Bool(false), 5)
             restOfExpression.startsWith("&&") -> ParsedUnit(Token.Operator.And, 2)
             restOfExpression.startsWith("||") -> ParsedUnit(Token.Operator.Or, 2)
             restOfExpression.startsWith("<=") -> ParsedUnit(Token.Operator.LessEqualThan, 2)
@@ -113,10 +113,6 @@ class Tokenizer(
             ParsedUnit(Token.Operand.Variable(substring(0, lastIxOfVar)), lastIxOfVar)
         }
     }
-
-    private fun getFalseUnit() = ParsedUnit(Token.Operand.Bool(false), 5)
-
-    private fun getTrueUnit() = ParsedUnit(Token.Operand.Bool(true), 4)
 
     private fun supposedToBeUnaryOperator(result: List<Token>): Boolean {
         return result.isEmpty() ||
