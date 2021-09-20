@@ -102,7 +102,7 @@ class Tokenizer(
 
         return if (lastIxOfName != -1 && get(lastIxOfName) == '(') {
             val functionName = substring(0, lastIxOfName)
-            val function = requireNotNull(allFunctions[substring(0, lastIxOfName)]) {
+            val function = requireNotNull(allFunctions[functionName]) {
                 "error parsing function $functionName"
             }
 

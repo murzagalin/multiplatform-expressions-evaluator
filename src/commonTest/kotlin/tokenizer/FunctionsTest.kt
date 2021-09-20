@@ -115,7 +115,7 @@ class FunctionsTest {
     @Test
     fun non_recognized_function() {
         val nonExistingFunctionName = "fiction_function"
-        assertFailsWith<IllegalArgumentException>("Couldn't recognize function '$nonExistingFunctionName'") {
+        assertFailsWith<IllegalArgumentException>() {
             subject.tokenize("$nonExistingFunctionName(1.0)")
         }
     }
