@@ -21,6 +21,14 @@ class Converter {
                         output.add(operators.removeLast())
                     }
                 }
+                is Token.Operator.TernaryElse -> {
+                    while (operators.lastOrNull() != Token.Operator.TernaryIf) {
+                        require(operators.isNotEmpty()) { "mismatched ternary if" }
+                        output.add(operators.removeLast())
+                    }
+                    operators.removeLast()
+                    operators.addLast(Token.Operator.TernaryIfElse)
+                }
                 is Token.Operator -> {
                     while (
                         operators.isNotEmpty() && operators.last() != Token.Bracket.Left &&
