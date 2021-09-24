@@ -72,6 +72,8 @@ class Tokenizer(
             symbol == '<' -> ParsedUnit(Token.Operator.LessThan, 1)
             symbol == '>' -> ParsedUnit(Token.Operator.GreaterThan, 1)
             symbol == '!' -> ParsedUnit(Token.Operator.Not, 1)
+            symbol == '?' -> ParsedUnit(Token.Operator.TernaryIf, 1)
+            symbol == ':' -> ParsedUnit(Token.Operator.TernaryElse, 1)
             else -> null
         }
     }

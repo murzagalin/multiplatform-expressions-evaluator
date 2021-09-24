@@ -35,6 +35,10 @@ sealed interface Token {
         object LessEqualThan : Operator(5, Associativity.LEFT) //<=
         object Equal : Operator(5, Associativity.LEFT) //==
         object NotEqual : Operator(5, Associativity.LEFT) //!=
+
+        object TernaryIf : Operator(1, Associativity.RIGHT)
+        object TernaryElse : Operator(1, Associativity.LEFT)
+        object TernaryIfElse : Operator(1, Associativity.RIGHT)
     }
 
     sealed class Function : Token {

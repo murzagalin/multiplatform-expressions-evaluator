@@ -91,6 +91,7 @@ abstract class BaseEvaluator {
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
                 is Token.Function.Delimiter -> error("Function delimiters must not appear in postfix expressions")
+                else -> error("ternary operators")
             }
 
             temp.add(newToken)
