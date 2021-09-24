@@ -63,6 +63,7 @@ class Tokenizer(
             symbol == argumentsDelimiter -> ParsedUnit(Token.Function.Delimiter, 1)
             symbol == '+' -> getPlus(result)
             symbol == '-' -> getMinus(result)
+            symbol == '%' -> ParsedUnit(Token.Operator.Mod, 1)
             symbol == '*' -> ParsedUnit(Token.Operator.Mult, 1)
             symbol == '/' -> ParsedUnit(Token.Operator.Div, 1)
             symbol == '^' -> ParsedUnit(Token.Operator.Pow, 1)

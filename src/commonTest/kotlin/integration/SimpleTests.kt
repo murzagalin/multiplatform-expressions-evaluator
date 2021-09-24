@@ -67,6 +67,18 @@ class SimpleTests {
     }
 
     @Test
+    fun simple_mod() {
+        assertEquals(3.0, "-5%4".evaluateDouble())
+        assertEquals(0.0, "8%2".evaluateDouble())
+        assertEquals(2.0, "12%5".evaluateDouble())
+        assertEquals(8.0, "8%16".evaluateDouble())
+        assertEquals(2.0, "8%16%3".evaluateDouble())
+        assertEquals(0.16, "2.5%0.26".evaluateDouble(), absoluteTolerance = 0.000000000000001)
+        assertEquals(0.5, "0.5%0.75".evaluateDouble())
+        assertEquals(0.1, "2.5%0.6".evaluateDouble(), absoluteTolerance = 0.000000000000001)
+    }
+
+    @Test
     fun simple_subtraction() {
         assertEquals(6.0, "8-2".evaluateDouble())
         assertEquals(8.0, "12-4".evaluateDouble())

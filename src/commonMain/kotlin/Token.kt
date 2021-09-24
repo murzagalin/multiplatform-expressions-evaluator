@@ -20,9 +20,10 @@ sealed interface Token {
         object Sub : Operator(6, Associativity.LEFT)
         object Mult : Operator(7, Associativity.LEFT)
         object Div : Operator(7, Associativity.LEFT)
-        object Pow : Operator(8, Associativity.RIGHT)
-        object UnaryMinus : Operator(9, Associativity.RIGHT)
-        object UnaryPlus : Operator(9, Associativity.RIGHT)
+        object Mod : Operator(7, Associativity.LEFT)
+        object Pow : Operator(9, Associativity.RIGHT)
+        object UnaryMinus : Operator(10, Associativity.RIGHT)
+        object UnaryPlus : Operator(10, Associativity.RIGHT)
 
         object And : Operator(3, Associativity.LEFT)
         object Or : Operator(2, Associativity.LEFT)

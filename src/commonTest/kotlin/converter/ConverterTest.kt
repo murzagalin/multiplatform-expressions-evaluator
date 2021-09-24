@@ -110,6 +110,29 @@ class ConverterTest {
     }
 
     @Test
+    fun convert_sum_modulo() {
+        val expression = listOf(
+            Token.Operand.Num(8),
+            Token.Operator.Sum,
+            Token.Operand.Num(6),
+            Token.Operator.Mod,
+            Token.Operand.Num(4)
+        )
+        val result = subject.convert(expression)
+
+        assertContentEquals(
+            listOf(
+                Token.Operand.Num(8),
+                Token.Operand.Num(6),
+                Token.Operand.Num(4),
+                Token.Operator.Mod,
+                Token.Operator.Sum,
+            ),
+            result
+        )
+    }
+
+    @Test
     fun convert_mult_sum() {
         val expression = listOf(
             Token.Operand.Num(8),

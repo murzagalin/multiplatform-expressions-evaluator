@@ -182,4 +182,18 @@ internal class SimpleTokenizerTest {
             result
         )
     }
+
+    @Test
+    fun modulo() {
+        val result = subject.tokenize("2.5%0.26")
+        assertEquals(3, result.size)
+        assertContentEquals(
+            listOf(
+                Token.Operand.Num(2.5),
+                Token.Operator.Mod,
+                Token.Operand.Num(0.26)
+            ),
+            result
+        )
+    }
 }

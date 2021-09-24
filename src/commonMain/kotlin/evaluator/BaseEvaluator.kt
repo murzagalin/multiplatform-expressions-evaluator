@@ -61,6 +61,12 @@ abstract class BaseEvaluator {
                 is Token.Operator.Not -> Token.Operand.Bool(!temp.popLastBool.value)
                 is Token.Operator.Sum -> Token.Operand.Num(temp.popLastNum.value + temp.popLastNum.value)
                 is Token.Operator.Sub -> Token.Operand.Num(-temp.popLastNum.value + temp.popLastNum.value)
+                is Token.Operator.Mod ->  {
+                    val denominator = temp.popLastNum.value
+                    val numerator = temp.popLastNum.value
+
+                    Token.Operand.Num(numerator % denominator)
+                }
                 is Token.Operator.Mult -> Token.Operand.Num(temp.popLastNum.value * temp.popLastNum.value)
                 is Token.Operator.Div -> {
                     val denominator = temp.popLastNum.value

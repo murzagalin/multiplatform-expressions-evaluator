@@ -114,4 +114,26 @@ class EvaluatorTest {
         val result = subject.evaluate(expression)
         assertEquals(12.0, result)
     }
+
+    @Test
+    fun modulo() {
+        assertEquals(
+            1.0,
+            subject.evaluate(
+                listOf(Token.Operand.Num(9), Token.Operand.Num(4), Token.Operator.Mod)
+            )
+        )
+        assertEquals(
+            0.0,
+            subject.evaluate(
+                listOf(Token.Operand.Num(9), Token.Operand.Num(3), Token.Operator.Mod)
+            )
+        )
+        assertEquals(
+            2.0,
+            subject.evaluate(
+                listOf(Token.Operand.Num(2), Token.Operand.Num(5), Token.Operator.Mod)
+            )
+        )
+    }
 }
