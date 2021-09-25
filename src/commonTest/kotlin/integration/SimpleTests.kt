@@ -68,7 +68,7 @@ class SimpleTests {
 
     @Test
     fun simple_mod() {
-        assertEquals(3.0, "-5%4".evaluateDouble())
+        assertEquals(-1.0, "-5%4".evaluateDouble())
         assertEquals(0.0, "8%2".evaluateDouble())
         assertEquals(2.0, "12%5".evaluateDouble())
         assertEquals(8.0, "8%16".evaluateDouble())
