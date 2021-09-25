@@ -1,4 +1,4 @@
-package evaluator
+package integration
 
 import evaluateBoolean
 import kotlin.test.Test

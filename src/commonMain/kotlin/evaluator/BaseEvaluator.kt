@@ -91,7 +91,15 @@ abstract class BaseEvaluator {
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
                 is Token.Function.Delimiter -> error("Function delimiters must not appear in postfix expressions")
-                else -> error("ternary operators")
+                is Token.Operator.TernaryIf -> error("Ternary if must not appear in postfix expression")
+                is Token.Operator.TernaryElse -> error("Ternary else must not appear in postfix expression")
+                is Token.Operator.TernaryIfElse -> {
+                    val elseOp = temp.popLastNum
+                    val ifOp = temp.popLastNum
+                    val condition = temp.popLastBool.value
+
+                    if (condition) ifOp else elseOp
+                }
             }
 
             temp.add(newToken)
