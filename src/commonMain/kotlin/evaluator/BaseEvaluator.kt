@@ -94,11 +94,13 @@ abstract class BaseEvaluator {
                 is Token.Operator.TernaryIf -> error("Ternary if must not appear in postfix expression")
                 is Token.Operator.TernaryElse -> error("Ternary else must not appear in postfix expression")
                 is Token.Operator.TernaryIfElse -> {
-                    val elseOp = temp.popLastNum
-                    val ifOp = temp.popLastNum
-                    val condition = temp.popLastBool.value
+                    val elseOp = temp.popLastOperand
+                    val ifOp = temp.popLastOperand
+                    require(ifOp::class == elseOp::class) {
+                        "malformed ternary if: 'if' operand and 'else' operand have different types"
+                    }
 
-                    if (condition) ifOp else elseOp
+                    if (temp.popLastBool.value) ifOp else elseOp
                 }
             }
 
@@ -128,6 +130,14 @@ abstract class BaseEvaluator {
         get() {
             val last = removeLast()
             require(last is Token.Operand.Bool)
+
+            return last
+        }
+
+    protected val ArrayDeque<Token>.popLastOperand: Token.Operand
+        get() {
+            val last = removeLast()
+            require(last is Token.Operand)
 
             return last
         }
