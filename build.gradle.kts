@@ -1,10 +1,22 @@
 plugins {
     kotlin("multiplatform") version "1.5.30"
-    id("maven-publish")
+    `maven-publish`
 }
 
 group = "com.murzagalin.evaluator"
-version = "0.9.0"
+version = System.getenv("GITHUB_REF")?.split('/')?.last() ?: "local"
+
+System.getenv("GITHUB_REPOSITORY")?.let {
+    publishing {
+        repositories {
+            maven {
+                name = "github"
+                url = uri("https://maven.pkg.github.com/$it")
+                credentials(PasswordCredentials::class)
+            }
+        }
+    }
+}
 
 repositories {
     mavenCentral()
@@ -12,6 +24,7 @@ repositories {
 }
 
 kotlin {
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
