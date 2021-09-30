@@ -80,14 +80,14 @@ abstract class BaseEvaluator {
                 }
                 is Token.Operator.UnaryMinus -> Token.Operand.Num(-temp.popLastNum.value)
                 is Token.Operator.UnaryPlus -> temp.popLastNum
-                is Token.Function.Cos -> Token.Operand.Num(cos(temp.popLastNum.value))
-                is Token.Function.Ln -> Token.Operand.Num(ln(temp.popLastNum.value))
-                is Token.Function.Tan -> Token.Operand.Num(tan(temp.popLastNum.value))
-                is Token.Function.Sin -> Token.Operand.Num(sin(temp.popLastNum.value))
-                is Token.Function.Log -> {
-                    val base = temp.popLastNum.value
-                    val argument = temp.popLastNum.value
-                    Token.Operand.Num(log(argument, base))
+                is Token.Function -> {
+                    val operands = mutableListOf<Token.Operand>()
+
+                    for (i in 0 until token.argsCount) {
+                        operands.add(0, temp.popLastOperand)
+                    }
+
+                    token.call(operands)
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
                 is Token.Function.Delimiter -> error("Function delimiters must not appear in postfix expressions")

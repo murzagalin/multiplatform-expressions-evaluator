@@ -12,7 +12,6 @@ class FunctionsTests {
         assertEquals(cos(1.0), "cos(1.0)".evaluateDouble())
         assertEquals(ln(2.0), "ln(2.0)".evaluateDouble())
         assertEquals(sin(1.0), "sin(1.0)".evaluateDouble())
-        assertEquals(tan(1.0), "tan(1.0)".evaluateDouble())
         assertEquals(log(2.0, 3.0), "log(2.0, 3.0)".evaluateDouble())
     }
 
@@ -21,7 +20,7 @@ class FunctionsTests {
         assertEquals(1 + cos(1.0*12 + 3), "1 + cos(1.0*12+3)".evaluateDouble())
         assertEquals(2 * ln(2.0.pow(3)), "2*ln(2.0^3)".evaluateDouble())
         assertEquals(4*sin(1.0*ln(12.0)), "4*sin(1.0*ln(12))".evaluateDouble())
-        assertEquals(5*tan(1.0+99.0+234)+-1, "5*tan(1.0+99.0 +234)+-1".evaluateDouble())
+        assertEquals(5*sin(1.0+99.0+234)+-1, "5*sin(1.0+99.0 +234)+-1".evaluateDouble())
     }
 
     @Test

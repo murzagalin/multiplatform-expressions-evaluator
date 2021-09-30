@@ -30,14 +30,14 @@ class VariablesTests {
             )
         )
         assertEquals(
-            5* tan(1.0+99.0+234) +-1,
-            "var1*tan(1.0+var2 +234)+var3".evaluateDouble(
+            5* sin(1.0+99.0+234) +-1,
+            "var1*sin(1.0+var2 +234)+var3".evaluateDouble(
                 mapOf("var1" to 5.0, "var2" to 99.0, "var3" to -1.0)
             )
         )
         assertEquals(
-            5* tan(1.0+99.0+234) +1,
-            "var1*tan(1.0+var2 +234)+-var3".evaluateDouble(
+            5* sin(1.0+99.0+234) +1,
+            "var1*sin(1.0+var2 +234)+-var3".evaluateDouble(
                 mapOf("var1" to 5.0, "var2" to 99.0, "var3" to -1.0)
             )
         )

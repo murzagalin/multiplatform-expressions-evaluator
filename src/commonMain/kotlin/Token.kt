@@ -41,12 +41,11 @@ sealed interface Token {
         object TernaryIfElse : Operator(1, Associativity.RIGHT)
     }
 
-    sealed class Function : Token {
-        object Cos : Function()
-        object Sin : Function()
-        object Tan : Function()
-        object Ln : Function()
-        object Log : Function()
+    class Function(
+        val name: String,
+        val argsCount: Int,
+        val call: (List<Operand>) -> Operand
+    ) : Token {
 
         object Delimiter: Token
     }

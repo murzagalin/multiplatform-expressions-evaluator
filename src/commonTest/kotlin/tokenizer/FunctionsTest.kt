@@ -1,5 +1,8 @@
 package tokenizer
 
+import COS
+import DEFAULT_FUNCTIONS
+import LN
 import Tokenizer
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -11,32 +14,32 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_numbers() {
-        Tokenizer.allFunctions.forEach { (stringRep, token) ->
+        DEFAULT_FUNCTIONS.forEach { f ->
             assertContentEquals(
                 listOf(
-                    token,
+                    f,
                     Token.Bracket.Left,
                     Token.Operand.Num(1),
                     Token.Bracket.Right
                 ),
-                subject.tokenize("$stringRep(1.0)")
+                subject.tokenize("${f.name}(1.0)")
             )
         }
     }
 
     @Test
     fun simple_functions_with_2_numbers() {
-        Tokenizer.allFunctions.forEach { (stringRep, token) ->
+        DEFAULT_FUNCTIONS.filter { it.argsCount == 2 }.forEach { f ->
             assertContentEquals(
                 listOf(
-                    token,
+                    f,
                     Token.Bracket.Left,
                     Token.Operand.Num(1),
                     Token.Function.Delimiter,
                     Token.Operand.Num(2.2),
                     Token.Bracket.Right
                 ),
-                subject.tokenize("$stringRep(1.0, 2.2)")
+                subject.tokenize("${f.name}(1.0, 2.2)")
             )
         }
     }
@@ -47,7 +50,7 @@ class FunctionsTest {
             listOf(
                 Token.Operand.Num(1.0),
                 Token.Operator.Sum,
-                Token.Function.Cos,
+                COS,
                 Token.Bracket.Left,
                 Token.Operand.Num(1),
                 Token.Bracket.Right,
@@ -61,7 +64,7 @@ class FunctionsTest {
                 Token.Bracket.Left,
                 Token.Operand.Num(1.0),
                 Token.Operator.Div,
-                Token.Function.Cos,
+                COS,
                 Token.Bracket.Left,
                 Token.Operand.Num(1.0),
                 Token.Bracket.Right,
@@ -79,9 +82,9 @@ class FunctionsTest {
     fun function_in_a_function() {
         assertContentEquals(
             listOf(
-                Token.Function.Cos,
+                COS,
                 Token.Bracket.Left,
-                Token.Function.Ln,
+                LN,
                 Token.Bracket.Left,
                 Token.Operand.Num(10.0),
                 Token.Bracket.Right,
@@ -95,11 +98,11 @@ class FunctionsTest {
     fun function_in_a_function_with_operators() {
         assertContentEquals(
             listOf(
-                Token.Function.Cos,
+                COS,
                 Token.Bracket.Left,
                 Token.Operand.Num(2.0),
                 Token.Operator.Mult,
-                Token.Function.Ln,
+                LN,
                 Token.Bracket.Left,
                 Token.Operand.Num(10.0),
                 Token.Bracket.Right,

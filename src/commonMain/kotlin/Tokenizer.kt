@@ -1,20 +1,15 @@
 class Tokenizer(
     private val doubleDelimiter: Char = '.',
-    private val argumentsDelimiter: Char = ','
+    private val argumentsDelimiter: Char = ',',
+    functions: List<Token.Function> = DEFAULT_FUNCTIONS
 ) {
 
     companion object {
-        val allFunctions = mapOf(
-            "cos" to Token.Function.Cos,
-            "sin" to Token.Function.Sin,
-            "tan" to Token.Function.Tan,
-            "ln" to Token.Function.Ln,
-            "log" to Token.Function.Log
-        )
-
         private val digitChars = ('0'..'9').toSet()
         private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet() + '_'
     }
+
+    private val functionsMap = functions.associateBy { it.name }
 
     fun tokenize(expression: String): List<Token> {
         val parsed = parse(expression)
@@ -102,8 +97,8 @@ class Tokenizer(
 
         return if (lastIxOfName != -1 && get(lastIxOfName) == '(') {
             val functionName = substring(0, lastIxOfName)
-            val function = requireNotNull(allFunctions[functionName]) {
-                "error parsing function $functionName"
+            val function = requireNotNull(functionsMap[functionName]) {
+                "function not found $functionName"
             }
 
             ParsedUnit(function, functionName.length)
