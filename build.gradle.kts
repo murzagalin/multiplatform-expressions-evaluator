@@ -7,6 +7,7 @@ group = "com.murzagalin.evaluator"
 version = System.getenv("GITHUB_REF")?.split('/')?.last() ?: "local"
 
 System.getenv("GITHUB_REPOSITORY")?.let {
+    print("github repo2: $it")
     publishing {
         repositories {
             maven {
