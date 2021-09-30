@@ -1,12 +1,14 @@
 plugins {
     kotlin("multiplatform") version "1.5.30"
+    id("maven-publish")
 }
 
-group = "me.azama"
-version = "1.0-SNAPSHOT"
+group = "com.murzagalin.evaluator"
+version = "0.9.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 kotlin {
