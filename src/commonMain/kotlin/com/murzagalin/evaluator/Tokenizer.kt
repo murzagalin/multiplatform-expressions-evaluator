@@ -3,7 +3,7 @@ package com.murzagalin.evaluator
 class Tokenizer(
     private val doubleDelimiter: Char = '.',
     private val argumentsDelimiter: Char = ',',
-    functions: List<Token.Function> = DEFAULT_FUNCTIONS
+    functions: List<Function> = DefaultFunctions.ALL
 ) {
 
     companion object {
@@ -57,7 +57,7 @@ class Tokenizer(
             restOfExpression.startsWith("!=") -> ParsedUnit(Token.Operator.NotEqual, 2)
             symbol in digitChars -> restOfExpression.parseStartingNumber()
             symbol in letterChars -> restOfExpression.parseVarOrFunction()
-            symbol == argumentsDelimiter -> ParsedUnit(Token.Function.Delimiter, 1)
+            symbol == argumentsDelimiter -> ParsedUnit(Token.FunctionCall.Delimiter, 1)
             symbol == '+' -> getPlus(result)
             symbol == '-' -> getMinus(result)
             symbol == '%' -> ParsedUnit(Token.Operator.Mod, 1)
@@ -103,7 +103,7 @@ class Tokenizer(
                 "function not found $functionName"
             }
 
-            ParsedUnit(function, functionName.length)
+            ParsedUnit(Token.FunctionCall(function.argsCount.first, function), functionName.length)
         } else {
             if (lastIxOfName == -1) lastIxOfName = length
 

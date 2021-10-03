@@ -3,11 +3,13 @@ plugins {
     `maven-publish`
 }
 
-group = "com.murzagalin.evaluator"
-version = System.getenv("GITHUB_REF")?.split('/')?.last() ?: "local"
+val githubRef = System.getenv("GITHUB_REF")
+val githubRepo = System.getenv("GITHUB_REPOSITORY")
 
-System.getenv("GITHUB_REPOSITORY")?.let {
-    print("github repo2: $it")
+group = "com.murzagalin"
+version = githubRef?.split('/')?.last() ?: "local"
+
+githubRepo?.let {
     publishing {
         repositories {
             maven {

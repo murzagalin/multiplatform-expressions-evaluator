@@ -19,7 +19,7 @@ class Converter {
                     }
                     require(operators.lastOrNull() == Token.Bracket.Left) { "mismatched parenthesis" }
                     operators.removeLast()
-                    if (operators.isNotEmpty() && operators.last() is Token.Function) {
+                    if (operators.isNotEmpty() && operators.last() is Token.FunctionCall) {
                         output.add(operators.removeLast())
                     }
                 }
@@ -39,8 +39,8 @@ class Converter {
                     ) output.add(operators.removeLast())
                     operators.addLast(token)
                 }
-                is Token.Function -> operators.add(token)
-                is Token.Function.Delimiter -> {
+                is Token.FunctionCall -> operators.add(token)
+                is Token.FunctionCall.Delimiter -> {
                     while (operators.lastOrNull() != Token.Bracket.Left) {
                         require(operators.isNotEmpty()) { "mismatched parenthesis" }
                         output.add(operators.removeLast())

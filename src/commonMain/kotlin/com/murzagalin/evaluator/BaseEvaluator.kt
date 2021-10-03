@@ -79,17 +79,17 @@ abstract class BaseEvaluator {
                 }
                 is Token.Operator.UnaryMinus -> Token.Operand.Num(-temp.popLastNum.value)
                 is Token.Operator.UnaryPlus -> temp.popLastNum
-                is Token.Function -> {
+                is Token.FunctionCall -> {
                     val operands = mutableListOf<Token.Operand>()
 
                     for (i in 0 until token.argsCount) {
                         operands.add(0, temp.popLastOperand)
                     }
 
-                    token.call(operands)
+                    token(operands)
                 }
                 is Token.Bracket -> error("Brackets must not appear in postfix expressions")
-                is Token.Function.Delimiter -> error("Function delimiters must not appear in postfix expressions")
+                is Token.FunctionCall.Delimiter -> error("Function delimiters must not appear in postfix expressions")
                 is Token.Operator.TernaryIf -> error("Ternary if must not appear in postfix expression")
                 is Token.Operator.TernaryElse -> error("Ternary else must not appear in postfix expression")
                 is Token.Operator.TernaryIfElse -> {

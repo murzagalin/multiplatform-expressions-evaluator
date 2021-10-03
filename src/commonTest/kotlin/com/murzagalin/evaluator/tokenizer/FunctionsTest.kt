@@ -1,8 +1,6 @@
 package com.murzagalin.evaluator.tokenizer
 
-import com.murzagalin.evaluator.COS
-import com.murzagalin.evaluator.DEFAULT_FUNCTIONS
-import com.murzagalin.evaluator.LN
+import com.murzagalin.evaluator.DefaultFunctions
 import com.murzagalin.evaluator.Token
 import com.murzagalin.evaluator.Tokenizer
 import kotlin.test.Test
@@ -15,10 +13,10 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_numbers() {
-        DEFAULT_FUNCTIONS.forEach { f ->
+        DefaultFunctions.ALL.filter { it.argsCount.first == 1 && it.argsCount.last == 1 }.forEach { f ->
             assertContentEquals(
                 listOf(
-                    f,
+                    Token.FunctionCall(1, f),
                     Token.Bracket.Left,
                     Token.Operand.Num(1),
                     Token.Bracket.Right
@@ -30,13 +28,13 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_2_numbers() {
-        DEFAULT_FUNCTIONS.filter { it.argsCount == 2 }.forEach { f ->
+        DefaultFunctions.ALL.filter { it.argsCount.first == 2 && it.argsCount.last == 2 }.forEach { f ->
             assertContentEquals(
                 listOf(
-                    f,
+                    Token.FunctionCall(2, f),
                     Token.Bracket.Left,
                     Token.Operand.Num(1),
-                    Token.Function.Delimiter,
+                    Token.FunctionCall.Delimiter,
                     Token.Operand.Num(2.2),
                     Token.Bracket.Right
                 ),
@@ -51,7 +49,7 @@ class FunctionsTest {
             listOf(
                 Token.Operand.Num(1.0),
                 Token.Operator.Sum,
-                COS,
+                Token.FunctionCall(1, DefaultFunctions.COS),
                 Token.Bracket.Left,
                 Token.Operand.Num(1),
                 Token.Bracket.Right,
@@ -65,7 +63,7 @@ class FunctionsTest {
                 Token.Bracket.Left,
                 Token.Operand.Num(1.0),
                 Token.Operator.Div,
-                COS,
+                Token.FunctionCall(1, DefaultFunctions.COS),
                 Token.Bracket.Left,
                 Token.Operand.Num(1.0),
                 Token.Bracket.Right,
@@ -83,9 +81,9 @@ class FunctionsTest {
     fun function_in_a_function() {
         assertContentEquals(
             listOf(
-                COS,
+                Token.FunctionCall(1, DefaultFunctions.COS),
                 Token.Bracket.Left,
-                LN,
+                Token.FunctionCall(1, DefaultFunctions.LN),
                 Token.Bracket.Left,
                 Token.Operand.Num(10.0),
                 Token.Bracket.Right,
@@ -99,11 +97,11 @@ class FunctionsTest {
     fun function_in_a_function_with_operators() {
         assertContentEquals(
             listOf(
-                COS,
+                Token.FunctionCall(1, DefaultFunctions.COS),
                 Token.Bracket.Left,
                 Token.Operand.Num(2.0),
                 Token.Operator.Mult,
-                LN,
+                Token.FunctionCall(1, DefaultFunctions.LN),
                 Token.Bracket.Left,
                 Token.Operand.Num(10.0),
                 Token.Bracket.Right,

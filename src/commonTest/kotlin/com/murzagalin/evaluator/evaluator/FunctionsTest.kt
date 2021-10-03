@@ -1,8 +1,7 @@
 package com.murzagalin.evaluator.evaluator
 
-import com.murzagalin.evaluator.COS
+import com.murzagalin.evaluator.DefaultFunctions
 import com.murzagalin.evaluator.DoubleEvaluator
-import com.murzagalin.evaluator.LOG
 import com.murzagalin.evaluator.Token
 import kotlin.math.cos
 import kotlin.math.log
@@ -16,7 +15,7 @@ class FunctionsTest {
     fun one_argument_function() {
         val expression = listOf(
             Token.Operand.Num(10),
-            COS
+            Token.FunctionCall(1, DefaultFunctions.COS),
         )
 
         assertEquals(cos(10.0), doubleEvaluator.evaluate(expression))
@@ -27,7 +26,7 @@ class FunctionsTest {
         val expression = listOf(
             Token.Operand.Num(10),
             Token.Operand.Num(2),
-            LOG
+            Token.FunctionCall(2, DefaultFunctions.LOG),
         )
 
         assertEquals(log(10.0, 2.0), doubleEvaluator.evaluate(expression))

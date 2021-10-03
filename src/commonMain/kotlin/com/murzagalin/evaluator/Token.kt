@@ -43,11 +43,27 @@ sealed interface Token {
         object TernaryIfElse : Operator(1, Associativity.RIGHT)
     }
 
-    class Function(
-        val name: String,
+    data class FunctionCall(
         val argsCount: Int,
-        val call: (List<Operand>) -> Operand
+        val function: Function
     ) : Token {
+
+        operator fun invoke(args: List<Operand>): Operand {
+            val functionArgs = mutableListOf<Any>()
+            args.forEach {
+                when (it) {
+                    is Operand.Num -> functionArgs.add(it.value)
+                    is Operand.Bool -> functionArgs.add(it.value)
+                    else -> error("operand type ${it::class.simpleName} is not supported in function calls")
+                }
+            }
+
+            return when (val result = function(functionArgs)) {
+                is Number -> Operand.Num(result.toDouble())
+                is Boolean -> Operand.Bool(result)
+                else -> error("function return type ${result::class.simpleName} is not supported")
+            }
+        }
 
         object Delimiter: Token
     }

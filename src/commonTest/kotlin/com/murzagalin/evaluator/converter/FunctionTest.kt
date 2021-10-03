@@ -1,9 +1,7 @@
 package com.murzagalin.evaluator.converter
 
-import com.murzagalin.evaluator.COS
 import com.murzagalin.evaluator.Converter
-import com.murzagalin.evaluator.LN
-import com.murzagalin.evaluator.LOG
+import com.murzagalin.evaluator.DefaultFunctions
 import com.murzagalin.evaluator.Token
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -15,7 +13,7 @@ class FunctionTest {
     @Test
     fun simple_function_call() {
         val expression = listOf(
-            COS,
+            Token.FunctionCall(1, DefaultFunctions.COS),
             Token.Bracket.Left,
             Token.Operand.Num(10.0),
             Token.Bracket.Right
@@ -25,7 +23,7 @@ class FunctionTest {
         assertContentEquals(
             listOf(
                 Token.Operand.Num(10.0),
-                COS
+                Token.FunctionCall(1, DefaultFunctions.COS),
             ),
             result
         )
@@ -36,7 +34,7 @@ class FunctionTest {
         val expression = listOf(
             Token.Operand.Num(1.0),
             Token.Operator.Sum,
-            COS,
+            Token.FunctionCall(1, DefaultFunctions.COS),
             Token.Bracket.Left,
             Token.Operand.Num(10.0),
             Token.Bracket.Right
@@ -47,7 +45,7 @@ class FunctionTest {
             listOf(
                 Token.Operand.Num(1.0),
                 Token.Operand.Num(10.0),
-                COS,
+                Token.FunctionCall(1, DefaultFunctions.COS),
                 Token.Operator.Sum
             ),
             result
@@ -57,9 +55,9 @@ class FunctionTest {
     @Test
     fun function_in_a_function() {
         val expression = listOf(
-            COS,
+            Token.FunctionCall(1, DefaultFunctions.COS),
             Token.Bracket.Left,
-            LN,
+            Token.FunctionCall(1, DefaultFunctions.LN),
             Token.Bracket.Left,
             Token.Operand.Num(10.0),
             Token.Bracket.Right,
@@ -70,8 +68,8 @@ class FunctionTest {
         assertContentEquals(
             listOf(
                 Token.Operand.Num(10.0),
-                LN,
-                COS
+                Token.FunctionCall(1, DefaultFunctions.LN),
+                Token.FunctionCall(1, DefaultFunctions.COS),
             ),
             result
         )
@@ -80,10 +78,10 @@ class FunctionTest {
     @Test
     fun function_with_two_params() {
         val expression = listOf(
-            LOG,
+            Token.FunctionCall(2, DefaultFunctions.LOG),
             Token.Bracket.Left,
             Token.Operand.Num(10.0),
-            Token.Function.Delimiter,
+            Token.FunctionCall.Delimiter,
             Token.Operand.Num(12.0),
             Token.Bracket.Right
         )
@@ -92,7 +90,7 @@ class FunctionTest {
             listOf(
                 Token.Operand.Num(10.0),
                 Token.Operand.Num(12.0),
-                LOG
+                Token.FunctionCall(2, DefaultFunctions.LOG)
             ),
             subject.convert(expression)
         )
@@ -101,12 +99,12 @@ class FunctionTest {
     @Test
     fun multi_var_function_with_calculated_first_param() {
         val expression = listOf(
-            LOG,
+            Token.FunctionCall(2, DefaultFunctions.LOG),
             Token.Bracket.Left,
             Token.Operand.Num(2),
             Token.Operator.Mult,
             Token.Operand.Num(2),
-            Token.Function.Delimiter,
+            Token.FunctionCall.Delimiter,
             Token.Operand.Num(3),
             Token.Bracket.Right
         )
@@ -116,7 +114,7 @@ class FunctionTest {
                 Token.Operand.Num(2),
                 Token.Operator.Mult,
                 Token.Operand.Num(3),
-                LOG
+                Token.FunctionCall(2, DefaultFunctions.LOG)
             ),
             subject.convert(expression)
         )
