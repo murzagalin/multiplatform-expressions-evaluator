@@ -5,6 +5,7 @@ import com.murzagalin.evaluator.Token
 import com.murzagalin.evaluator.Tokenizer
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class FunctionsTest {
@@ -13,7 +14,7 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_numbers() {
-        DefaultFunctions.ALL.filter { it.argsCount.first == 1 && it.argsCount.last == 1 }.forEach { f ->
+        DefaultFunctions.ALL.filter { it.argsCount.first == 1 }.forEach { f ->
             assertContentEquals(
                 listOf(
                     Token.FunctionCall(1, f),
@@ -28,7 +29,7 @@ class FunctionsTest {
 
     @Test
     fun simple_functions_with_2_numbers() {
-        DefaultFunctions.ALL.filter { it.argsCount.first == 2 && it.argsCount.last == 2 }.forEach { f ->
+        DefaultFunctions.ALL.filter { it.argsCount.first == 2 }.forEach { f ->
             assertContentEquals(
                 listOf(
                     Token.FunctionCall(2, f),
@@ -120,5 +121,42 @@ class FunctionsTest {
         assertFailsWith<IllegalArgumentException>() {
             subject.tokenize("$nonExistingFunctionName(1.0)")
         }
+    }
+
+    @Test
+    fun wong_number_of_arguments() {
+        assertFailsWith<IllegalArgumentException>() {
+            subject.tokenize("log(2.0)")
+        }
+        assertFailsWith<IllegalArgumentException>() {
+            subject.tokenize("cos(1.0, 2.0)")
+        }
+        assertFailsWith<IllegalArgumentException>() {
+            subject.tokenize("min()")
+        }
+    }
+
+    @Test
+    fun correct_number_of_arguments() {
+        assertEquals(
+            3,
+            (subject.tokenize("min(1, 2, 3)")[0] as Token.FunctionCall).argsCount
+        )
+        assertEquals(
+            1,
+            (subject.tokenize("cos(1)")[0] as Token.FunctionCall).argsCount
+        )
+        assertEquals(
+            1,
+            (subject.tokenize("cos(sin(cos(sin(1))))")[0] as Token.FunctionCall).argsCount
+        )
+        assertEquals(
+            3,
+            (subject.tokenize("min(sin(1), max(2, 4, 6, 7), ln(3))")[0] as Token.FunctionCall).argsCount
+        )
+        assertEquals(
+            4,
+            (subject.tokenize("max(2, 4, 6, 7)")[0] as Token.FunctionCall).argsCount
+        )
     }
 }

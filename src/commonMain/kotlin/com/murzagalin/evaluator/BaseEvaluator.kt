@@ -12,10 +12,8 @@ abstract class BaseEvaluator {
                 is Token.Operand.Num -> token
                 is Token.Operand.Bool -> token
                 is Token.Operand.Variable -> {
-                    val value = requireNotNull(values[token.value]) {
-                        "Could not resolve variable '${token.value}'"
-                    }
-                    resolveVar(value)
+                    val value = requireNotNull(values[token.value]) { "Could not resolve variable '${token.value}'" }
+                    resolveVar(token.value, value)
                 }
                 is Token.Operator.LessThan -> {
                     val right = temp.popLastNum.value
@@ -111,10 +109,10 @@ abstract class BaseEvaluator {
         return temp.last()
     }
 
-    private fun resolveVar(value: Any) = when (value) {
+    private fun resolveVar(varName: Any, value: Any) = when (value) {
         is Boolean -> Token.Operand.Bool(value)
         is Number -> Token.Operand.Num(value.toDouble())
-        else -> error("value type '${value::class.simpleName}' is not supported")
+        else -> error("variable type '${value::class.simpleName}' is not supported (variable '$varName')")
     }
 
     protected val ArrayDeque<Token>.popLastNum: Token.Operand.Num

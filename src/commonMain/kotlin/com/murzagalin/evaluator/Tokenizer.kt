@@ -99,16 +99,33 @@ class Tokenizer(
 
         return if (lastIxOfName != -1 && get(lastIxOfName) == '(') {
             val functionName = substring(0, lastIxOfName)
-            val function = requireNotNull(functionsMap[functionName]) {
-                "function not found $functionName"
-            }
+            val function = requireNotNull(functionsMap[functionName]) { "function not found $functionName" }
+            val argsCount = getArgsCount(this, functionName)
+            require(argsCount in function.argsCount) { "function $functionName is called with wrong number of parameters" }
 
-            ParsedUnit(Token.FunctionCall(function.argsCount.first, function), functionName.length)
+            ParsedUnit(Token.FunctionCall(argsCount, function), functionName.length)
         } else {
             if (lastIxOfName == -1) lastIxOfName = length
 
             ParsedUnit(Token.Operand.Variable(substring(0, lastIxOfName)), lastIxOfName)
         }
+    }
+
+    private fun getArgsCount(expression: String, functionName: String): Int {
+        val expressionAfterFunction = expression.substring(functionName.length)
+        var bracketsCounter = 0
+        var delimitersCounter = 0
+
+        for (symbol in expressionAfterFunction) {
+            when (symbol) {
+                '(' -> bracketsCounter++
+                ')' -> bracketsCounter--
+                argumentsDelimiter -> if (bracketsCounter == 1) delimitersCounter++
+            }
+            if (bracketsCounter == 0) break
+        }
+
+        return delimitersCounter + 1
     }
 
     private fun supposedToBeUnaryOperator(result: List<Token>): Boolean {

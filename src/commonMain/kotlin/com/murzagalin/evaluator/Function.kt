@@ -54,10 +54,6 @@ object DefaultFunctions {
 
     val LOG = object: Function("log", 2) {
         override fun invoke(args: List<Any>): Any {
-            require(args.size == 2) {
-                "$name function requires 2 argument"
-            }
-
             val operand = args[0]
             val base = args[1]
             require(operand is Number) {
@@ -71,5 +67,31 @@ object DefaultFunctions {
         }
     }
 
-    val ALL = listOf(COS, SIN, LN, LOG)
+    val MIN = object: Function("min", 2..Int.MAX_VALUE) {
+        override fun invoke(args: List<Any>): Any {
+            require(args.size > 1) {
+                "$name should be called with at least 2 arguments"
+            }
+            require(args.all { it is Number }) {
+                "$name function requires all arguments to be numbers"
+            }
+
+            return args.minByOrNull { (it as Number).toDouble() }!!
+        }
+    }
+
+    val MAX = object: Function("max", 2..Int.MAX_VALUE) {
+        override fun invoke(args: List<Any>): Any {
+            require(args.size > 1) {
+                "$name should be called with at least 2 arguments"
+            }
+            require(args.all { it is Number }) {
+                "$name function requires all arguments to be numbers"
+            }
+
+            return args.maxByOrNull { (it as Number).toDouble() }!!
+        }
+    }
+
+    val ALL = listOf(COS, SIN, LN, LOG, MIN, MAX)
 }
