@@ -47,8 +47,8 @@ internal class Tokenizer(
         val symbol = restOfExpression.first()
 
         return when {
-            restOfExpression.startsWith("true") -> ParsedUnit(Token.Operand.Bool(true), 4)
-            restOfExpression.startsWith("false") -> ParsedUnit(Token.Operand.Bool(false), 5)
+            restOfExpression.startsWith("true") -> ParsedUnit(Token.Operand.Boolean(true), 4)
+            restOfExpression.startsWith("false") -> ParsedUnit(Token.Operand.Boolean(false), 5)
             restOfExpression.startsWith("&&") -> ParsedUnit(Token.Operator.And, 2)
             restOfExpression.startsWith("||") -> ParsedUnit(Token.Operator.Or, 2)
             restOfExpression.startsWith("<=") -> ParsedUnit(Token.Operator.LessEqualThan, 2)
@@ -60,10 +60,10 @@ internal class Tokenizer(
             symbol == argumentsDelimiter -> ParsedUnit(Token.FunctionCall.Delimiter, 1)
             symbol == '+' -> getPlus(result)
             symbol == '-' -> getMinus(result)
-            symbol == '%' -> ParsedUnit(Token.Operator.Mod, 1)
-            symbol == '*' -> ParsedUnit(Token.Operator.Mult, 1)
-            symbol == '/' -> ParsedUnit(Token.Operator.Div, 1)
-            symbol == '^' -> ParsedUnit(Token.Operator.Pow, 1)
+            symbol == '%' -> ParsedUnit(Token.Operator.Modulo, 1)
+            symbol == '*' -> ParsedUnit(Token.Operator.Multiplication, 1)
+            symbol == '/' -> ParsedUnit(Token.Operator.Division, 1)
+            symbol == '^' -> ParsedUnit(Token.Operator.Power, 1)
             symbol == '(' -> ParsedUnit(Token.Bracket.Left, 1)
             symbol == ')' -> ParsedUnit(Token.Bracket.Right, 1)
             symbol == '<' -> ParsedUnit(Token.Operator.LessThan, 1)
@@ -76,12 +76,12 @@ internal class Tokenizer(
     }
 
     private fun getPlus(result: List<Token>) = ParsedUnit(
-        if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Sum,
+        if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Plus,
         1
     )
 
     private fun getMinus(result: List<Token>) = ParsedUnit(
-        if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Sub,
+        if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Minus,
         1
     )
 
@@ -91,7 +91,7 @@ internal class Tokenizer(
         val strNum = substring(0, lastIxOfNumber)
         val parsedNumber = requireNotNull(strNum.toDoubleOrNull()) { "error parsing number '$strNum'" }
 
-        return ParsedUnit(Token.Operand.Num(parsedNumber), lastIxOfNumber)
+        return ParsedUnit(Token.Operand.Number(parsedNumber), lastIxOfNumber)
     }
 
     private fun String.parseVarOrFunction(): ParsedUnit {
@@ -130,7 +130,7 @@ internal class Tokenizer(
 
     private fun supposedToBeUnaryOperator(result: List<Token>): Boolean {
         return result.isEmpty() ||
-                result.last() !is Token.Operand.Num &&
+                result.last() !is Token.Operand.Number &&
                 result.last() !is Token.Bracket.Right &&
                 result.last() !is Token.Operand.Variable
     }

@@ -16,7 +16,7 @@ class UnaryOperatorsTokenizerTests {
         assertContentEquals(
             listOf(
                 Token.Operator.UnaryMinus,
-                Token.Operand.Num(5)
+                Token.Operand.Number(5)
             ),
             result
         )
@@ -29,7 +29,7 @@ class UnaryOperatorsTokenizerTests {
         assertContentEquals(
             listOf(
                 Token.Operator.UnaryPlus,
-                Token.Operand.Num(5)
+                Token.Operand.Number(5)
             ),
             result
         )
@@ -41,10 +41,10 @@ class UnaryOperatorsTokenizerTests {
         val result = subject.tokenize(expression)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(78),
-                Token.Operator.Sum,
+                Token.Operand.Number(78),
+                Token.Operator.Plus,
                 Token.Operator.UnaryMinus,
-                Token.Operand.Num(5)
+                Token.Operand.Number(5)
             ),
             result
         )
@@ -56,10 +56,10 @@ class UnaryOperatorsTokenizerTests {
         val result = subject.tokenize(expression)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(78),
-                Token.Operator.Sum,
+                Token.Operand.Number(78),
+                Token.Operator.Plus,
                 Token.Operator.UnaryPlus,
-                Token.Operand.Num(5)
+                Token.Operand.Number(5)
             ),
             result
         )
@@ -73,9 +73,9 @@ class UnaryOperatorsTokenizerTests {
             listOf(
                 Token.Operator.UnaryMinus,
                 Token.Bracket.Left,
-                Token.Operand.Num(1),
-                Token.Operator.Sum,
-                Token.Operand.Num(2),
+                Token.Operand.Number(1),
+                Token.Operator.Plus,
+                Token.Operand.Number(2),
                 Token.Bracket.Right
             ),
             result
@@ -88,13 +88,13 @@ class UnaryOperatorsTokenizerTests {
         val result = subject.tokenize(expression)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(10),
-                Token.Operator.Mult,
+                Token.Operand.Number(10),
+                Token.Operator.Multiplication,
                 Token.Operator.UnaryMinus,
                 Token.Bracket.Left,
-                Token.Operand.Num(1),
-                Token.Operator.Sum,
-                Token.Operand.Num(2),
+                Token.Operand.Number(1),
+                Token.Operator.Plus,
+                Token.Operand.Number(2),
                 Token.Bracket.Right
             ),
             result
@@ -107,13 +107,13 @@ class UnaryOperatorsTokenizerTests {
         val result = subject.tokenize(expression)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(10),
-                Token.Operator.Mult,
+                Token.Operand.Number(10),
+                Token.Operator.Multiplication,
                 Token.Operator.UnaryPlus,
                 Token.Bracket.Left,
-                Token.Operand.Num(1),
-                Token.Operator.Sum,
-                Token.Operand.Num(2),
+                Token.Operand.Number(1),
+                Token.Operator.Plus,
+                Token.Operand.Number(2),
                 Token.Bracket.Right
             ),
             result
@@ -127,10 +127,10 @@ class UnaryOperatorsTokenizerTests {
 
         assertContentEquals(
             listOf(
-                Token.Operand.Num(4),
-                Token.Operator.Pow,
+                Token.Operand.Number(4),
+                Token.Operator.Power,
                 Token.Operator.UnaryMinus,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             result
         )
@@ -143,10 +143,10 @@ class UnaryOperatorsTokenizerTests {
 
         assertContentEquals(
             listOf(
-                Token.Operand.Num(4),
-                Token.Operator.Pow,
+                Token.Operand.Number(4),
+                Token.Operator.Power,
                 Token.Operator.UnaryPlus,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             result
         )

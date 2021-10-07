@@ -12,74 +12,74 @@ internal abstract class BaseEvaluator {
 
         for (token in postfixExpression.expression) {
             val newToken = when (token) {
-                is Token.Operand.Num -> token
-                is Token.Operand.Bool -> token
+                is Token.Operand.Number -> token
+                is Token.Operand.Boolean -> token
                 is Token.Operand.Variable -> {
                     val value = requireNotNull(values[token.value]) { "Could not resolve variable '${token.value}'" }
                     resolveVar(token.value, value)
                 }
                 is Token.Operator.LessThan -> {
-                    val right = temp.popLastNum.value
-                    val left = temp.popLastNum.value
-                    Token.Operand.Bool(left < right)
+                    val right = temp.popLastNumber.value
+                    val left = temp.popLastNumber.value
+                    Token.Operand.Boolean(left < right)
                 }
                 is Token.Operator.LessEqualThan -> {
-                    val right = temp.popLastNum.value
-                    val left = temp.popLastNum.value
-                    Token.Operand.Bool(left <= right)
+                    val right = temp.popLastNumber.value
+                    val left = temp.popLastNumber.value
+                    Token.Operand.Boolean(left <= right)
                 }
                 is Token.Operator.GreaterThan -> {
-                    val right = temp.popLastNum.value
-                    val left = temp.popLastNum.value
-                    Token.Operand.Bool(left > right)
+                    val right = temp.popLastNumber.value
+                    val left = temp.popLastNumber.value
+                    Token.Operand.Boolean(left > right)
                 }
                 is Token.Operator.GreaterEqualThan -> {
-                    val right = temp.popLastNum.value
-                    val left = temp.popLastNum.value
-                    Token.Operand.Bool(left >= right)
+                    val right = temp.popLastNumber.value
+                    val left = temp.popLastNumber.value
+                    Token.Operand.Boolean(left >= right)
                 }
                 is Token.Operator.Equal -> {
                     val right = temp.removeLast()
                     val left = temp.removeLast()
-                    Token.Operand.Bool(left == right)
+                    Token.Operand.Boolean(left == right)
                 }
                 is Token.Operator.NotEqual -> {
                     val right = temp.removeLast()
                     val left = temp.removeLast()
-                    Token.Operand.Bool(left != right)
+                    Token.Operand.Boolean(left != right)
                 }
                 is Token.Operator.And -> {
-                    val right = temp.popLastBool.value
-                    val left = temp.popLastBool.value
-                    Token.Operand.Bool(left && right)
+                    val right = temp.popLastBoolean.value
+                    val left = temp.popLastBoolean.value
+                    Token.Operand.Boolean(left && right)
                 }
                 is Token.Operator.Or -> {
-                    val right = temp.popLastBool.value
-                    val left = temp.popLastBool.value
-                    Token.Operand.Bool(left || right)
+                    val right = temp.popLastBoolean.value
+                    val left = temp.popLastBoolean.value
+                    Token.Operand.Boolean(left || right)
                 }
-                is Token.Operator.Not -> Token.Operand.Bool(!temp.popLastBool.value)
-                is Token.Operator.Sum -> Token.Operand.Num(temp.popLastNum.value + temp.popLastNum.value)
-                is Token.Operator.Sub -> Token.Operand.Num(-temp.popLastNum.value + temp.popLastNum.value)
-                is Token.Operator.Mod ->  {
-                    val denominator = temp.popLastNum.value
-                    val numerator = temp.popLastNum.value
+                is Token.Operator.Not -> Token.Operand.Boolean(!temp.popLastBoolean.value)
+                is Token.Operator.Plus -> Token.Operand.Number(temp.popLastNumber.value + temp.popLastNumber.value)
+                is Token.Operator.Minus -> Token.Operand.Number(-temp.popLastNumber.value + temp.popLastNumber.value)
+                is Token.Operator.Modulo ->  {
+                    val denominator = temp.popLastNumber.value
+                    val numerator = temp.popLastNumber.value
 
-                    Token.Operand.Num(numerator % denominator)
+                    Token.Operand.Number(numerator % denominator)
                 }
-                is Token.Operator.Mult -> Token.Operand.Num(temp.popLastNum.value * temp.popLastNum.value)
-                is Token.Operator.Div -> {
-                    val denominator = temp.popLastNum.value
-                    val numerator = temp.popLastNum.value
-                    Token.Operand.Num(numerator / denominator)
+                is Token.Operator.Multiplication -> Token.Operand.Number(temp.popLastNumber.value * temp.popLastNumber.value)
+                is Token.Operator.Division -> {
+                    val denominator = temp.popLastNumber.value
+                    val numerator = temp.popLastNumber.value
+                    Token.Operand.Number(numerator / denominator)
                 }
-                is Token.Operator.Pow -> {
-                    val power = temp.popLastNum.value
-                    val base = temp.popLastNum.value
-                    Token.Operand.Num(base.pow(power))
+                is Token.Operator.Power -> {
+                    val power = temp.popLastNumber.value
+                    val base = temp.popLastNumber.value
+                    Token.Operand.Number(base.pow(power))
                 }
-                is Token.Operator.UnaryMinus -> Token.Operand.Num(-temp.popLastNum.value)
-                is Token.Operator.UnaryPlus -> temp.popLastNum
+                is Token.Operator.UnaryMinus -> Token.Operand.Number(-temp.popLastNumber.value)
+                is Token.Operator.UnaryPlus -> temp.popLastNumber
                 is Token.FunctionCall -> {
                     val operands = mutableListOf<Token.Operand>()
 
@@ -100,7 +100,7 @@ internal abstract class BaseEvaluator {
                         "malformed ternary if: 'if' operand and 'else' operand have different types"
                     }
 
-                    if (temp.popLastBool.value) ifOp else elseOp
+                    if (temp.popLastBoolean.value) ifOp else elseOp
                 }
             }
 
@@ -113,25 +113,25 @@ internal abstract class BaseEvaluator {
     }
 
     private fun resolveVar(varName: Any, value: Any) = when (value) {
-        is Boolean -> Token.Operand.Bool(value)
-        is Number -> Token.Operand.Num(value.toDouble())
+        is Boolean -> Token.Operand.Boolean(value)
+        is Number -> Token.Operand.Number(value.toDouble())
         else -> error("variable type '${value::class.simpleName}' is not supported (variable '$varName')")
     }
 
-    protected val ArrayDeque<Token>.popLastNum: Token.Operand.Num
+    protected val ArrayDeque<Token>.popLastNumber: Token.Operand.Number
         get() {
             val last = removeLast()
-            require(last is Token.Operand.Num) {
+            require(last is Token.Operand.Number) {
                 "Expected number operand, but token is ${last::class.simpleName}"
             }
 
             return last
         }
 
-    protected val ArrayDeque<Token>.popLastBool: Token.Operand.Bool
+    protected val ArrayDeque<Token>.popLastBoolean: Token.Operand.Boolean
         get() {
             val last = removeLast()
-            require(last is Token.Operand.Bool) {
+            require(last is Token.Operand.Boolean) {
                 "Expected boolean operand, but token is ${last::class.simpleName}"
             }
 

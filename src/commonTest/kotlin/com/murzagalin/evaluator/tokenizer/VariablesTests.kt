@@ -24,8 +24,8 @@ class VariablesTests{
         assertContentEquals(
             listOf(
                 Token.Operand.Variable("var"),
-                Token.Operator.Sum,
-                Token.Operand.Num(1.2)
+                Token.Operator.Plus,
+                Token.Operand.Number(1.2)
             ),
             subject.tokenize("var+1.2")
         )
@@ -37,12 +37,12 @@ class VariablesTests{
             listOf(
                 Token.Bracket.Left,
                 Token.Operand.Variable("var_one"),
-                Token.Operator.Sum,
-                Token.Operand.Num(1.2),
+                Token.Operator.Plus,
+                Token.Operand.Number(1.2),
                 Token.Bracket.Right,
-                Token.Operator.Pow,
+                Token.Operator.Power,
                 Token.Operand.Variable("var_two"),
-                Token.Operator.Mult,
+                Token.Operator.Multiplication,
                 Token.Operand.Variable("var_three")
             ),
             subject.tokenize("(var_one+1.2)^var_two*var_three")
@@ -65,12 +65,12 @@ class VariablesTests{
             listOf(
                 Token.Bracket.Left,
                 Token.Operand.Variable("var1"),
-                Token.Operator.Sum,
-                Token.Operand.Num(1.2),
+                Token.Operator.Plus,
+                Token.Operand.Number(1.2),
                 Token.Bracket.Right,
-                Token.Operator.Pow,
+                Token.Operator.Power,
                 Token.Operand.Variable("var2"),
-                Token.Operator.Mult,
+                Token.Operator.Multiplication,
                 Token.Operand.Variable("var3")
             ),
             subject.tokenize("(var1+1.2)^var2*var3")

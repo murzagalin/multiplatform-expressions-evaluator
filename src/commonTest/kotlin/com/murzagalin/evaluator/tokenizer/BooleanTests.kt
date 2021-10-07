@@ -13,19 +13,19 @@ class BooleanTests {
     @Test
     fun simple_boolean_constants() {
         assertContentEquals(
-            listOf(Token.Operand.Bool(true)),
+            listOf(Token.Operand.Boolean(true)),
             subject.tokenize("true")
         )
         assertContentEquals(
-            listOf(Token.Operand.Bool(false)),
+            listOf(Token.Operand.Boolean(false)),
             subject.tokenize("false")
         )
         assertContentEquals(
             listOf(
                 Token.Operator.Not,
-                Token.Operand.Bool(false),
+                Token.Operand.Boolean(false),
                 Token.Operator.And,
-                Token.Operand.Bool(true)
+                Token.Operand.Boolean(true)
             ),
             subject.tokenize("!false&&true")
         )
@@ -65,49 +65,49 @@ class BooleanTests {
     fun comparison() {
         assertEquals(
             listOf(
-                Token.Operand.Num(1),
+                Token.Operand.Number(1),
                 Token.Operator.LessThan,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             subject.tokenize("1<2")
         )
         assertEquals(
             listOf(
-                Token.Operand.Num(1),
+                Token.Operand.Number(1),
                 Token.Operator.GreaterThan,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             subject.tokenize("1>2")
         )
         assertEquals(
             listOf(
-                Token.Operand.Num(1),
+                Token.Operand.Number(1),
                 Token.Operator.LessEqualThan,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             subject.tokenize("1<=2")
         )
         assertEquals(
             listOf(
-                Token.Operand.Num(1),
+                Token.Operand.Number(1),
                 Token.Operator.GreaterEqualThan,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             subject.tokenize("1>=2")
         )
         assertEquals(
             listOf(
-                Token.Operand.Num(1),
+                Token.Operand.Number(1),
                 Token.Operator.Equal,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             subject.tokenize("1==2")
         )
         assertEquals(
             listOf(
-                Token.Operand.Num(1),
+                Token.Operand.Number(1),
                 Token.Operator.NotEqual,
-                Token.Operand.Num(2)
+                Token.Operand.Number(2)
             ),
             subject.tokenize("1!=2")
         )

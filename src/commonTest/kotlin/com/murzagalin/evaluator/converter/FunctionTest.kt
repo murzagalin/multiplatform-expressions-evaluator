@@ -15,14 +15,14 @@ class FunctionTest {
         val expression = listOf(
             Token.FunctionCall(1, DefaultFunctions.COS),
             Token.Bracket.Left,
-            Token.Operand.Num(10.0),
+            Token.Operand.Number(10.0),
             Token.Bracket.Right
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand.Num(10.0),
+                Token.Operand.Number(10.0),
                 Token.FunctionCall(1, DefaultFunctions.COS),
             ),
             result.expression
@@ -32,21 +32,21 @@ class FunctionTest {
     @Test
     fun sum_and_function_call() {
         val expression = listOf(
-            Token.Operand.Num(1.0),
-            Token.Operator.Sum,
+            Token.Operand.Number(1.0),
+            Token.Operator.Plus,
             Token.FunctionCall(1, DefaultFunctions.COS),
             Token.Bracket.Left,
-            Token.Operand.Num(10.0),
+            Token.Operand.Number(10.0),
             Token.Bracket.Right
         )
         val result = subject.convert(expression)
 
         assertContentEquals(
             listOf(
-                Token.Operand.Num(1.0),
-                Token.Operand.Num(10.0),
+                Token.Operand.Number(1.0),
+                Token.Operand.Number(10.0),
                 Token.FunctionCall(1, DefaultFunctions.COS),
-                Token.Operator.Sum
+                Token.Operator.Plus
             ),
             result.expression
         )
@@ -59,7 +59,7 @@ class FunctionTest {
             Token.Bracket.Left,
             Token.FunctionCall(1, DefaultFunctions.LN),
             Token.Bracket.Left,
-            Token.Operand.Num(10.0),
+            Token.Operand.Number(10.0),
             Token.Bracket.Right,
             Token.Bracket.Right
         )
@@ -67,7 +67,7 @@ class FunctionTest {
 
         assertContentEquals(
             listOf(
-                Token.Operand.Num(10.0),
+                Token.Operand.Number(10.0),
                 Token.FunctionCall(1, DefaultFunctions.LN),
                 Token.FunctionCall(1, DefaultFunctions.COS),
             ),
@@ -80,16 +80,16 @@ class FunctionTest {
         val expression = listOf(
             Token.FunctionCall(2, DefaultFunctions.LOG),
             Token.Bracket.Left,
-            Token.Operand.Num(10.0),
+            Token.Operand.Number(10.0),
             Token.FunctionCall.Delimiter,
-            Token.Operand.Num(12.0),
+            Token.Operand.Number(12.0),
             Token.Bracket.Right
         )
 
         assertContentEquals(
             listOf(
-                Token.Operand.Num(10.0),
-                Token.Operand.Num(12.0),
+                Token.Operand.Number(10.0),
+                Token.Operand.Number(12.0),
                 Token.FunctionCall(2, DefaultFunctions.LOG)
             ),
             subject.convert(expression).expression
@@ -101,19 +101,19 @@ class FunctionTest {
         val expression = listOf(
             Token.FunctionCall(2, DefaultFunctions.LOG),
             Token.Bracket.Left,
-            Token.Operand.Num(2),
-            Token.Operator.Mult,
-            Token.Operand.Num(2),
+            Token.Operand.Number(2),
+            Token.Operator.Multiplication,
+            Token.Operand.Number(2),
             Token.FunctionCall.Delimiter,
-            Token.Operand.Num(3),
+            Token.Operand.Number(3),
             Token.Bracket.Right
         )
         assertContentEquals(
             listOf(
-                Token.Operand.Num(2),
-                Token.Operand.Num(2),
-                Token.Operator.Mult,
-                Token.Operand.Num(3),
+                Token.Operand.Number(2),
+                Token.Operand.Number(2),
+                Token.Operator.Multiplication,
+                Token.Operand.Number(3),
                 Token.FunctionCall(2, DefaultFunctions.LOG)
             ),
             subject.convert(expression).expression

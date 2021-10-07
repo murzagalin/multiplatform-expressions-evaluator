@@ -19,9 +19,9 @@ class TernaryIfTest {
             doubleEvaluator.evaluate(
                 PreprocessedExpression(
                     listOf(
-                        Token.Operand.Bool(true),
-                        Token.Operand.Num(1),
-                        Token.Operand.Num(2),
+                        Token.Operand.Boolean(true),
+                        Token.Operand.Number(1),
+                        Token.Operand.Number(2),
                         Token.Operator.TernaryIfElse
                     )
                 )
@@ -32,9 +32,9 @@ class TernaryIfTest {
             doubleEvaluator.evaluate(
                 PreprocessedExpression(
                     listOf(
-                        Token.Operand.Bool(false),
-                        Token.Operand.Num(1),
-                        Token.Operand.Num(2),
+                        Token.Operand.Boolean(false),
+                        Token.Operand.Number(1),
+                        Token.Operand.Number(2),
                         Token.Operator.TernaryIfElse
                     )
                 )
@@ -49,9 +49,9 @@ class TernaryIfTest {
             booleanEvaluator.evaluate(
                 PreprocessedExpression(
                     listOf(
-                        Token.Operand.Bool(true),
-                        Token.Operand.Bool(true),
-                        Token.Operand.Bool(false),
+                        Token.Operand.Boolean(true),
+                        Token.Operand.Boolean(true),
+                        Token.Operand.Boolean(false),
                         Token.Operator.TernaryIfElse
                     )
                 )
@@ -62,9 +62,9 @@ class TernaryIfTest {
             booleanEvaluator.evaluate(
                 PreprocessedExpression(
                     listOf(
-                        Token.Operand.Bool(false),
-                        Token.Operand.Bool(true),
-                        Token.Operand.Bool(false),
+                        Token.Operand.Boolean(false),
+                        Token.Operand.Boolean(true),
+                        Token.Operand.Boolean(false),
                         Token.Operator.TernaryIfElse
                     )
                 )
@@ -79,9 +79,9 @@ class TernaryIfTest {
             booleanEvaluator.evaluate(
                 PreprocessedExpression(
                     listOf(
-                        Token.Operand.Bool(true),
-                        Token.Operand.Num(1),
-                        Token.Operand.Bool(false),
+                        Token.Operand.Boolean(true),
+                        Token.Operand.Number(1),
+                        Token.Operand.Boolean(false),
                         Token.Operator.TernaryIfElse
                     )
                 )
@@ -92,9 +92,9 @@ class TernaryIfTest {
             booleanEvaluator.evaluate(
                 PreprocessedExpression(
                     listOf(
-                        Token.Operand.Num(1),
-                        Token.Operand.Bool(true),
-                        Token.Operand.Bool(false),
+                        Token.Operand.Number(1),
+                        Token.Operand.Boolean(true),
+                        Token.Operand.Boolean(false),
                         Token.Operator.TernaryIfElse
                     )
                 )

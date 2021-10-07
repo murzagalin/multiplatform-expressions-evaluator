@@ -26,7 +26,7 @@ class VariableTest {
         val rawExpression = listOf(
             Token.Operand.Variable("x"),
             Token.Operand.Variable("y"),
-            Token.Operator.Mult
+            Token.Operator.Multiplication
         )
         val expression = PreprocessedExpression(rawExpression)
         assertEquals(

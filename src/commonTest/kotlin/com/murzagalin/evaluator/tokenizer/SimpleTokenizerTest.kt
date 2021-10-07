@@ -15,7 +15,7 @@ internal class SimpleTokenizerTest {
         val result = subject.tokenize("12345")
 
         assertContentEquals(
-            listOf(Token.Operand.Num(12345)),
+            listOf(Token.Operand.Number(12345)),
             result
         )
     }
@@ -26,9 +26,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(3),
-                Token.Operator.Sum,
-                Token.Operand.Num(4)
+                Token.Operand.Number(3),
+                Token.Operator.Plus,
+                Token.Operand.Number(4)
             ),
             result
         )
@@ -40,24 +40,24 @@ internal class SimpleTokenizerTest {
         assertContentEquals(
             listOf(
                 Token.Bracket.Left,
-                Token.Operand.Num(12),
-                Token.Operator.Sum,
-                Token.Operand.Num(32),
+                Token.Operand.Number(12),
+                Token.Operator.Plus,
+                Token.Operand.Number(32),
                 Token.Bracket.Right,
-                Token.Operator.Sub,
-                Token.Operand.Num(3)
+                Token.Operator.Minus,
+                Token.Operand.Number(3)
             ),
             subject.tokenize("(12+32)-3")
         )
         assertContentEquals(
             listOf(
                 Token.Bracket.Left,
-                Token.Operand.Num(12),
-                Token.Operator.Sum,
-                Token.Operand.Num(32),
+                Token.Operand.Number(12),
+                Token.Operator.Plus,
+                Token.Operand.Number(32),
                 Token.Bracket.Right,
-                Token.Operator.Sum,
-                Token.Operand.Num(3)
+                Token.Operator.Plus,
+                Token.Operand.Number(3)
             ),
             subject.tokenize("(12+32)+3")
         )
@@ -69,9 +69,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(9683),
-                Token.Operator.Sub,
-                Token.Operand.Num(2365)
+                Token.Operand.Number(9683),
+                Token.Operator.Minus,
+                Token.Operand.Number(2365)
             ),
             result
         )
@@ -83,9 +83,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(33),
-                Token.Operator.Pow,
-                Token.Operand.Num(4)
+                Token.Operand.Number(33),
+                Token.Operator.Power,
+                Token.Operand.Number(4)
             ),
             result
         )
@@ -97,9 +97,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(2536),
-                Token.Operator.Div,
-                Token.Operand.Num(575)
+                Token.Operand.Number(2536),
+                Token.Operator.Division,
+                Token.Operand.Number(575)
             ),
             result
         )
@@ -111,9 +111,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(3),
-                Token.Operator.Sum,
-                Token.Operand.Num(4)
+                Token.Operand.Number(3),
+                Token.Operator.Plus,
+                Token.Operand.Number(4)
             ),
             result
         )
@@ -125,9 +125,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(5325),
-                Token.Operator.Mult,
-                Token.Operand.Num(289)
+                Token.Operand.Number(5325),
+                Token.Operator.Multiplication,
+                Token.Operand.Number(289)
             ),
             result
         )
@@ -139,11 +139,11 @@ internal class SimpleTokenizerTest {
         assertEquals(5, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(1),
-                Token.Operator.Sum,
-                Token.Operand.Num(8),
-                Token.Operator.Mult,
-                Token.Operand.Num(9)
+                Token.Operand.Number(1),
+                Token.Operator.Plus,
+                Token.Operand.Number(8),
+                Token.Operator.Multiplication,
+                Token.Operand.Number(9)
             ),
             result
         )
@@ -155,11 +155,11 @@ internal class SimpleTokenizerTest {
         assertEquals(5, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(1432),
-                Token.Operator.Sum,
-                Token.Operand.Num(8585),
-                Token.Operator.Mult,
-                Token.Operand.Num(9346)
+                Token.Operand.Number(1432),
+                Token.Operator.Plus,
+                Token.Operand.Number(8585),
+                Token.Operator.Multiplication,
+                Token.Operand.Number(9346)
             ),
             result
         )
@@ -172,12 +172,12 @@ internal class SimpleTokenizerTest {
         assertContentEquals(
             listOf(
                 Token.Bracket.Left,
-                Token.Operand.Num(1432),
-                Token.Operator.Sum,
-                Token.Operand.Num(8585),
+                Token.Operand.Number(1432),
+                Token.Operator.Plus,
+                Token.Operand.Number(8585),
                 Token.Bracket.Right,
-                Token.Operator.Mult,
-                Token.Operand.Num(9346)
+                Token.Operator.Multiplication,
+                Token.Operand.Number(9346)
             ),
             result
         )
@@ -189,9 +189,9 @@ internal class SimpleTokenizerTest {
         assertEquals(3, result.size)
         assertContentEquals(
             listOf(
-                Token.Operand.Num(2.5),
-                Token.Operator.Mod,
-                Token.Operand.Num(0.26)
+                Token.Operand.Number(2.5),
+                Token.Operator.Modulo,
+                Token.Operand.Number(0.26)
             ),
             result
         )

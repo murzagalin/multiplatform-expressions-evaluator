@@ -6,24 +6,24 @@ sealed interface Token {
 
     sealed interface Operand : Token {
         @JvmInline
-        value class Num(val value: Double) : Operand {
+        value class Number(val value: Double) : Operand {
             constructor(value: Int): this(value.toDouble())
         }
 
         @JvmInline
-        value class Bool(val value: Boolean) : Operand
+        value class Boolean(val value: kotlin.Boolean) : Operand
 
         @JvmInline
         value class Variable(val value: String) : Operand
     }
 
     sealed class Operator(val priority: Int, val associativity: Associativity) : Token {
-        object Sum : Operator(6, Associativity.LEFT)
-        object Sub : Operator(6, Associativity.LEFT)
-        object Mult : Operator(7, Associativity.LEFT)
-        object Div : Operator(7, Associativity.LEFT)
-        object Mod : Operator(7, Associativity.LEFT)
-        object Pow : Operator(9, Associativity.RIGHT)
+        object Plus : Operator(6, Associativity.LEFT)
+        object Minus : Operator(6, Associativity.LEFT)
+        object Multiplication : Operator(7, Associativity.LEFT)
+        object Division : Operator(7, Associativity.LEFT)
+        object Modulo : Operator(7, Associativity.LEFT)
+        object Power : Operator(9, Associativity.RIGHT)
         object UnaryMinus : Operator(10, Associativity.RIGHT)
         object UnaryPlus : Operator(10, Associativity.RIGHT)
 
@@ -52,15 +52,15 @@ sealed interface Token {
             val functionArgs = mutableListOf<Any>()
             args.forEach {
                 when (it) {
-                    is Operand.Num -> functionArgs.add(it.value)
-                    is Operand.Bool -> functionArgs.add(it.value)
+                    is Operand.Number -> functionArgs.add(it.value)
+                    is Operand.Boolean -> functionArgs.add(it.value)
                     else -> error("operand type ${it::class.simpleName} is not supported in function calls")
                 }
             }
 
             return when (val result = function(functionArgs)) {
-                is Number -> Operand.Num(result.toDouble())
-                is Boolean -> Operand.Bool(result)
+                is Number -> Operand.Number(result.toDouble())
+                is Boolean -> Operand.Boolean(result)
                 else -> error("function return type ${result::class.simpleName} is not supported")
             }
         }
@@ -73,7 +73,5 @@ sealed interface Token {
         object Right : Bracket()
     }
 
-    enum class Associativity {
-        LEFT, RIGHT
-    }
+    enum class Associativity { LEFT, RIGHT }
 }

@@ -15,7 +15,7 @@ class FunctionsTest {
     @Test
     fun one_argument_function() {
         val expression = listOf(
-            Token.Operand.Num(10),
+            Token.Operand.Number(10),
             Token.FunctionCall(1, DefaultFunctions.COS),
         )
 
@@ -25,8 +25,8 @@ class FunctionsTest {
     @Test
     fun two_arguments_function() {
         val expression = listOf(
-            Token.Operand.Num(10),
-            Token.Operand.Num(2),
+            Token.Operand.Number(10),
+            Token.Operand.Number(2),
             Token.FunctionCall(2, DefaultFunctions.LOG),
         )
 

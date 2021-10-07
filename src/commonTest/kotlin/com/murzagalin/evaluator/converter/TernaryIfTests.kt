@@ -33,7 +33,7 @@ class TernaryIfTests {
     fun convert_with_ternary_if_with_sum_in_condition() {
         val expression = listOf(
             Token.Operand.Variable("z"),
-            Token.Operator.Sum,
+            Token.Operator.Plus,
             Token.Operand.Variable("a"),
             Token.Operator.TernaryIf,
             Token.Operand.Variable("b"),
@@ -45,7 +45,7 @@ class TernaryIfTests {
             listOf(
                 Token.Operand.Variable("z"),
                 Token.Operand.Variable("a"),
-                Token.Operator.Sum,
+                Token.Operator.Plus,
                 Token.Operand.Variable("b"),
                 Token.Operand.Variable("c"),
                 Token.Operator.TernaryIfElse
@@ -58,7 +58,7 @@ class TernaryIfTests {
     fun convert_sum_with_ternary_if() {
         val expression = listOf(
             Token.Operand.Variable("z"),
-            Token.Operator.Sum,
+            Token.Operator.Plus,
             Token.Bracket.Left,
             Token.Operand.Variable("a"),
             Token.Operator.TernaryIf,
@@ -75,7 +75,7 @@ class TernaryIfTests {
                 Token.Operand.Variable("b"),
                 Token.Operand.Variable("c"),
                 Token.Operator.TernaryIfElse,
-                Token.Operator.Sum
+                Token.Operator.Plus
             ),
             subject.convert(expression).expression
         )
