@@ -1,6 +1,6 @@
 package com.murzagalin.evaluator.integration
 
-import com.murzagalin.evaluator.evaluateDouble
+import com.murzagalin.evaluator.Evaluator
 import kotlin.math.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -8,44 +8,46 @@ import kotlin.test.assertFailsWith
 
 class FunctionsTests {
 
+    private val evaluator = Evaluator()
+
     @Test
     fun simple_functions_calls() {
-        assertEquals(cos(1.0), "cos(1.0)".evaluateDouble())
-        assertEquals(ln(2.0), "ln(2.0)".evaluateDouble())
-        assertEquals(sin(1.0), "sin(1.0)".evaluateDouble())
-        assertEquals(log(2.0, 3.0), "log(2.0, 3.0)".evaluateDouble())
-        assertEquals(sin(1.0), "sin(min(1, 2))".evaluateDouble())
-        assertEquals(sin(2.0), "sin(max(1, 2))".evaluateDouble())
-        assertEquals(sin(1.0), "min(sin(1), max(2, 3, 4))".evaluateDouble())
-        assertEquals(2.0, "max(sin(1), min(2, 3, 4))".evaluateDouble())
+        assertEquals(cos(1.0), evaluator.evaluateDouble("cos(1.0)"))
+        assertEquals(ln(2.0), evaluator.evaluateDouble("ln(2.0)"))
+        assertEquals(sin(1.0), evaluator.evaluateDouble("sin(1.0)"))
+        assertEquals(log(2.0, 3.0), evaluator.evaluateDouble("log(2.0, 3.0)"))
+        assertEquals(sin(1.0), evaluator.evaluateDouble("sin(min(1, 2))"))
+        assertEquals(sin(2.0), evaluator.evaluateDouble("sin(max(1, 2))"))
+        assertEquals(sin(1.0), evaluator.evaluateDouble("min(sin(1), max(2, 3, 4))"))
+        assertEquals(2.0, evaluator.evaluateDouble("max(sin(1), min(2, 3, 4))"))
     }
 
     @Test
     fun expressions_with_functions() {
-        assertEquals(1 + cos(1.0*12 + 3), "1 + cos(1.0*12+3)".evaluateDouble())
-        assertEquals(2 * ln(2.0.pow(3)), "2*ln(2.0^3)".evaluateDouble())
-        assertEquals(4*sin(1.0*ln(12.0)), "4*sin(1.0*ln(12))".evaluateDouble())
-        assertEquals(5*sin(1.0+99.0+234)+-1, "5*sin(1.0+99.0 +234)+-1".evaluateDouble())
-        assertEquals(37.0, "3^3 + 5 * max(sin(1), min(2, 3, 4))".evaluateDouble())
+        assertEquals(1 + cos(1.0*12 + 3), evaluator.evaluateDouble("1 + cos(1.0*12+3)"))
+        assertEquals(2 * ln(2.0.pow(3)), evaluator.evaluateDouble("2*ln(2.0^3)"))
+        assertEquals(4*sin(1.0*ln(12.0)), evaluator.evaluateDouble("4*sin(1.0*ln(12))"))
+        assertEquals(5*sin(1.0+99.0+234)+-1, evaluator.evaluateDouble("5*sin(1.0+99.0 +234)+-1"))
+        assertEquals(37.0, evaluator.evaluateDouble("3^3 + 5 * max(sin(1), min(2, 3, 4))"))
     }
 
     @Test
     fun evaluated_arguments_in_multiarg_functions() {
-        assertEquals(log(2*2.0,3.0), "log(2*2, 3)".evaluateDouble())
-        assertEquals(6*log(2.0*12, 3.0.pow(4)), "6*log(2.0*12, 3.0^4)".evaluateDouble())
+        assertEquals(log(2*2.0,3.0), evaluator.evaluateDouble("log(2*2, 3)"))
+        assertEquals(6*log(2.0*12, 3.0.pow(4)), evaluator.evaluateDouble("6*log(2.0*12, 3.0^4)"))
     }
 
     @Test
     fun wrong_number_of_arguments() {
-        assertFailsWith<IllegalArgumentException> { "min()".evaluateDouble() }
-        assertFailsWith<IllegalArgumentException> { "cos(2, 3)".evaluateDouble() }
-        assertFailsWith<IllegalArgumentException> { "log(2)".evaluateDouble() }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateDouble("min()") }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateDouble("cos(2, 3)") }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateDouble("log(2)") }
     }
 
     @Test
     fun wrong_arguments_types() {
-        assertFailsWith<IllegalArgumentException> { "min(true, false)".evaluateDouble() }
-        assertFailsWith<IllegalArgumentException> { "cos(true)".evaluateDouble() }
-        assertFailsWith<IllegalArgumentException> { "ln(var)".evaluateDouble(mapOf("var" to true)) }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateDouble("min(true, false)") }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateDouble("cos(true)") }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateDouble("ln(var)", mapOf("var" to true)) }
     }
 }

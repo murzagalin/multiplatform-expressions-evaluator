@@ -1,6 +1,6 @@
 package com.murzagalin.evaluator
 
-class Tokenizer(
+internal class Tokenizer(
     private val doubleDelimiter: Char = '.',
     private val argumentsDelimiter: Char = ',',
     functions: List<Function> = DefaultFunctions.ALL

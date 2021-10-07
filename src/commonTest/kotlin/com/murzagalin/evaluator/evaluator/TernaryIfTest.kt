@@ -2,6 +2,7 @@ package com.murzagalin.evaluator.evaluator
 
 import com.murzagalin.evaluator.BooleanEvaluator
 import com.murzagalin.evaluator.DoubleEvaluator
+import com.murzagalin.evaluator.PreprocessedExpression
 import com.murzagalin.evaluator.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,22 +17,26 @@ class TernaryIfTest {
         assertEquals(
             1.0,
             doubleEvaluator.evaluate(
-                listOf(
-                    Token.Operand.Bool(true),
-                    Token.Operand.Num(1),
-                    Token.Operand.Num(2),
-                    Token.Operator.TernaryIfElse
+                PreprocessedExpression(
+                    listOf(
+                        Token.Operand.Bool(true),
+                        Token.Operand.Num(1),
+                        Token.Operand.Num(2),
+                        Token.Operator.TernaryIfElse
+                    )
                 )
             )
         )
         assertEquals(
             2.0,
             doubleEvaluator.evaluate(
-                listOf(
-                    Token.Operand.Bool(false),
-                    Token.Operand.Num(1),
-                    Token.Operand.Num(2),
-                    Token.Operator.TernaryIfElse
+                PreprocessedExpression(
+                    listOf(
+                        Token.Operand.Bool(false),
+                        Token.Operand.Num(1),
+                        Token.Operand.Num(2),
+                        Token.Operator.TernaryIfElse
+                    )
                 )
             )
         )
@@ -42,22 +47,26 @@ class TernaryIfTest {
         assertEquals(
             true,
             booleanEvaluator.evaluate(
-                listOf(
-                    Token.Operand.Bool(true),
-                    Token.Operand.Bool(true),
-                    Token.Operand.Bool(false),
-                    Token.Operator.TernaryIfElse
+                PreprocessedExpression(
+                    listOf(
+                        Token.Operand.Bool(true),
+                        Token.Operand.Bool(true),
+                        Token.Operand.Bool(false),
+                        Token.Operator.TernaryIfElse
+                    )
                 )
             )
         )
         assertEquals(
             false,
             booleanEvaluator.evaluate(
-                listOf(
-                    Token.Operand.Bool(false),
-                    Token.Operand.Bool(true),
-                    Token.Operand.Bool(false),
-                    Token.Operator.TernaryIfElse
+                PreprocessedExpression(
+                    listOf(
+                        Token.Operand.Bool(false),
+                        Token.Operand.Bool(true),
+                        Token.Operand.Bool(false),
+                        Token.Operator.TernaryIfElse
+                    )
                 )
             )
         )
@@ -68,22 +77,26 @@ class TernaryIfTest {
     fun failed_if_else() {
         assertFailsWith<IllegalArgumentException> {
             booleanEvaluator.evaluate(
-                listOf(
-                    Token.Operand.Bool(true),
-                    Token.Operand.Num(1),
-                    Token.Operand.Bool(false),
-                    Token.Operator.TernaryIfElse
+                PreprocessedExpression(
+                    listOf(
+                        Token.Operand.Bool(true),
+                        Token.Operand.Num(1),
+                        Token.Operand.Bool(false),
+                        Token.Operator.TernaryIfElse
+                    )
                 )
             )
         }
 
         assertFailsWith<IllegalArgumentException> {
             booleanEvaluator.evaluate(
-                listOf(
-                    Token.Operand.Num(1),
-                    Token.Operand.Bool(true),
-                    Token.Operand.Bool(false),
-                    Token.Operator.TernaryIfElse
+                PreprocessedExpression(
+                    listOf(
+                        Token.Operand.Num(1),
+                        Token.Operand.Bool(true),
+                        Token.Operand.Bool(false),
+                        Token.Operator.TernaryIfElse
+                    )
                 )
             )
         }

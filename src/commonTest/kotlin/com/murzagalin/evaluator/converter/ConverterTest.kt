@@ -25,7 +25,7 @@ class ConverterTest {
                 Token.Operand.Num(3),
                 Token.Operator.Sum
             ),
-            result
+            result.expression
         )
     }
 
@@ -44,7 +44,7 @@ class ConverterTest {
                 Token.Operand.Num(6),
                 Token.Operator.Mult
             ),
-            result
+            result.expression
         )
     }
 
@@ -63,7 +63,7 @@ class ConverterTest {
                 Token.Operand.Num(1),
                 Token.Operator.Sub
             ),
-            result
+            result.expression
         )
     }
 
@@ -82,7 +82,7 @@ class ConverterTest {
                 Token.Operand.Num(6),
                 Token.Operator.Div
             ),
-            result
+            result.expression
         )
     }
 
@@ -105,7 +105,7 @@ class ConverterTest {
                 Token.Operator.Mult,
                 Token.Operator.Sum,
             ),
-            result
+            result.expression
         )
     }
 
@@ -128,7 +128,7 @@ class ConverterTest {
                 Token.Operator.Mod,
                 Token.Operator.Sum,
             ),
-            result
+            result.expression
         )
     }
 
@@ -151,7 +151,7 @@ class ConverterTest {
                 Token.Operand.Num(4),
                 Token.Operator.Sum,
             ),
-            result
+            result.expression
         )
     }
 
@@ -174,7 +174,7 @@ class ConverterTest {
                 Token.Operator.Mult,
                 Token.Operator.Sub,
             ),
-            result
+            result.expression
         )
     }
 
@@ -197,7 +197,7 @@ class ConverterTest {
                 Token.Operand.Num(4),
                 Token.Operator.Mult,
             ),
-            result
+            result.expression
         )
     }
 
@@ -220,7 +220,7 @@ class ConverterTest {
                 Token.Operator.Pow,
                 Token.Operator.Div
             ),
-            result
+            result.expression
         )
     }
 
@@ -245,7 +245,7 @@ class ConverterTest {
                 Token.Operand.Num(9),
                 Token.Operator.Mult
             ),
-            result
+            result.expression
         )
     }
 
@@ -300,7 +300,7 @@ class ConverterTest {
                 Token.Operand.Num(9),
                 Token.Operator.Pow
             ),
-            result
+            result.expression
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.murzagalin.evaluator.evaluator
 
 import com.murzagalin.evaluator.DoubleEvaluator
+import com.murzagalin.evaluator.PreprocessedExpression
 import com.murzagalin.evaluator.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,7 +12,8 @@ class VariableTest {
 
     @Test
     fun just_variable_test() {
-        val expression = listOf(Token.Operand.Variable("var1"))
+        val rawExpression = listOf(Token.Operand.Variable("var1"))
+        val expression = PreprocessedExpression(rawExpression)
         val values = mapOf("var1" to 3.0)
         assertEquals(
             3.0,
@@ -21,11 +23,12 @@ class VariableTest {
 
     @Test
     fun multiplication_of_two_variables() {
-        val expression = listOf(
+        val rawExpression = listOf(
             Token.Operand.Variable("x"),
             Token.Operand.Variable("y"),
             Token.Operator.Mult
         )
+        val expression = PreprocessedExpression(rawExpression)
         assertEquals(
             0.0,
             subject.evaluate(expression, mapOf("x" to 0.0, "y" to 1.2))

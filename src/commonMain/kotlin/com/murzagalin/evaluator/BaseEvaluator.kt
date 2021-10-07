@@ -2,12 +2,15 @@ package com.murzagalin.evaluator
 
 import kotlin.math.*
 
-abstract class BaseEvaluator {
+internal abstract class BaseEvaluator {
 
-    protected fun evaluateInternal(postfixExpression: List<Token>, values: Map<String, Any> = emptyMap()): Token {
+    protected fun evaluateInternal(
+        postfixExpression: PreprocessedExpression,
+        values: Map<String, Any> = emptyMap()
+    ): Token {
         val temp = ArrayDeque<Token>()
 
-        for (token in postfixExpression) {
+        for (token in postfixExpression.expression) {
             val newToken = when (token) {
                 is Token.Operand.Num -> token
                 is Token.Operand.Bool -> token
@@ -118,7 +121,9 @@ abstract class BaseEvaluator {
     protected val ArrayDeque<Token>.popLastNum: Token.Operand.Num
         get() {
             val last = removeLast()
-            require(last is Token.Operand.Num)
+            require(last is Token.Operand.Num) {
+                "Expected number operand, but token is ${last::class.simpleName}"
+            }
 
             return last
         }
@@ -126,7 +131,9 @@ abstract class BaseEvaluator {
     protected val ArrayDeque<Token>.popLastBool: Token.Operand.Bool
         get() {
             val last = removeLast()
-            require(last is Token.Operand.Bool)
+            require(last is Token.Operand.Bool) {
+                "Expected boolean operand, but token is ${last::class.simpleName}"
+            }
 
             return last
         }
@@ -134,7 +141,9 @@ abstract class BaseEvaluator {
     protected val ArrayDeque<Token>.popLastOperand: Token.Operand
         get() {
             val last = removeLast()
-            require(last is Token.Operand)
+            require(last is Token.Operand) {
+                "Expected operand, but token is ${last::class.simpleName}"
+            }
 
             return last
         }

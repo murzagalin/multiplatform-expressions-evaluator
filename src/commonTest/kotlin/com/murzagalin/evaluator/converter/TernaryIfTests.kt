@@ -25,7 +25,7 @@ class TernaryIfTests {
                 Token.Operand.Variable("c"),
                 Token.Operator.TernaryIfElse
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -50,7 +50,7 @@ class TernaryIfTests {
                 Token.Operand.Variable("c"),
                 Token.Operator.TernaryIfElse
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -77,7 +77,7 @@ class TernaryIfTests {
                 Token.Operator.TernaryIfElse,
                 Token.Operator.Sum
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -105,7 +105,7 @@ class TernaryIfTests {
                 Token.Operator.TernaryIfElse,
                 Token.Operator.TernaryIfElse
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -133,7 +133,7 @@ class TernaryIfTests {
                 Token.Operand.Variable("b"),
                 Token.Operator.TernaryIfElse
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -163,7 +163,7 @@ class TernaryIfTests {
                 Token.Operand.Variable("b"),
                 Token.Operator.TernaryIfElse
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 

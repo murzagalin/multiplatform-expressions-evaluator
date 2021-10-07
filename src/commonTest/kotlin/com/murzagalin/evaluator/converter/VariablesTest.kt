@@ -23,7 +23,7 @@ class VariablesTest {
                 Token.Operand.Num(3.0),
                 Token.Operator.Sum
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -45,7 +45,7 @@ class VariablesTest {
                 Token.Operator.Pow,
                 Token.Operator.Mult
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 }

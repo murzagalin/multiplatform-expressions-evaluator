@@ -1,8 +1,8 @@
 package com.murzagalin.evaluator
 
-class DoubleEvaluator : BaseEvaluator() {
+internal class DoubleEvaluator : BaseEvaluator() {
 
-    fun evaluate(postfixExpression: List<Token>, values: Map<String, Any> = emptyMap()): Double {
+    fun evaluate(postfixExpression: PreprocessedExpression, values: Map<String, Any> = emptyMap()): Double {
         val evaluatedToken = evaluateInternal(postfixExpression, values)
 
         require(evaluatedToken is Token.Operand.Num)

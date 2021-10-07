@@ -2,6 +2,7 @@ package com.murzagalin.evaluator.evaluator
 
 import com.murzagalin.evaluator.DefaultFunctions
 import com.murzagalin.evaluator.DoubleEvaluator
+import com.murzagalin.evaluator.PreprocessedExpression
 import com.murzagalin.evaluator.Token
 import kotlin.math.cos
 import kotlin.math.log
@@ -18,7 +19,7 @@ class FunctionsTest {
             Token.FunctionCall(1, DefaultFunctions.COS),
         )
 
-        assertEquals(cos(10.0), doubleEvaluator.evaluate(expression))
+        assertEquals(cos(10.0), doubleEvaluator.evaluate(PreprocessedExpression(expression)))
     }
 
     @Test
@@ -29,6 +30,6 @@ class FunctionsTest {
             Token.FunctionCall(2, DefaultFunctions.LOG),
         )
 
-        assertEquals(log(10.0, 2.0), doubleEvaluator.evaluate(expression))
+        assertEquals(log(10.0, 2.0), doubleEvaluator.evaluate(PreprocessedExpression(expression)))
     }
 }

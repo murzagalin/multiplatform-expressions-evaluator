@@ -25,7 +25,7 @@ class FunctionTest {
                 Token.Operand.Num(10.0),
                 Token.FunctionCall(1, DefaultFunctions.COS),
             ),
-            result
+            result.expression
         )
     }
 
@@ -48,7 +48,7 @@ class FunctionTest {
                 Token.FunctionCall(1, DefaultFunctions.COS),
                 Token.Operator.Sum
             ),
-            result
+            result.expression
         )
     }
 
@@ -71,7 +71,7 @@ class FunctionTest {
                 Token.FunctionCall(1, DefaultFunctions.LN),
                 Token.FunctionCall(1, DefaultFunctions.COS),
             ),
-            result
+            result.expression
         )
     }
 
@@ -92,7 +92,7 @@ class FunctionTest {
                 Token.Operand.Num(12.0),
                 Token.FunctionCall(2, DefaultFunctions.LOG)
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 
@@ -116,7 +116,7 @@ class FunctionTest {
                 Token.Operand.Num(3),
                 Token.FunctionCall(2, DefaultFunctions.LOG)
             ),
-            subject.convert(expression)
+            subject.convert(expression).expression
         )
     }
 }

@@ -1,8 +1,8 @@
 package com.murzagalin.evaluator
 
-class Converter {
+internal class Converter {
 
-    fun convert(expression: List<Token>): List<Token> {
+    fun convert(expression: List<Token>): PreprocessedExpression {
         val output = mutableListOf<Token>()
         val operators = ArrayDeque<Token>()
 
@@ -53,7 +53,7 @@ class Converter {
             output.add(operators.removeLast())
         }
 
-        return output
+        return PreprocessedExpression(output)
     }
 
     private fun checkSyntax(expression: List<Token>) {

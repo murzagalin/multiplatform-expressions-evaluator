@@ -1,8 +1,8 @@
 package com.murzagalin.evaluator
 
-class BooleanEvaluator : BaseEvaluator() {
+internal class BooleanEvaluator : BaseEvaluator() {
 
-    fun evaluate(postfixExpression: List<Token>, values: Map<String, Any> = emptyMap()): Boolean {
+    fun evaluate(postfixExpression: PreprocessedExpression, values: Map<String, Any> = emptyMap()): Boolean {
         val evaluatedToken = evaluateInternal(postfixExpression, values)
 
         require(evaluatedToken is Token.Operand.Bool)
