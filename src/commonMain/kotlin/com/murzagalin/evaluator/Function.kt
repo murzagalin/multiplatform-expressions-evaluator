@@ -26,7 +26,7 @@ abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Fu
         }
         val operand = args[0]
         require(operand is Number) {
-            "$name is called with argument type ${kotlin.Number::class.simpleName}, but supports only numbers"
+            "$name is called with argument type ${Number::class.simpleName}, but supports only numbers"
         }
 
         return invokeInternal(operand)

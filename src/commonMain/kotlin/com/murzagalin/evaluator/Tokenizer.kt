@@ -3,7 +3,8 @@ package com.murzagalin.evaluator
 internal class Tokenizer(
     private val doubleDelimiter: Char = '.',
     private val argumentsDelimiter: Char = ',',
-    functions: List<Function> = DefaultFunctions.ALL
+    functions: List<Function> = DefaultFunctions.ALL,
+    constants: List<Constant> = DefaultConstants.ALL
 ) {
 
     companion object {
@@ -12,6 +13,7 @@ internal class Tokenizer(
     }
 
     private val functionsMap = functions.associateBy { it.name }
+    private val constantsMap = constants.associate { it.name to it.value }
 
     fun tokenize(expression: String): List<Token> {
         val parsed = parse(expression)
@@ -104,18 +106,20 @@ internal class Tokenizer(
 
     private fun String.parseVarOrConstOrFunction(): PUnit {
         var lastIxOfName = indexOfFirst { it !in letterChars && it !in digitChars }
+        if (lastIxOfName == -1) lastIxOfName = length
+        val name = substring(0, lastIxOfName)
+        val constant = constantsMap[name]
 
-        return if (lastIxOfName != -1 && get(lastIxOfName) == '(') {
-            val functionName = substring(0, lastIxOfName)
-            val function = requireNotNull(functionsMap[functionName]) { "function not found $functionName" }
-            val argsCount = getArgsCount(this, functionName)
-            require(argsCount in function.argsCount) { "function $functionName is called with wrong number of parameters" }
+        return when {
+            lastIxOfName != length && get(lastIxOfName) == '(' -> {
+                val function = requireNotNull(functionsMap[name]) { "function not found $name" }
+                val argsCount = getArgsCount(this, name)
+                require(argsCount in function.argsCount) { "function $name is called with wrong number of parameters" }
 
-            ParsedUnit(Token.FunctionCall(argsCount, function), functionName.length)
-        } else {
-            if (lastIxOfName == -1) lastIxOfName = length
-
-            ParsedUnit(Token.Operand.Variable(substring(0, lastIxOfName)), lastIxOfName)
+                PUnit(Token.FunctionCall(argsCount, function), name.length)
+            }
+            constant != null -> PUnit(Token.Operand.Number(constant), lastIxOfName)
+            else -> PUnit(Token.Operand.Variable(substring(0, lastIxOfName)), lastIxOfName)
         }
     }
 
