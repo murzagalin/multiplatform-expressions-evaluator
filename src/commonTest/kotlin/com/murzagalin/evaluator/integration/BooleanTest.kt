@@ -3,6 +3,7 @@ package com.murzagalin.evaluator.integration
 import com.murzagalin.evaluator.Evaluator
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class BooleanTest {
 
@@ -35,6 +36,8 @@ class BooleanTest {
     fun not() {
         assertEquals(false, evaluator.evaluateBoolean("!true"))
         assertEquals(true, evaluator.evaluateBoolean("!false"))
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateBoolean("false!") }
+        assertFailsWith<IllegalArgumentException> { evaluator.evaluateBoolean("true!") }
     }
 
     @Test

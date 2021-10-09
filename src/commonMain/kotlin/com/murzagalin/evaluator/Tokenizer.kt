@@ -23,7 +23,7 @@ internal class Tokenizer(
         return parsed.tokens
     }
 
-    private fun parse(expression: String): ParsedUnit {
+    private fun parse(expression: String): PUnit {
         val result = mutableListOf<Token>()
         var indexOffset = 0
 
@@ -40,61 +40,69 @@ internal class Tokenizer(
             }
         }
 
-        return ParsedUnit(result, indexOffset)
+        return PUnit(result, indexOffset)
     }
 
-    private fun parseNextUnit(restOfExpression: String, result: List<Token>): ParsedUnit? {
-        val symbol = restOfExpression.first()
+    private fun parseNextUnit(str: String, result: List<Token>): PUnit? {
+        val symbol = str.first()
 
         return when {
-            restOfExpression.startsWith("true") -> ParsedUnit(Token.Operand.Boolean(true), 4)
-            restOfExpression.startsWith("false") -> ParsedUnit(Token.Operand.Boolean(false), 5)
-            restOfExpression.startsWith("&&") -> ParsedUnit(Token.Operator.And, 2)
-            restOfExpression.startsWith("||") -> ParsedUnit(Token.Operator.Or, 2)
-            restOfExpression.startsWith("<=") -> ParsedUnit(Token.Operator.LessEqualThan, 2)
-            restOfExpression.startsWith(">=") -> ParsedUnit(Token.Operator.GreaterEqualThan, 2)
-            restOfExpression.startsWith("==") -> ParsedUnit(Token.Operator.Equal, 2)
-            restOfExpression.startsWith("!=") -> ParsedUnit(Token.Operator.NotEqual, 2)
-            symbol in digitChars -> restOfExpression.parseStartingNumber()
-            symbol in letterChars -> restOfExpression.parseVarOrFunction()
-            symbol == argumentsDelimiter -> ParsedUnit(Token.FunctionCall.Delimiter, 1)
-            symbol == '+' -> getPlus(result)
-            symbol == '-' -> getMinus(result)
-            symbol == '%' -> ParsedUnit(Token.Operator.Modulo, 1)
-            symbol == '*' -> ParsedUnit(Token.Operator.Multiplication, 1)
-            symbol == '/' -> ParsedUnit(Token.Operator.Division, 1)
-            symbol == '^' -> ParsedUnit(Token.Operator.Power, 1)
-            symbol == '(' -> ParsedUnit(Token.Bracket.Left, 1)
-            symbol == ')' -> ParsedUnit(Token.Bracket.Right, 1)
-            symbol == '<' -> ParsedUnit(Token.Operator.LessThan, 1)
-            symbol == '>' -> ParsedUnit(Token.Operator.GreaterThan, 1)
-            symbol == '!' -> ParsedUnit(Token.Operator.Not, 1)
-            symbol == '?' -> ParsedUnit(Token.Operator.TernaryIf, 1)
-            symbol == ':' -> ParsedUnit(Token.Operator.TernaryElse, 1)
+            str.startsWith("true") -> PUnit(Token.Operand.Boolean(true), 4)
+            str.startsWith("false") -> PUnit(Token.Operand.Boolean(false), 5)
+            str.startsWith("&&") && str.requireOp("&&") -> PUnit(Token.Operator.And, 2)
+            str.startsWith("||") && str.requireOp("||") -> PUnit(Token.Operator.Or, 2)
+            str.startsWith("<=") && str.requireOp("<=") -> PUnit(Token.Operator.LessEqualThan, 2)
+            str.startsWith(">=") && str.requireOp(">=") -> PUnit(Token.Operator.GreaterEqualThan, 2)
+            str.startsWith("==") && str.requireOp("==") -> PUnit(Token.Operator.Equal, 2)
+            str.startsWith("!=") && str.requireOp("!=") -> PUnit(Token.Operator.NotEqual, 2)
+            symbol in digitChars -> str.parseStartingNumber()
+            symbol in letterChars -> str.parseVarOrConstOrFunction()
+            symbol == argumentsDelimiter -> PUnit(Token.FunctionCall.Delimiter, 1)
+            symbol == '+' && str.requireOp(symbol) -> getPlus(result)
+            symbol == '-' && str.requireOp(symbol) -> getMinus(result)
+            symbol == '%' && str.requireOp(symbol) -> PUnit(Token.Operator.Modulo, 1)
+            symbol == '*' && str.requireOp(symbol) -> PUnit(Token.Operator.Multiplication, 1)
+            symbol == '/' && str.requireOp(symbol) -> PUnit(Token.Operator.Division, 1)
+            symbol == '^' && str.requireOp(symbol) -> PUnit(Token.Operator.Power, 1)
+            symbol == ')' -> PUnit(Token.Bracket.Right, 1)
+            symbol == '(' && str.requireOp(symbol) -> PUnit(Token.Bracket.Left, 1)
+            symbol == '<' && str.requireOp(symbol) -> PUnit(Token.Operator.LessThan, 1)
+            symbol == '>' && str.requireOp(symbol) -> PUnit(Token.Operator.GreaterThan, 1)
+            symbol == '!' && str.requireOp(symbol) -> PUnit(Token.Operator.Not, 1)
+            symbol == '?' && str.requireOp(symbol) -> PUnit(Token.Operator.TernaryIf, 1)
+            symbol == ':' && str.requireOp(symbol) -> PUnit(Token.Operator.TernaryElse, 1)
             else -> null
         }
     }
 
-    private fun getPlus(result: List<Token>) = ParsedUnit(
+    private fun String.requireOp(str: String): Boolean {
+        require(length > str.length) { "Malformed expression. '$str' requires operand after it" }
+
+        return true
+    }
+
+    private fun String.requireOp(c: Char) = requireOp(c.toString())
+
+    private fun getPlus(result: List<Token>) = PUnit(
         if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Plus,
         1
     )
 
-    private fun getMinus(result: List<Token>) = ParsedUnit(
+    private fun getMinus(result: List<Token>) = PUnit(
         if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryMinus else Token.Operator.Minus,
         1
     )
 
-    private fun String.parseStartingNumber(): ParsedUnit {
+    private fun String.parseStartingNumber(): PUnit {
         var lastIxOfNumber = indexOfFirst { it !in (digitChars + doubleDelimiter) }
         if (lastIxOfNumber == -1) lastIxOfNumber = length
         val strNum = substring(0, lastIxOfNumber)
         val parsedNumber = requireNotNull(strNum.toDoubleOrNull()) { "error parsing number '$strNum'" }
 
-        return ParsedUnit(Token.Operand.Number(parsedNumber), lastIxOfNumber)
+        return PUnit(Token.Operand.Number(parsedNumber), lastIxOfNumber)
     }
 
-    private fun String.parseVarOrFunction(): ParsedUnit {
+    private fun String.parseVarOrConstOrFunction(): PUnit {
         var lastIxOfName = indexOfFirst { it !in letterChars && it !in digitChars }
 
         return if (lastIxOfName != -1 && get(lastIxOfName) == '(') {
@@ -135,7 +143,7 @@ internal class Tokenizer(
                 result.last() !is Token.Operand.Variable
     }
 
-    private data class ParsedUnit(
+    private data class PUnit(
         val tokens: List<Token>,
         val indexOffset: Int
     ) {
