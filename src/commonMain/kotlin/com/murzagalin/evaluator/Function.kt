@@ -1,9 +1,6 @@
 package com.murzagalin.evaluator
 
-import kotlin.math.cos
-import kotlin.math.ln
-import kotlin.math.log
-import kotlin.math.sin
+import kotlin.math.*
 
 abstract class Function(
     val name: String,
@@ -40,12 +37,56 @@ abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Fu
 
 object DefaultFunctions {
 
+    val ABS = object: OneNumberArgumentFunction("abs", 1) {
+        override fun invokeInternal(arg: Number) = abs(arg.toDouble())
+    }
+
+    val ACOS = object: OneNumberArgumentFunction("acos", 1) {
+        override fun invokeInternal(arg: Number) = acos(arg.toDouble())
+    }
+
+    val ASIN = object: OneNumberArgumentFunction("asin", 1) {
+        override fun invokeInternal(arg: Number) = asin(arg.toDouble())
+    }
+
+    val ATAN = object: OneNumberArgumentFunction("atan", 1) {
+        override fun invokeInternal(arg: Number) = atan(arg.toDouble())
+    }
+
     val COS = object: OneNumberArgumentFunction("cos", 1) {
         override fun invokeInternal(arg: Number) = cos(arg.toDouble())
     }
 
+    val COSH = object: OneNumberArgumentFunction("cosh", 1) {
+        override fun invokeInternal(arg: Number) = cosh(arg.toDouble())
+    }
+
+    val SINH = object: OneNumberArgumentFunction("sinh", 1) {
+        override fun invokeInternal(arg: Number) = sinh(arg.toDouble())
+    }
+
     val SIN = object: OneNumberArgumentFunction("sin", 1) {
         override fun invokeInternal(arg: Number) = sin(arg.toDouble())
+    }
+
+    val TAN = object: OneNumberArgumentFunction("tan", 1) {
+        override fun invokeInternal(arg: Number) = tan(arg.toDouble())
+    }
+
+    val TANH = object: OneNumberArgumentFunction("tanh", 1) {
+        override fun invokeInternal(arg: Number) = tanh(arg.toDouble())
+    }
+
+    val CEIL = object: OneNumberArgumentFunction("ceil", 1) {
+        override fun invokeInternal(arg: Number) = ceil(arg.toDouble())
+    }
+
+    val FLOOR = object: OneNumberArgumentFunction("floor", 1) {
+        override fun invokeInternal(arg: Number) = floor(arg.toDouble())
+    }
+
+    val ROUND = object: OneNumberArgumentFunction("round", 1) {
+        override fun invokeInternal(arg: Number) = round(arg.toDouble())
     }
 
     val LN = object: OneNumberArgumentFunction("ln", 1) {
@@ -80,6 +121,32 @@ object DefaultFunctions {
         }
     }
 
+    val AVG = object: Function("avg", 2..Int.MAX_VALUE) {
+        override fun invoke(args: List<Any>): Any {
+            require(args.size > 1) {
+                "$name should be called with at least 2 arguments"
+            }
+            require(args.all { it is Number }) {
+                "$name function requires all arguments to be numbers"
+            }
+
+            return args.map { (it as Number).toDouble() }.average()
+        }
+    }
+
+    val SUM = object: Function("sum", 2..Int.MAX_VALUE) {
+        override fun invoke(args: List<Any>): Any {
+            require(args.size > 1) {
+                "$name should be called with at least 2 arguments"
+            }
+            require(args.all { it is Number }) {
+                "$name function requires all arguments to be numbers"
+            }
+
+            return args.sumOf { (it as Number).toDouble() }
+        }
+    }
+
     val MAX = object: Function("max", 2..Int.MAX_VALUE) {
         override fun invoke(args: List<Any>): Any {
             require(args.size > 1) {
@@ -93,5 +160,5 @@ object DefaultFunctions {
         }
     }
 
-    val ALL = listOf(COS, SIN, LN, LOG, MIN, MAX)
+    val ALL = listOf(ABS, ACOS, ASIN, ATAN, COS, COSH, SINH, SIN, TAN, TANH, CEIL, FLOOR, ROUND, LN, LOG, MIN, MAX, AVG, SUM)
 }
