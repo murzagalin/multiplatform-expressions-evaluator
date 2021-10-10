@@ -58,7 +58,7 @@ sealed interface Token {
                 }
             }
 
-            return when (val result = function(functionArgs)) {
+            return when (val result = function(*functionArgs.toTypedArray())) {
                 is Number -> Operand.Number(result.toDouble())
                 is Boolean -> Operand.Boolean(result)
                 else -> error("function return type ${result::class.simpleName} is not supported")

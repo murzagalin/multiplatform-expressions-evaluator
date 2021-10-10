@@ -11,7 +11,7 @@ abstract class Function(
 
     constructor(name: String, minArgsCount: Int, maxArgsCount: Int): this(name, minArgsCount..maxArgsCount)
 
-    abstract operator fun invoke(args: List<Any>): Any
+    abstract operator fun invoke(vararg args: Any): Any
 }
 
 abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Function(name, argsCount) {
@@ -20,7 +20,7 @@ abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Fu
 
     constructor(name: String, minArgsCount: Int, maxArgsCount: Int): this(name, minArgsCount..maxArgsCount)
 
-    override fun invoke(args: List<Any>): Any {
+    override fun invoke(vararg args: Any): Any {
         require(args.size == 1) {
             "$name function requires 1 argument"
         }
@@ -94,7 +94,7 @@ object DefaultFunctions {
     }
 
     val LOG = object: Function("log", 2) {
-        override fun invoke(args: List<Any>): Any {
+        override fun invoke(vararg args: Any): Any {
             val operand = args[0]
             val base = args[1]
             require(operand is Number) {
@@ -109,7 +109,7 @@ object DefaultFunctions {
     }
 
     val MIN = object: Function("min", 2..Int.MAX_VALUE) {
-        override fun invoke(args: List<Any>): Any {
+        override fun invoke(vararg args: Any): Any {
             require(args.size > 1) {
                 "$name should be called with at least 2 arguments"
             }
@@ -122,7 +122,7 @@ object DefaultFunctions {
     }
 
     val AVG = object: Function("avg", 2..Int.MAX_VALUE) {
-        override fun invoke(args: List<Any>): Any {
+        override fun invoke(vararg args: Any): Any {
             require(args.size > 1) {
                 "$name should be called with at least 2 arguments"
             }
@@ -135,7 +135,7 @@ object DefaultFunctions {
     }
 
     val SUM = object: Function("sum", 2..Int.MAX_VALUE) {
-        override fun invoke(args: List<Any>): Any {
+        override fun invoke(vararg args: Any): Any {
             require(args.size > 1) {
                 "$name should be called with at least 2 arguments"
             }
@@ -148,7 +148,7 @@ object DefaultFunctions {
     }
 
     val MAX = object: Function("max", 2..Int.MAX_VALUE) {
-        override fun invoke(args: List<Any>): Any {
+        override fun invoke(vararg args: Any): Any {
             require(args.size > 1) {
                 "$name should be called with at least 2 arguments"
             }

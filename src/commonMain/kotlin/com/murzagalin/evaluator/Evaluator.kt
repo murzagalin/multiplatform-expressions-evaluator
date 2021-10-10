@@ -2,6 +2,7 @@ package com.murzagalin.evaluator
 
 class Evaluator(
     functions: List<Function> = DefaultFunctions.ALL,
+    constants: List<Constant> = DefaultConstants.ALL,
     doubleDelimiter: Char = '.',
     argumentsDelimiter: Char = ','
 ) {
@@ -11,6 +12,7 @@ class Evaluator(
     private val converter = Converter()
     private val tokenizer = Tokenizer(
         functions = functions,
+        constants = constants,
         doubleDelimiter = doubleDelimiter,
         argumentsDelimiter = argumentsDelimiter
     )
