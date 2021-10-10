@@ -20,6 +20,8 @@ class FunctionsTests {
         assertEquals(sin(2.0), evaluator.evaluateDouble("sin(max(1, 2))"))
         assertEquals(sin(1.0), evaluator.evaluateDouble("min(sin(1), max(2, 3, 4))"))
         assertEquals(2.0, evaluator.evaluateDouble("max(sin(1), min(2, 3, 4))"))
+        assertEquals(-1.0, evaluator.evaluateDouble("ceil(-1.5)"))
+        assertEquals(-2.0, evaluator.evaluateDouble("floor(-1.5)"))
     }
 
     @Test
