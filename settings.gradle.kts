@@ -1,3 +1,2 @@
-
-rootProject.name = "kotlin-expressions-evaluator"
+rootProject.name = "multiplatform-expressions-evaluator"
 
