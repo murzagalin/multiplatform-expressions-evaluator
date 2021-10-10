@@ -45,12 +45,10 @@ The library supports the following functions:
 ### Variables
 Any symbols other than constants and function calls are resolved as variables during evaluation.
 
-## How to get
+## Kotlin
 
 ### Gradle
-
-
-#### Kotlin DSL
+Kotlin DSL
 ```kotlin
 repositories {
     maven("https://maven.pkg.github.com/azamat-murzagalin/multiplatform-expressions-evaluator") {
@@ -65,8 +63,7 @@ dependencies {
     implementation("com.murzagalin:multiplatform-expressions-evaluator:0.8.3")
 }
 ```
-
-#### Groovy
+Groovy
 ```groovy
 repositories {
     maven {
@@ -83,7 +80,7 @@ dependencies {
 }
 ```
 
-## Kotlin example
+### Usage
 
 ```kotlin
 import com.murzagalin.evaluator.Evaluator
@@ -208,3 +205,34 @@ fun main() {
     print(evaluator.evaluateDouble("x * phi", mapOf("x" to 2)))
 }
 ```
+
+### Expressions preprocessing
+
+By default, the library does the following steps to evaluate an expression:
+1. Tokenizing - splitting the expression into a list of units (operations, numbers, constants, function calls, etc.)
+2. Converting the expression from [infix](https://en.wikipedia.org/wiki/Infix_notation) to [postifx notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
+3. Evaluating the postfix expression.
+
+In case you have an expression with variables, it might make sense to preprocess the expression (do steps 1 and 2 in advance) to improve the performance:
+```kotlin
+import com.murzagalin.evaluator.Evaluator
+
+fun main() {
+    val evaluator = Evaluator()
+    
+    //step 1 and 2
+    val preprocessedExpression = evaluator.preprocessExpression("1 + x + y^2")
+    
+    //step 3
+    val result = evaluator.evaluateDouble(preprocessedExpression, mapOf("x" to 2, "y" to 4))
+}
+```
+
+## JVM
+`TBD`
+
+## JS
+`TBD`
+
+## IOS
+`TBD`
