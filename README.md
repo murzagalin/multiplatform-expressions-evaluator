@@ -45,8 +45,7 @@ The library supports the following functions:
 ### Variables
 Any symbols other than constants and function calls are resolved as variables during evaluation.
 
-## Kotlin
-
+## How to get
 ### Gradle
 Kotlin DSL
 ```kotlin
@@ -79,6 +78,8 @@ dependencies {
     implementation "com.murzagalin:multiplatform-expressions-evaluator:0.8.3"
 }
 ```
+
+## Kotlin
 
 ### Usage
 
