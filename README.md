@@ -50,7 +50,7 @@ Any symbols other than constants and function calls are resolved as variables du
 ### Gradle
 
 
-Kotlin DSL
+#### Kotlin DSL
 ```kotlin
 repositories {
     maven("https://maven.pkg.github.com/azamat-murzagalin/multiplatform-expressions-evaluator") {
@@ -62,11 +62,11 @@ repositories {
 }
 
 dependencies {
-    implementation("com.murzagalin:multiplatform-expressions-evaluator:0.8.2")
+    implementation("com.murzagalin:multiplatform-expressions-evaluator:0.8.3")
 }
 ```
 
-Groovy
+#### Groovy
 ```groovy
 repositories {
     maven {
@@ -79,10 +79,11 @@ repositories {
 }
 
 dependencies {
-    implementation "com.murzagalin:multiplatform-expressions-evaluator:0.8.2"
+    implementation "com.murzagalin:multiplatform-expressions-evaluator:0.8.3"
 }
 ```
-## Example
+
+## Kotlin example
 
 ```kotlin
 import com.murzagalin.evaluator.Evaluator
@@ -113,10 +114,81 @@ evaluator.evaluateDouble(
 //constants
 evaluator.evaluateDouble("cos(pi)")
 evaluator.evaluateDouble("ln(e^3)")
+```
 
-/* 
-More: 
-* custom functions
-* custom constants
-*/
+### Custom functions
+
+The library supports custom functions with any number of arguments.
+Supported argument and return types are Double and Boolean
+
+#### Functions with constant number of arguments 
+
+For the example I will explain how to create a function that represents the general form of normal distribution probability density function:
+![img.png](images/img.png)
+
+The function will have the following syntax:
+`normal_dist(x, m, sigma)`.
+The parameter `m` is the mean of the distribution, while the parameter `sigma` is its standard deviation.
+
+We define a function which is named "normal_dist" and has 3 arguments:
+
+```kotlin
+import com.murzagalin.evaluator.Function
+
+object NormalDist : Function("normal_dist", 3) {
+    override fun invoke(vararg args: Any): Any {
+        val x = args[0]
+        val m = args[1]
+        val sigma = args[2]
+        require(x is Double) { "$name argument must be a number" }
+        require(m is Double) { "$name mean must be a number" }
+        require(sigma is Double) { "$name sigma must be a number" }
+
+        return 1.0 / sigma / sqrt(2 * PI) * exp(-1.0 / 2.0 * ((x - m) / sigma).pow(2))
+    }
+}
+```
+
+*Note:* the library checks if the number of arguments in an expression is equal to 3, otherwise it throws an exception. But you have to check the types of the arguments by yourself.
+
+Then we add this function to the evaluator:
+
+```kotlin
+import com.murzagalin.evaluator.DefaultFunctions
+import com.murzagalin.evaluator.Evaluator
+
+fun main() {
+    val evaluator = Evaluator(DefaultFunctions.ALL + NormalDist)
+    print(evaluator.evaluateDouble("normal_dist(12, 9, 3)"))
+}
+```
+
+
+#### Functions with variable number of arguments 
+
+The process of creating functions with variable number of arguments is pretty much the same. The difference is how we define the function.
+
+As an example I will create a function `mult(a1, a2, ..., an)` which is defined as `a1 * a2 * ... * an`:
+
+```kotlin
+object Mult: Function("mult", 2..Int.MAX_VALUE) {
+    override fun invoke(vararg args: Any): Any {
+        require(args.all { it is Double }) { "$name function requires all arguments to be numbers" }
+
+        return args.fold(1.0) { acc, x -> acc * (x as Double) }
+    }
+}
+```
+*Note:* we define minimum and maximum number of arguments as a range. It is also possible to define them separately:
+`Function("mult", 2, Int.MAX_VALUE)`
+
+Then we add this function to the evaluator:
+```kotlin
+import com.murzagalin.evaluator.DefaultFunctions
+import com.murzagalin.evaluator.Evaluator
+
+fun main() {
+    val evaluator = Evaluator(DefaultFunctions.ALL + Mult)
+    print(evaluator.evaluateDouble("mult(2, 3, 4)"))
+}
 ```
