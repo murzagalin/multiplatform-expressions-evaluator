@@ -2,7 +2,7 @@
 
 This is a kotlin multiplatform runtime [infix](https://en.wikipedia.org/wiki/Infix_notation) expressions evaluator.
 
-##Overview
+## Overview
 
 ### Operators
 The library supports the following operators and special symbols:
