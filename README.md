@@ -25,7 +25,7 @@ The library supports the following functions:
 * `acos(x)` - [arccosine](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)
 * `asin(x)` - [arcsine](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)
 * `atan(x)` - [arctangent](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)
-* `avg(a1, a2, a3, ..., an)` - [average value](https://en.wikipedia.org/wiki/Average)
+* `avg(a1, a2, a3, ..., an)` - average of N values
 * `ceil(x)` - [ceiling](https://en.wikipedia.org/wiki/Floor_and_ceiling_functions)
 * `cos(x)` - [cosine](https://en.wikipedia.org/wiki/Trigonometric_functions)
 * `cosh(x)` - [hyperbolic cosine](https://en.wikipedia.org/wiki/Hyperbolic_functions)
@@ -45,8 +45,9 @@ The library supports the following functions:
 ### Variables
 Any symbols other than constants and function calls are resolved as variables during evaluation.
 
+## How to get
 
-## Gradle
+### Gradle
 
 
 Kotlin DSL

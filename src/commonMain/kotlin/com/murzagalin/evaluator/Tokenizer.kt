@@ -9,7 +9,7 @@ internal class Tokenizer(
 
     companion object {
         private val digitChars = ('0'..'9').toSet()
-        private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet() + '_'
+        private val letterChars = ('A'..'Z').toSet() + ('a'..'z').toSet() + '_' + '$' + '@'
     }
 
     private val functionsMap = functions.associateBy { it.name }
