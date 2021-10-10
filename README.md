@@ -119,7 +119,7 @@ evaluator.evaluateDouble("ln(e^3)")
 ### Custom functions
 
 The library supports custom functions with any number of arguments.
-Supported argument and return types are Double and Boolean
+Supported argument and return types are `Double` and `Boolean`
 
 #### Functions with constant number of arguments 
 
@@ -158,7 +158,7 @@ import com.murzagalin.evaluator.DefaultFunctions
 import com.murzagalin.evaluator.Evaluator
 
 fun main() {
-    val evaluator = Evaluator(DefaultFunctions.ALL + NormalDist)
+    val evaluator = Evaluator(functions = DefaultFunctions.ALL + NormalDist)
     print(evaluator.evaluateDouble("normal_dist(12, 9, 3)"))
 }
 ```
@@ -188,7 +188,23 @@ import com.murzagalin.evaluator.DefaultFunctions
 import com.murzagalin.evaluator.Evaluator
 
 fun main() {
-    val evaluator = Evaluator(DefaultFunctions.ALL + Mult)
+    val evaluator = Evaluator(functions = DefaultFunctions.ALL + Mult)
     print(evaluator.evaluateDouble("mult(2, 3, 4)"))
+}
+```
+
+### Custom constants
+
+The library supports custom constants. For the example I will show you how to add a golden ratio constant.
+We will define the constant named `phi` with the value `1.6180339887`:
+```kotlin
+import com.murzagalin.evaluator.Constant
+import com.murzagalin.evaluator.DefaultConstants
+import com.murzagalin.evaluator.Evaluator
+
+fun main() {
+    val PHI = Constant("phi", 1.6180339887)
+    val evaluator = Evaluator(constants = DefaultConstants.ALL + PHI)
+    print(evaluator.evaluateDouble("x * phi", mapOf("x" to 2)))
 }
 ```
