@@ -2,10 +2,7 @@ package com.murzagalin.evaluator
 
 import kotlin.math.*
 
-abstract class Function(
-    val name: String,
-    val argsCount: IntRange
-) {
+abstract class Function(val name: String, val argsCount: IntRange) {
 
     constructor(name: String, argsCount: Int): this(name, argsCount..argsCount)
 
@@ -21,13 +18,9 @@ abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Fu
     constructor(name: String, minArgsCount: Int, maxArgsCount: Int): this(name, minArgsCount..maxArgsCount)
 
     override fun invoke(vararg args: Any): Any {
-        require(args.size == 1) {
-            "$name function requires 1 argument"
-        }
+        require(args.size == 1) { "$name function requires 1 argument" }
         val operand = args[0]
-        require(operand is Number) {
-            "$name is called with argument type ${Number::class.simpleName}, but supports only numbers"
-        }
+        require(operand is Number) { "$name is called with argument type ${Number::class.simpleName}, but supports only numbers" }
 
         return invokeInternal(operand)
     }
@@ -97,12 +90,8 @@ object DefaultFunctions {
         override fun invoke(vararg args: Any): Any {
             val operand = args[0]
             val base = args[1]
-            require(operand is Number) {
-                "$name argument must be a number"
-            }
-            require(base is Number) {
-                "$name base must be a number"
-            }
+            require(operand is Number) { "$name argument must be a number" }
+            require(base is Number) { "$name base must be a number" }
 
             return log(operand.toDouble(), base.toDouble())
         }
@@ -110,12 +99,8 @@ object DefaultFunctions {
 
     val MIN = object: Function("min", 2..Int.MAX_VALUE) {
         override fun invoke(vararg args: Any): Any {
-            require(args.size > 1) {
-                "$name should be called with at least 2 arguments"
-            }
-            require(args.all { it is Number }) {
-                "$name function requires all arguments to be numbers"
-            }
+            require(args.size > 1) { "$name should be called with at least 2 arguments" }
+            require(args.all { it is Number }) { "$name function requires all arguments to be numbers" }
 
             return args.minByOrNull { (it as Number).toDouble() }!!
         }
@@ -123,12 +108,8 @@ object DefaultFunctions {
 
     val AVG = object: Function("avg", 2..Int.MAX_VALUE) {
         override fun invoke(vararg args: Any): Any {
-            require(args.size > 1) {
-                "$name should be called with at least 2 arguments"
-            }
-            require(args.all { it is Number }) {
-                "$name function requires all arguments to be numbers"
-            }
+            require(args.size > 1) { "$name should be called with at least 2 arguments" }
+            require(args.all { it is Number }) { "$name function requires all arguments to be numbers" }
 
             return args.map { (it as Number).toDouble() }.average()
         }
@@ -136,12 +117,8 @@ object DefaultFunctions {
 
     val SUM = object: Function("sum", 2..Int.MAX_VALUE) {
         override fun invoke(vararg args: Any): Any {
-            require(args.size > 1) {
-                "$name should be called with at least 2 arguments"
-            }
-            require(args.all { it is Number }) {
-                "$name function requires all arguments to be numbers"
-            }
+            require(args.size > 1) { "$name should be called with at least 2 arguments" }
+            require(args.all { it is Number }) { "$name function requires all arguments to be numbers" }
 
             return args.sumOf { (it as Number).toDouble() }
         }
@@ -149,12 +126,8 @@ object DefaultFunctions {
 
     val MAX = object: Function("max", 2..Int.MAX_VALUE) {
         override fun invoke(vararg args: Any): Any {
-            require(args.size > 1) {
-                "$name should be called with at least 2 arguments"
-            }
-            require(args.all { it is Number }) {
-                "$name function requires all arguments to be numbers"
-            }
+            require(args.size > 1) { "$name should be called with at least 2 arguments" }
+            require(args.all { it is Number }) { "$name function requires all arguments to be numbers" }
 
             return args.maxByOrNull { (it as Number).toDouble() }!!
         }

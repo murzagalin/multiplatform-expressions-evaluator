@@ -12,12 +12,11 @@ internal abstract class BaseEvaluator {
 
         for (token in postfixExpression.expression) {
             val newToken = when (token) {
-                is Token.Operand.Number -> token
-                is Token.Operand.Boolean -> token
                 is Token.Operand.Variable -> {
                     val value = requireNotNull(values[token.value]) { "Could not resolve variable '${token.value}'" }
                     resolveVar(token.value, value)
                 }
+                is Token.Operand -> token
                 is Token.Operator.LessThan -> {
                     val right = temp.popLastNumber.value
                     val left = temp.popLastNumber.value

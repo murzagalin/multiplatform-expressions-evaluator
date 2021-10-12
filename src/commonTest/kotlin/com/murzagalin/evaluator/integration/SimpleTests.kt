@@ -97,4 +97,10 @@ class SimpleTests {
         assertEquals(27.0, evaluator.evaluateDouble("3^3"))
         assertEquals(512.0, evaluator.evaluateDouble("8^3"))
     }
+
+    @Test
+    fun unary_minus_pow_precedence() {
+        assertEquals(-4.0, evaluator.evaluateDouble("-2^2"))
+        assertEquals(4.0, evaluator.evaluateDouble("(-2)^2"))
+    }
 }
