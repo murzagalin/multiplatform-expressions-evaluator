@@ -1,4 +1,4 @@
-# Multiplatform expressions evaluator
+# Kotlin multiplatform expressions evaluator
 
 This is a kotlin multiplatform runtime [infix](https://en.wikipedia.org/wiki/Infix_notation) expressions evaluator.
 
