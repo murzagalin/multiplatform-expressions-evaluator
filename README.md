@@ -50,16 +50,11 @@ Any symbols other than constants and function calls are resolved as variables du
 Kotlin DSL
 ```kotlin
 repositories {
-    maven("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator") {
-        credentials {
-            username = "<your github username>"
-            password = "<your github token>"
-        }
-    }
+    maven("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator")
 }
 
 dependencies {
-    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.8.3")
+    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.9.0")
 }
 ```
 Groovy
@@ -67,15 +62,11 @@ Groovy
 repositories {
     maven {
         url = uri("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator")
-        credentials {
-            username = "<your github username>"
-            password = "<your github token>"
-        }
     }
 }
 
 dependencies {
-    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.8.3"
+    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.9.0"
 }
 ```
 
