@@ -50,7 +50,7 @@ Any symbols other than constants and function calls are resolved as variables du
 Kotlin DSL
 ```kotlin
 repositories {
-    maven("https://maven.pkg.github.com/azamat-murzagalin/multiplatform-expressions-evaluator") {
+    maven("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator") {
         credentials {
             username = "<your github username>"
             password = "<your github token>"
@@ -59,14 +59,14 @@ repositories {
 }
 
 dependencies {
-    implementation("com.murzagalin:multiplatform-expressions-evaluator:0.8.3")
+    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.8.3")
 }
 ```
 Groovy
 ```groovy
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/azamat-murzagalin/multiplatform-expressions-evaluator")
+        url = uri("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator")
         credentials {
             username = "<your github username>"
             password = "<your github token>"
@@ -75,7 +75,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.murzagalin:multiplatform-expressions-evaluator:0.8.3"
+    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.8.3"
 }
 ```
 
@@ -84,7 +84,7 @@ dependencies {
 ### Usage
 
 ```kotlin
-import com.murzagalin.evaluator.Evaluator
+import com.github.murzagalin.evaluator.Evaluator
 
 val evaluator = Evaluator()
 
@@ -131,7 +131,7 @@ The parameter `m` is the mean of the distribution, while the parameter `sigma` i
 We define a function which is named "normal_dist" and has 3 arguments:
 
 ```kotlin
-import com.murzagalin.evaluator.Function
+import com.github.murzagalin.evaluator.Function
 
 object NormalDist : Function("normal_dist", 3) {
     override fun invoke(vararg args: Any): Any {
@@ -152,8 +152,8 @@ object NormalDist : Function("normal_dist", 3) {
 Then we add this function to the evaluator:
 
 ```kotlin
-import com.murzagalin.evaluator.DefaultFunctions
-import com.murzagalin.evaluator.Evaluator
+import com.github.murzagalin.evaluator.DefaultFunctions
+import com.github.murzagalin.evaluator.Evaluator
 
 fun main() {
     val evaluator = Evaluator(functions = DefaultFunctions.ALL + NormalDist)
@@ -182,8 +182,8 @@ object Mult: Function("mult", 2..Int.MAX_VALUE) {
 
 Then we add this function to the evaluator:
 ```kotlin
-import com.murzagalin.evaluator.DefaultFunctions
-import com.murzagalin.evaluator.Evaluator
+import com.github.murzagalin.evaluator.DefaultFunctions
+import com.github.murzagalin.evaluator.Evaluator
 
 fun main() {
     val evaluator = Evaluator(functions = DefaultFunctions.ALL + Mult)
@@ -196,9 +196,9 @@ fun main() {
 The library supports custom constants. For the example I will show you how to add a golden ratio constant.
 We will define the constant named `phi` with the value `1.6180339887`:
 ```kotlin
-import com.murzagalin.evaluator.Constant
-import com.murzagalin.evaluator.DefaultConstants
-import com.murzagalin.evaluator.Evaluator
+import com.github.murzagalin.evaluator.Constant
+import com.github.murzagalin.evaluator.DefaultConstants
+import com.github.murzagalin.evaluator.Evaluator
 
 fun main() {
     val PHI = Constant("phi", 1.6180339887)
@@ -216,7 +216,7 @@ By default, the library does the following steps to evaluate an expression:
 
 In case you have an expression with variables, it might make sense to preprocess the expression (do steps 1 and 2 in advance) to improve the performance:
 ```kotlin
-import com.murzagalin.evaluator.Evaluator
+import com.github.murzagalin.evaluator.Evaluator
 
 fun main() {
     val evaluator = Evaluator()

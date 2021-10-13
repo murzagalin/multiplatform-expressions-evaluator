@@ -6,7 +6,7 @@ plugins {
 val githubRef = System.getenv("GITHUB_REF")
 val githubRepo = System.getenv("GITHUB_REPOSITORY")
 
-group = "com.murzagalin"
+group = "com.github.murzagalin"
 version = githubRef?.split('/')?.last() ?: "local"
 
 githubRepo?.let {
