@@ -11,6 +11,27 @@ abstract class Function(val name: String, val argsCount: IntRange) {
     abstract operator fun invoke(vararg args: Any): Any
 }
 
+private fun <T> Array<T>.getAsNumber(index: Int, lazyMessage: () -> Any): Number {
+    val e = get(index)
+    require(e is Number, lazyMessage)
+
+    return e
+}
+
+private fun <T> Array<T>.getAsDouble(index: Int, lazyMessage: () -> Any): Double {
+    val e = get(index)
+    require(e is Number, lazyMessage)
+
+    return e.toDouble()
+}
+
+private fun <T> Array<T>.getAsBoolean(index: Int, lazyMessage: () -> Any): Boolean {
+    val e = get(index)
+    require(e is Boolean, lazyMessage)
+
+    return e
+}
+
 abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Function(name, argsCount) {
 
     constructor(name: String, argsCount: Int): this(name, argsCount..argsCount)
@@ -19,8 +40,9 @@ abstract class OneNumberArgumentFunction(name: String, argsCount: IntRange) : Fu
 
     override fun invoke(vararg args: Any): Any {
         require(args.size == 1) { "$name function requires 1 argument" }
-        val operand = args[0]
-        require(operand is Number) { "$name is called with argument type ${Number::class.simpleName}, but supports only numbers" }
+        val operand = args.getAsNumber(0) {
+            "$name is called with argument type ${Number::class.simpleName}, but supports only numbers"
+        }
 
         return invokeInternal(operand)
     }
@@ -88,10 +110,8 @@ object DefaultFunctions {
 
     val LOG = object: Function("log", 2) {
         override fun invoke(vararg args: Any): Any {
-            val operand = args[0]
-            val base = args[1]
-            require(operand is Number) { "$name argument must be a number" }
-            require(base is Number) { "$name base must be a number" }
+            val operand = args.getAsNumber(0) { "$name argument must be a number" }
+            val base = args.getAsNumber(1) { "$name base must be a number" }
 
             return log(operand.toDouble(), base.toDouble())
         }

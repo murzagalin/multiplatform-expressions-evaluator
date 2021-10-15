@@ -126,12 +126,9 @@ import com.github.murzagalin.evaluator.Function
 
 object NormalDist : Function("normal_dist", 3) {
     override fun invoke(vararg args: Any): Any {
-        val x = args[0]
-        val m = args[1]
-        val sigma = args[2]
-        require(x is Double) { "$name argument must be a number" }
-        require(m is Double) { "$name mean must be a number" }
-        require(sigma is Double) { "$name sigma must be a number" }
+        val x = args.getAsDouble(0) { "$name argument must be a number" }
+        val m = args.getAsDouble(1) { "$name mean must be a number" }
+        val sigma = args.getAsDouble(2) { "$name sigma must be a number" }
 
         return 1.0 / sigma / sqrt(2 * PI) * exp(-1.0 / 2.0 * ((x - m) / sigma).pow(2))
     }
@@ -139,6 +136,7 @@ object NormalDist : Function("normal_dist", 3) {
 ```
 
 *Note:* the library checks if the number of arguments in an expression is equal to 3, otherwise it throws an exception. But you have to check the types of the arguments by yourself.
+Functions `getAsDouble(index, lazyMessage)` and `getAsBoolean(index, lazyMessage)` return an element at position `index`, and throw `IllegalArgumentException` with the message returned from `lazyMessage` if it has a wrong type
 
 Then we add this function to the evaluator:
 
