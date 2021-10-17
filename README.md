@@ -7,7 +7,9 @@ This is a kotlin multiplatform runtime [infix](https://en.wikipedia.org/wiki/Inf
 ### Operators
 The library supports the following operators and special symbols:
 
-* `+`, `-`, `*`, `/`, `% (modulo)`, `^ (exponentiation)` - mathematical operators
+* `+`, `-`, `*`, `/` - mathematical operators
+* `%` - [modulo](https://en.wikipedia.org/wiki/Modulo_operation)
+*  `^` - exponentiation. `a^b` means `a raised to the power of b` 
 * `&&`, `||`, `!` - logical 'and', 'or', 'not' operators
 * `==`, `!=` - equality operators
 * `<`, `>`, `<=`, `>=` - comparison operators
@@ -54,7 +56,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.9.0")
+    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.9.1")
 }
 ```
 Groovy
@@ -66,7 +68,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.9.0"
+    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.9.1"
 }
 ```
 
