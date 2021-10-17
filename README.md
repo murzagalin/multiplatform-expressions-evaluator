@@ -8,7 +8,7 @@ This is a kotlin multiplatform runtime [infix](https://en.wikipedia.org/wiki/Inf
 The library supports the following operators and special symbols:
 
 * `+`, `-`, `*`, `/` - mathematical operators
-* `%` - [modulo](https://en.wikipedia.org/wiki/Modulo_operation)
+* `%` - [modulo](https://en.wikipedia.org/wiki/Modulo_operation). Returns the remainder of a division, after one number is divided by another
 *  `^` - exponentiation. `a^b` means `a raised to the power of b` 
 * `&&`, `||`, `!` - logical 'and', 'or', 'not' operators
 * `==`, `!=` - equality operators
