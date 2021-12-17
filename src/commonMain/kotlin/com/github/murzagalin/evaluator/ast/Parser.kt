@@ -10,8 +10,8 @@ import com.github.murzagalin.evaluator.Token
 * logic_or   -> logic_and ( ( "or" | "||" ) logic_and )*
 * logic_and  -> equality ( ( "and" | "&&" ) equality )*
 * equality   -> comparison ( ( "!=" | "==" ) comparison )*
-* comparison -> term ( ( ">" | ">=" | "<" | "<=" ) term )*
-* term       -> factor ( ( "-" | "+" ) factor )*
+* comparison -> sum ( ( ">" | ">=" | "<" | "<=" ) sum )*
+* sum        -> factor ( ( "-" | "+" ) factor )*
 * factor     -> unary ( ( "/" | "*" | "%") unary )*
 * unary      -> ( "!" | "-" | "+" ) unary | exponent
 * exponent   -> identifier ( "^" unary )*
@@ -36,7 +36,7 @@ class Parser {
         Token.Operator.LessEqualThan
     )
 
-    private val termTokens = setOf(Token.Operator.Plus, Token.Operator.Minus)
+    private val sumTokens = setOf(Token.Operator.Plus, Token.Operator.Minus)
 
     private val factorTokens = setOf(Token.Operator.Division, Token.Operator.Multiplication, Token.Operator.Modulo)
 
@@ -105,21 +105,21 @@ class Parser {
     }
 
     private fun comparison(tokens: List<Token>): Expression {
-        var left = term(tokens)
+        var left = sum(tokens)
 
         while (ix < tokens.size && tokens[ix] in comparisonTokens) {
             val operator = tokens[ix++]
-            val right = term(tokens)
+            val right = sum(tokens)
             left = Expression.Binary(operator as Token.Operator, left, right)
         }
 
         return left
     }
 
-    private fun term(tokens: List<Token>): Expression {
+    private fun sum(tokens: List<Token>): Expression {
         var left = factor(tokens)
 
-        while (ix < tokens.size && tokens[ix] in termTokens) {
+        while (ix < tokens.size && tokens[ix] in sumTokens) {
             val operator = tokens[ix++]
             val right = factor(tokens)
             left = Expression.Binary(operator as Token.Operator, left, right)
