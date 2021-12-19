@@ -78,4 +78,50 @@ class ParserFunctionsTest {
             subject.parse(expression)
         )
     }
+
+    @Test
+    fun expression_with_functions() {
+        val variable = Token.Operand.Variable("var")
+        val sin = Token.FunctionCall(1, DefaultFunctions.SIN)
+        val cos = Token.FunctionCall(1, DefaultFunctions.COS)
+
+        val expression = listOf(
+            sin,
+            Token.Bracket.Left,
+            variable,
+            Token.Bracket.Right,
+            Token.Operator.Power,
+            Token.Operand.Number(2),
+            Token.Operator.Plus,
+            cos,
+            Token.Bracket.Left,
+            variable,
+            Token.Bracket.Right,
+            Token.Operator.Power,
+            Token.Operand.Number(2),
+        )
+
+        assertEquals(
+            Expression.Binary(
+                Token.Operator.Plus,
+                Expression.Binary(
+                    Token.Operator.Power,
+                    Expression.FunctionCall(
+                        sin,
+                        arguments = listOf(Expression.Terminal(variable))
+                    ),
+                    Expression.Terminal(Token.Operand.Number(2))
+                ),
+                Expression.Binary(
+                    Token.Operator.Power,
+                    Expression.FunctionCall(
+                        cos,
+                        arguments = listOf(Expression.Terminal(variable))
+                    ),
+                    Expression.Terminal(Token.Operand.Number(2))
+                )
+            ),
+            subject.parse(expression)
+        )
+    }
 }

@@ -2,9 +2,7 @@ package com.github.murzagalin.evaluator.ast
 
 import com.github.murzagalin.evaluator.Token
 
-
-/* the parser uses these rules
-
+/*
 expression -> ternary_if
 ternary_if -> logic_or ( "?" ternary_if ":" ternary_if )?
 logic_or   -> logic_and ( ( "or" | "||" ) logic_and )*
@@ -173,7 +171,7 @@ class Parser {
                     arguments += expression(tokens)
                     if (tokens[ix] is Token.FunctionCall.Delimiter) ix++
                 }
-                require(tokens[ix] is Token.Bracket.Right) { "expected ')' after a function call" }
+                require(tokens[ix++] is Token.Bracket.Right) { "expected ')' after a function call" }
 
                 return Expression.FunctionCall(token, arguments)
             }

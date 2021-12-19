@@ -65,6 +65,8 @@ sealed interface Token {
             }
         }
 
+        operator fun invoke(args: List<Any>) = function(*args.toTypedArray())
+
         object Delimiter: Token
     }
 
