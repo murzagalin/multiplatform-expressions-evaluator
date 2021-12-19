@@ -5,24 +5,24 @@ import com.github.murzagalin.evaluator.Token
 
 /* the parser uses these rules
 
-* expression -> ternary_if
-* ternary_if -> logic_or ( "?" ternary_if ":" ternary_if )?
-* logic_or   -> logic_and ( ( "or" | "||" ) logic_and )*
-* logic_and  -> equality ( ( "and" | "&&" ) equality )*
-* equality   -> comparison ( ( "!=" | "==" ) comparison )*
-* comparison -> sum ( ( ">" | ">=" | "<" | "<=" ) sum )*
-* sum        -> factor ( ( "-" | "+" ) factor )*
-* factor     -> unary ( ( "/" | "*" | "%") unary )*
-* unary      -> ( "!" | "-" | "+" ) unary | exponent
-* exponent   -> identifier ( "^" unary )*
-- identifier -> function | variable | number | boolean
+expression -> ternary_if
+ternary_if -> logic_or ( "?" ternary_if ":" ternary_if )?
+logic_or   -> logic_and ( ( "or" | "||" ) logic_and )*
+logic_and  -> equality ( ( "and" | "&&" ) equality )*
+equality   -> comparison ( ( "!=" | "==" ) comparison )*
+comparison -> sum ( ( ">" | ">=" | "<" | "<=" ) sum )*
+sum        -> factor ( ( "-" | "+" ) factor )*
+factor     -> unary ( ( "/" | "*" | "%") unary )*
+unary      -> ( "!" | "-" | "+" ) unary | exponent
+exponent   -> identifier ( "^" unary )*
+identifier -> function | variable | number | boolean
 
 function   -> name "(" ( arguments )* ")"
 arguments  -> expression ( ',' expression )*
-* variable   -> name
-* name       -> CHAR ( CHAR | DIGIT )*
-* boolean    -> "true" | "false" | "TRUE" | "FALSE"
-* number     -> DIGIT ( DIGIT )*
+variable   -> name
+name       -> CHAR ( CHAR | DIGIT )*
+boolean    -> "true" | "false" | "TRUE" | "FALSE"
+number     -> DIGIT ( DIGIT )*
 */
 
 class Parser {
@@ -166,6 +166,17 @@ class Parser {
 
         return when (val token = tokens[ix++]) {
             is Token.Operand -> Expression.Terminal(token)
+            is Token.FunctionCall -> {
+                require(tokens[ix++] is Token.Bracket.Left) { "'(' expected after function call" }
+                val arguments = mutableListOf<Expression>()
+                while (tokens[ix] !is Token.Bracket.Right) {
+                    arguments += expression(tokens)
+                    if (tokens[ix] is Token.FunctionCall.Delimiter) ix++
+                }
+                require(tokens[ix] is Token.Bracket.Right) { "expected ')' after a function call" }
+
+                return Expression.FunctionCall(token, arguments)
+            }
             is Token.Bracket.Left -> {
                 val result = expression(tokens)
                 require(tokens[ix++] is Token.Bracket.Right) { "')' expected after expression" }

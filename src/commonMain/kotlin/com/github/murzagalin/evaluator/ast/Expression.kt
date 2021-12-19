@@ -21,6 +21,11 @@ sealed class Expression {
         val thirdExpression: Expression
     ) : Expression()
 
+    data class FunctionCall(
+        val token: Token.FunctionCall,
+        val arguments: List<Expression>
+    ) : Expression()
+
     data class Terminal(
         val token: Token.Operand
     ) : Expression()
