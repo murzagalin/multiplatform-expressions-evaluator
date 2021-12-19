@@ -1,6 +1,6 @@
 package com.github.murzagalin.evaluator.ast
 
-class DoubleAstEvaluator {
+internal class DoubleAstEvaluator {
 
     fun evaluate(expression: Expression, values: Map<String, Any> = emptyMap()): Double {
         val baseEvaluator = AstEvaluator(values)

@@ -1,6 +1,6 @@
 package com.github.murzagalin.evaluator.ast
 
-class BooleanAstEvaluator {
+internal class BooleanAstEvaluator {
 
     fun evaluate(expression: Expression, values: Map<String, Any> = emptyMap()): Boolean {
         val baseEvaluator = AstEvaluator(values)

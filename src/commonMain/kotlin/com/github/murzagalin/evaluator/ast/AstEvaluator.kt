@@ -3,7 +3,7 @@ package com.github.murzagalin.evaluator.ast
 import com.github.murzagalin.evaluator.Token
 import kotlin.math.pow
 
-class AstEvaluator(private val values: Map<String, Any> = emptyMap()): AstVisitor {
+internal class AstEvaluator(private val values: Map<String, Any> = emptyMap()): AstVisitor {
 
     fun evaluate(expression: Expression) = expression.visit(this)
 
@@ -37,35 +37,34 @@ class AstEvaluator(private val values: Map<String, Any> = emptyMap()): AstVisito
         }
     }
 
-    override fun visitBinary(binary: Expression.Binary): Any {
-        return when (binary.token) {
-            Token.Operator.LessThan -> binaryOnNumbers(binary,"<") { left, right -> left < right }
-            Token.Operator.LessEqualThan -> binaryOnNumbers(binary,"<=") { left, right -> left <= right }
-            Token.Operator.GreaterThan -> binaryOnNumbers(binary,">") { left, right -> left > right }
-            Token.Operator.GreaterEqualThan -> binaryOnNumbers(binary,">=") { left, right -> left >= right }
-            Token.Operator.Equal -> {
-                val left = evaluate(binary.leftExpression)
-                val right = evaluate(binary.rightExpression)
-                left == right
-            }
-            Token.Operator.NotEqual -> {
-                val left = evaluate(binary.leftExpression)
-                val right = evaluate(binary.rightExpression)
-                left != right
-            }
-            Token.Operator.And -> binaryOnBooleans(binary, "&&") { left, right -> left && right}
-            Token.Operator.Or -> binaryOnBooleans(binary, "||") { left, right -> left || right}
-            Token.Operator.Plus -> binaryOnNumbers(binary, "+") { left, right -> left + right }
-            Token.Operator.Minus -> binaryOnNumbers(binary,"-") { left, right -> left - right }
-            Token.Operator.Modulo -> binaryOnNumbers(binary,"%") { left, right -> left % right }
-            Token.Operator.Multiplication -> binaryOnNumbers(binary,"*") { left, right -> left * right }
-            Token.Operator.Division -> binaryOnNumbers(binary,"/") { left, right -> left / right }
-            Token.Operator.Power -> binaryOnNumbers(binary,"^") { left, right -> left.pow(right) }
-            else -> {
-                error("${binary.token} was incorrectly parsed as a binary operator")
-            }
+    override fun visitBinary(binary: Expression.Binary) = when (binary.token) {
+        Token.Operator.LessThan -> binaryOnNumbers(binary,"<") { left, right -> left < right }
+        Token.Operator.LessEqualThan -> binaryOnNumbers(binary,"<=") { left, right -> left <= right }
+        Token.Operator.GreaterThan -> binaryOnNumbers(binary,">") { left, right -> left > right }
+        Token.Operator.GreaterEqualThan -> binaryOnNumbers(binary,">=") { left, right -> left >= right }
+        Token.Operator.Equal -> {
+            val left = evaluate(binary.leftExpression)
+            val right = evaluate(binary.rightExpression)
+            left == right
+        }
+        Token.Operator.NotEqual -> {
+            val left = evaluate(binary.leftExpression)
+            val right = evaluate(binary.rightExpression)
+            left != right
+        }
+        Token.Operator.And -> binaryOnBooleans(binary, "&&") { left, right -> left && right}
+        Token.Operator.Or -> binaryOnBooleans(binary, "||") { left, right -> left || right}
+        Token.Operator.Plus -> binaryOnNumbers(binary, "+") { left, right -> left + right }
+        Token.Operator.Minus -> binaryOnNumbers(binary,"-") { left, right -> left - right }
+        Token.Operator.Modulo -> binaryOnNumbers(binary,"%") { left, right -> left % right }
+        Token.Operator.Multiplication -> binaryOnNumbers(binary,"*") { left, right -> left * right }
+        Token.Operator.Division -> binaryOnNumbers(binary,"/") { left, right -> left / right }
+        Token.Operator.Power -> binaryOnNumbers(binary,"^") { left, right -> left.pow(right) }
+        else -> {
+            error("${binary.token} was incorrectly parsed as a binary operator")
         }
     }
+
 
     private fun binaryOnBooleans(binary: Expression.Binary, strRep: String, eval: (Boolean, Boolean) -> Any): Any {
         val left = evaluate(binary.leftExpression)

@@ -202,8 +202,8 @@ fun main() {
 
 By default, the library does the following steps to evaluate an expression:
 1. Tokenizing - splitting the expression into a list of units (operations, numbers, constants, function calls, etc.)
-2. Converting the expression from [infix](https://en.wikipedia.org/wiki/Infix_notation) to [postifx notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
-3. Evaluating the postfix expression.
+2. Converting the expression from [infix notation](https://en.wikipedia.org/wiki/Infix_notation) to [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
+3. Evaluating the abstract syntax tree.
 
 In case you have an expression with variables, it might make sense to preprocess the expression (do steps 1 and 2 in advance) to improve the performance:
 ```kotlin

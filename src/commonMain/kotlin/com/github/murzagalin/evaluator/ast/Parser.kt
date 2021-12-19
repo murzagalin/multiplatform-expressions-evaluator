@@ -23,7 +23,7 @@ boolean    -> "true" | "false" | "TRUE" | "FALSE"
 number     -> DIGIT ( DIGIT )*
 */
 
-class Parser {
+internal class Parser {
 
     private val equalityTokens = setOf(Token.Operator.Equal, Token.Operator.NotEqual)
 
