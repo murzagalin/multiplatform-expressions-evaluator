@@ -51,39 +51,31 @@ internal class Tokenizer(
         return when {
             str.startsWith("true") -> PUnit(Token.Operand.Boolean(true), 4)
             str.startsWith("false") -> PUnit(Token.Operand.Boolean(false), 5)
-            str.startsWith("&&") && str.requireOp("&&") -> PUnit(Token.Operator.And, 2)
-            str.startsWith("||") && str.requireOp("||") -> PUnit(Token.Operator.Or, 2)
-            str.startsWith("<=") && str.requireOp("<=") -> PUnit(Token.Operator.LessEqualThan, 2)
-            str.startsWith(">=") && str.requireOp(">=") -> PUnit(Token.Operator.GreaterEqualThan, 2)
-            str.startsWith("==") && str.requireOp("==") -> PUnit(Token.Operator.Equal, 2)
-            str.startsWith("!=") && str.requireOp("!=") -> PUnit(Token.Operator.NotEqual, 2)
+            str.startsWith("&&") -> PUnit(Token.Operator.And, 2)
+            str.startsWith("||") -> PUnit(Token.Operator.Or, 2)
+            str.startsWith("<=") -> PUnit(Token.Operator.LessEqualThan, 2)
+            str.startsWith(">=") -> PUnit(Token.Operator.GreaterEqualThan, 2)
+            str.startsWith("==") -> PUnit(Token.Operator.Equal, 2)
+            str.startsWith("!=") -> PUnit(Token.Operator.NotEqual, 2)
             symbol in digitChars -> str.parseStartingNumber()
             symbol in letterChars -> str.parseVarOrConstOrFunction()
             symbol == argumentsDelimiter -> PUnit(Token.FunctionCall.Delimiter, 1)
-            symbol == '+' && str.requireOp(symbol) -> getPlus(result)
-            symbol == '-' && str.requireOp(symbol) -> getMinus(result)
-            symbol == '%' && str.requireOp(symbol) -> PUnit(Token.Operator.Modulo, 1)
-            symbol == '*' && str.requireOp(symbol) -> PUnit(Token.Operator.Multiplication, 1)
-            symbol == '/' && str.requireOp(symbol) -> PUnit(Token.Operator.Division, 1)
-            symbol == '^' && str.requireOp(symbol) -> PUnit(Token.Operator.Power, 1)
+            symbol == '+' -> getPlus(result)
+            symbol == '-' -> getMinus(result)
+            symbol == '%' -> PUnit(Token.Operator.Modulo, 1)
+            symbol == '*' -> PUnit(Token.Operator.Multiplication, 1)
+            symbol == '/' -> PUnit(Token.Operator.Division, 1)
+            symbol == '^' -> PUnit(Token.Operator.Power, 1)
             symbol == ')' -> PUnit(Token.Bracket.Right, 1)
-            symbol == '(' && str.requireOp(symbol) -> PUnit(Token.Bracket.Left, 1)
-            symbol == '<' && str.requireOp(symbol) -> PUnit(Token.Operator.LessThan, 1)
-            symbol == '>' && str.requireOp(symbol) -> PUnit(Token.Operator.GreaterThan, 1)
-            symbol == '!' && str.requireOp(symbol) -> PUnit(Token.Operator.Not, 1)
-            symbol == '?' && str.requireOp(symbol) -> PUnit(Token.Operator.TernaryIf, 1)
-            symbol == ':' && str.requireOp(symbol) -> PUnit(Token.Operator.TernaryElse, 1)
+            symbol == '(' -> PUnit(Token.Bracket.Left, 1)
+            symbol == '<' -> PUnit(Token.Operator.LessThan, 1)
+            symbol == '>' -> PUnit(Token.Operator.GreaterThan, 1)
+            symbol == '!' -> PUnit(Token.Operator.Not, 1)
+            symbol == '?' -> PUnit(Token.Operator.TernaryIf, 1)
+            symbol == ':' -> PUnit(Token.Operator.TernaryElse, 1)
             else -> null
         }
     }
-
-    private fun String.requireOp(str: String): Boolean {
-        require(length > str.length) { "Malformed expression. '$str' requires operand after it" }
-
-        return true
-    }
-
-    private fun String.requireOp(c: Char) = requireOp(c.toString())
 
     private fun getPlus(result: List<Token>) = PUnit(
         if (supposedToBeUnaryOperator(result)) Token.Operator.UnaryPlus else Token.Operator.Plus,

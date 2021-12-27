@@ -3,17 +3,16 @@ package com.github.murzagalin.evaluator.ast
 import com.github.murzagalin.evaluator.Token
 
 /*
-expression -> ternary_if
-ternary_if -> logic_or ( "?" ternary_if ":" ternary_if )?
-logic_or   -> logic_and ( ( "or" | "||" ) logic_and )*
-logic_and  -> equality ( ( "and" | "&&" ) equality )*
+expression -> logic_or ( "?" expression ":" expression )?
+logic_or   -> logic_and ( "||" logic_and )*
+logic_and  -> equality ( "&&" equality )*
 equality   -> comparison ( ( "!=" | "==" ) comparison )*
 comparison -> sum ( ( ">" | ">=" | "<" | "<=" ) sum )*
 sum        -> factor ( ( "-" | "+" ) factor )*
 factor     -> unary ( ( "/" | "*" | "%") unary )*
 unary      -> ( "!" | "-" | "+" ) unary | exponent
-exponent   -> identifier ( "^" unary )*
-identifier -> function | variable | number | boolean
+exponent   -> terminal ( "^" unary )*
+terminal -> function | variable | number | boolean
 
 function   -> name "(" ( arguments )* ")"
 arguments  -> expression ( ',' expression )*
@@ -44,21 +43,20 @@ internal class Parser {
 
     fun parse(tokens: List<Token>): Expression {
         ix = 0
-        return expression(tokens)
+        val expression = expression(tokens)
+        require(ix == tokens.size) { "malformed expression" }
+
+        return expression
     }
 
-    fun expression(tokens: List<Token>): Expression {
-        return ternaryIf(tokens)
-    }
-
-    private fun ternaryIf(tokens: List<Token>): Expression {
+    private fun expression(tokens: List<Token>): Expression {
         val first = logicOr(tokens)
 
         if (ix < tokens.size && tokens[ix] is Token.Operator.TernaryIf) {
             ix++
-            val second = ternaryIf(tokens)
+            val second = expression(tokens)
             require(tokens[ix++] is Token.Operator.TernaryElse) { "':' expected in ternary-if-else expression" }
-            val third = ternaryIf(tokens)
+            val third = expression(tokens)
 
             return Expression.Ternary(Token.Operator.TernaryIfElse, first, second, third)
         }
@@ -149,17 +147,17 @@ internal class Parser {
     }
 
     private fun exponent(tokens: List<Token>): Expression {
-        var identifier = identifier(tokens)
+        var terminal = terminal(tokens)
 
         if (ix < tokens.size && tokens[ix] is Token.Operator.Power) {
             ix++
-            identifier = Expression.Binary(Token.Operator.Power, identifier, unary(tokens))
+            terminal = Expression.Binary(Token.Operator.Power, terminal, unary(tokens))
         }
 
-        return identifier
+        return terminal
     }
 
-    private fun identifier(tokens: List<Token>): Expression {
+    private fun terminal(tokens: List<Token>): Expression {
         require(tokens.size > ix) { "Expression expected" }
 
         return when (val token = tokens[ix++]) {
@@ -173,7 +171,7 @@ internal class Parser {
                 }
                 require(tokens[ix++] is Token.Bracket.Right) { "expected ')' after a function call" }
 
-                return Expression.FunctionCall(token, arguments)
+                Expression.FunctionCall(token, arguments)
             }
             is Token.Bracket.Left -> {
                 val result = expression(tokens)
