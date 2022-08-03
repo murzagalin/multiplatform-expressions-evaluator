@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.30"
-    `maven-publish`
+    id("maven-publish")
 }
 
 val githubRef = System.getenv("GITHUB_REF")
