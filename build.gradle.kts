@@ -46,7 +46,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "MultiplatformExpressionsEvaluator"
+                baseName = "ExpressionsEvaluator"
             }
         }
     }
