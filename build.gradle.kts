@@ -46,6 +46,7 @@ kotlin {
             nodejs()
         }
 
+        macosArm64()
         iosX64()
         iosArm64()
         iosArm32()
@@ -83,7 +84,5 @@ kotlin {
         val jsTest by getting
         val nativeMain by getting
         val nativeTest by getting
-        //val iosMain by getting
-        //val iosSimulatorArm64Main by getting
     }
 }
