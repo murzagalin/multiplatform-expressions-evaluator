@@ -28,24 +28,37 @@ repositories {
 
 kotlin {
 
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnit()
-        }
-    }
-    js(LEGACY) {
-        browser {
-            commonWebpackConfig {
-                cssSupport.enabled = true
+    targets {
+        jvm {
+            compilations.all {
+                kotlinOptions.jvmTarget = "1.8"
+            }
+            testRuns["test"].executionTask.configure {
+                useJUnit()
             }
         }
+        js(LEGACY) {
+            browser {
+                commonWebpackConfig {
+                    cssSupport.enabled = true
+                }
+            }
+            nodejs()
+        }
+
+        iosX64()
+        iosArm64()
+        iosArm32()
+        iosSimulatorArm64()
+        watchosArm32()
+        watchosArm64()
+        watchosX86()
+        watchosX64()
+        watchosSimulatorArm64()
+        tvosArm64()
+        tvosX64()
+        tvosSimulatorArm64()
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
 
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
@@ -70,5 +83,7 @@ kotlin {
         val jsTest by getting
         val nativeMain by getting
         val nativeTest by getting
+        //val iosMain by getting
+        //val iosSimulatorArm64Main by getting
     }
 }
