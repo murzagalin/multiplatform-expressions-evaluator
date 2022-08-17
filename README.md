@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.14.1")
+    implementation("io.github.murzagalin:multiplatform-expressions-evaluator:0.14.1")
 }
 ```
 
@@ -70,7 +70,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.14.1"
+    implementation "io.github.murzagalin:multiplatform-expressions-evaluator:0.14.1"
 }
 ```
 
