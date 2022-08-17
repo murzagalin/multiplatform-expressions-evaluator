@@ -13,20 +13,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: export variables
-        env:
-          NEXUS_USER: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PW: ${{ secrets.NEXUS_PASSWORD }}
-          S_SIGNING_KEY: ${{ secrets.S_SIGNING_KEY }}
-          S_SIGNING_PW: ${{ secrets.S_SIGNING_PASSWORD }}
-        run: |
-          export NEXUS_USERNAME=$NEXUS_USER
-          export NEXUS_PASSWORD=$NEXUS_PW
-          export SIGNING_KEY=$S_SIGNING_KEY
-          export SIGNING_PASSWORD=$S_SIGNING_PW
 
       - name: Publish
         env:
           ORG_GRADLE_PROJECT_githubUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPassword: ${{ github.token }}
+          NEXUS_USER: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PW: ${{ secrets.NEXUS_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.S_SIGNING_KEY }}
+          SIGNING_PW: ${{ secrets.S_SIGNING_PASSWORD }}
         run: gradle clean publishAllPublicationsToSonatypeRepository

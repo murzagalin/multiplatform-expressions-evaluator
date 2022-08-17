@@ -5,10 +5,10 @@ plugins {
 }
 
 val githubRef = System.getenv("GITHUB_REF")
-val nexusUsername = System.getenv("NEXUS_USERNAME")
-val nexusPassword = System.getenv("NEXUS_PASSWORD")
+val nexusUsername = System.getenv("NEXUS_USER")
+val nexusPassword = System.getenv("NEXUS_PW")
 val signingKey = System.getenv("SIGNING_KEY")
-val signingPassword = System.getenv("SIGNING_PASSWORD")
+val signingPassword = System.getenv("SIGNING_PW")
 
 group = "io.github.murzagalin"
 version = githubRef?.split('/')?.last() ?: "0.1.0-SNAPSHOT"
