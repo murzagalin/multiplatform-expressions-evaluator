@@ -14,6 +14,10 @@ jobs:
         with:
           java-version: 11
 
+      - uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
+
       - name: Publish
         run: gradle publishAllPublicationsToSonatypeRepository
         env:
