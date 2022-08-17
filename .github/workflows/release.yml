@@ -15,7 +15,7 @@ jobs:
           java-version: 11
 
       - name: Publish
-        run: gradle check publish --no-configure-on-demand --no-daemon
+        run: gradle publishAllPublicationsToSonatypeRepository
         env:
           ORG_GRADLE_PROJECT_githubUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPassword: ${{ github.token }}
