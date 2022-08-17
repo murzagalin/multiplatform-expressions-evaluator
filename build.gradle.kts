@@ -5,13 +5,9 @@ plugins {
 }
 
 val githubRef = System.getenv("GITHUB_REF")
-val nexusUsername = System.getenv("NEXUS_USERNAME")
-val nexusPassword = System.getenv("NEXUS_PASSWORD")
-val signingKey = System.getenv("S_SIGNING_KEY")
-val signingPassword = System.getenv("S_SIGNING_PASSWORD")
 
 group = "io.github.murzagalin"
-version = githubRef?.split('/')?.last() ?: "local"
+version = githubRef?.split('/')?.last() ?: "0.1.0-SNAPSHOT"
 
 publishing {
     repositories {
@@ -24,6 +20,8 @@ publishing {
                     "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             )
 
+            val nexusUsername: String? by project
+            val nexusPassword: String? by project
             credentials {
                 username = nexusUsername
                 password = nexusPassword
@@ -61,9 +59,13 @@ publishing {
 }
 
 signing {
+    val signingKey: String? by project
+    val signingPassword: String? by project
+
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
 }
+
 
 repositories {
     mavenCentral()

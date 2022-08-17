@@ -14,12 +14,12 @@ jobs:
         with:
           java-version: 11
 
-      - uses: oNaiPs/secrets-to-env-action@v1
-        with:
-          secrets: ${{ toJSON(secrets) }}
-
       - name: Publish
-        run: gradle publishAllPublicationsToSonatypeRepository
         env:
           ORG_GRADLE_PROJECT_githubUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPassword: ${{ github.token }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PW: ${{ secrets.NEXUS_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.S_SIGNING_KEY }}
+          SIGNING_PW: ${{ secrets.S_SIGNING_PASSWORD }}
+        run: gradle clean -PnexusUsername=$NEXUS_USERNAME -PnexusPassword=$NEXUS_PW -PsigningKey=SIGNING_KEY -PsigningPassword=$SIGNING_PW publishAllPublicationsToSonatypeRepository
