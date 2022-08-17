@@ -50,40 +50,25 @@ Any symbols other than constants and function calls are resolved as variables du
 ## How to get
 ### Gradle
 
-To be able to access the library in github packages, you need to create a github access token first.
-[Here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) you can find a documentation how to do this.
-Make sure you select `read:packages` permission for the token
-
 Kotlin DSL
 ```kotlin
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator")
-        credentials {
-            username = "your github username"
-            password = "your github token"
-        }
-    }
+    mavenCentral()
 }
 
 dependencies {
-    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.13.0")
+    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.14.1")
 }
 ```
+
 Groovy
 ```groovy
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/murzagalin/multiplatform-expressions-evaluator")
-        credentials {
-            username = "your github username"
-            password = "your github token"
-        }
-    }
+    mavenCentral()
 }
 
 dependencies {
-    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.13.0"
+    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.14.1")
 }
 ```
 
