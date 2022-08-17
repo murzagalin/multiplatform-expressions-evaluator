@@ -50,6 +50,8 @@ Any symbols other than constants and function calls are resolved as variables du
 ## How to get
 ### Gradle
 
+The library is distributed via maven central repositories.
+
 Kotlin DSL
 ```kotlin
 repositories {
@@ -57,7 +59,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.murzagalin:multiplatform-expressions-evaluator:0.14.1")
+    implementation "com.github.murzagalin:multiplatform-expressions-evaluator:0.14.1"
 }
 ```
 
