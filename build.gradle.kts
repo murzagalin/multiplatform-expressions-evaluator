@@ -1,24 +1,68 @@
 plugins {
     kotlin("multiplatform") version "1.5.30"
     id("maven-publish")
+    id("signing")
 }
 
 val githubRef = System.getenv("GITHUB_REF")
-val githubRepo = System.getenv("GITHUB_REPOSITORY")
+val nexusUsername = System.getenv("NEXUS_USERNAME")
+val nexusPassword = System.getenv("NEXUS_PASSWORD")
+val signingKey = System.getenv("S_SIGNING_KEY")
+val signingPassword = System.getenv("S_SIGNING_PASSWORD")
 
-group = "com.github.murzagalin"
+group = "io.github.murzagalin"
 version = githubRef?.split('/')?.last() ?: "local"
 
-githubRepo?.let {
-    publishing {
-        repositories {
-            maven {
-                name = "github"
-                url = uri("https://maven.pkg.github.com/$it")
-                credentials(PasswordCredentials::class)
+publishing {
+    repositories {
+        maven {
+            name = "sonatype"
+            setUrl(
+                if (version.toString().contains("SNAPSHOT"))
+                    "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                else
+                    "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            )
+
+            credentials {
+                username = nexusUsername
+                password = nexusPassword
             }
         }
     }
+
+    publications.withType<MavenPublication> {
+        //artifact(javadocJar.get())
+
+        pom {
+            name.set("Multiplatform expressions evaluator")
+            description.set("Kotlin multiplatform runtime infix expressions evaluator.")
+            url.set("https://github.com/murzagalin/multiplatform-expressions-evaluator")
+
+            licenses {
+                license {
+                    name.set("Apache 2.0 license")
+                    url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                }
+            }
+            developers {
+                developer {
+                    id.set("murzagalin")
+                    name.set("Azamat Murzagalin")
+                    email.set("azamat.em@gmail.com")
+                }
+            }
+            scm {
+                url.set("https://github.com/murzagalin/multiplatform-expressions-evaluator")
+            }
+
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications)
 }
 
 repositories {
