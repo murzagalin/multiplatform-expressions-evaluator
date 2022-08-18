@@ -1,5 +1,8 @@
 # Kotlin multiplatform expressions evaluator
 
+[![Version](https://maven-badges.herokuapp.com/maven-central/io.github.murzagalin/multiplatform-expressions-evaluator/badge.svg?style=flat)](https://search.maven.org/search?q=a:multiplatform-expressions-evaluator)
+
+
 This is a kotlin multiplatform runtime [infix](https://en.wikipedia.org/wiki/Infix_notation) expressions evaluator.
 
 ## Overview
@@ -59,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.murzagalin:multiplatform-expressions-evaluator:0.14.1")
+    implementation("io.github.murzagalin:multiplatform-expressions-evaluator:x.y.z")
 }
 ```
 
@@ -70,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.murzagalin:multiplatform-expressions-evaluator:0.14.1"
+    implementation "io.github.murzagalin:multiplatform-expressions-evaluator:x.y.z"
 }
 ```
 
