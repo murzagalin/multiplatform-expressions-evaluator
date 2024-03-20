@@ -1,5 +1,5 @@
 plugins {
-    kotlin("multiplatform") version "1.5.30"
+    kotlin("multiplatform") version "1.8.0"
     id("maven-publish")
     id("signing")
 }
@@ -84,7 +84,9 @@ kotlin {
         js(BOTH) {
             browser {
                 commonWebpackConfig {
-                    cssSupport.enabled = true
+                    cssSupport {
+                        enabled = true
+                    }
                 }
             }
             nodejs()

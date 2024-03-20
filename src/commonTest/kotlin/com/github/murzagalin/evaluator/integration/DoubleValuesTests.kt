@@ -28,4 +28,13 @@ class DoubleValuesTests {
     fun expressions() {
         assertEquals(3 * 23.toDouble().pow(3.2), evaluator.evaluateDouble("23^3.2*3"))
     }
+
+    @Test
+    fun bug_test() {
+        assertEquals(
+            2728.0,
+            evaluator.evaluateDouble("(0.341 * 8000.0) / (1 - (1 + 0.341) ^ -84)"),
+            absoluteTolerance = 0.000001
+        )
+    }
 }
