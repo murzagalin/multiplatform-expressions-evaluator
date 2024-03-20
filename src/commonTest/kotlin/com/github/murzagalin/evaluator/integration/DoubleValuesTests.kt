@@ -30,7 +30,7 @@ class DoubleValuesTests {
     }
 
     @Test
-    fun bug_test() {
+    fun complex_expression() {
         assertEquals(
             2728.0,
             evaluator.evaluateDouble("(0.341 * 8000.0) / (1 - (1 + 0.341) ^ -84)"),
