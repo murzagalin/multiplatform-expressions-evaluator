@@ -84,6 +84,11 @@ kotlin {
         browser()
         nodejs()
     }
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
 
     // Apple targets
     macosArm64()
