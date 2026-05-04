@@ -2,38 +2,27 @@ plugins {
     kotlin("multiplatform") version "2.3.21"
     id("maven-publish")
     id("signing")
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 val githubRef = System.getenv("GITHUB_REF")
-val nexusUsername = System.getenv("NEXUS_USER")
-val nexusPassword = System.getenv("NEXUS_PW")
 val signingKey = System.getenv("SIGNING_KEY")
 val signingPassword = System.getenv("SIGNING_PW")
 
 group = "io.github.murzagalin"
 version = githubRef?.split('/')?.last() ?: "0.1.0-SNAPSHOT"
 
-publishing {
+nexusPublishing {
     repositories {
-        maven {
-            name = "sonatype"
-            setUrl(
-                if (version.toString().contains("SNAPSHOT"))
-                    "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                else
-                    "https://s01.oss.sonatype.org/content/repositories/releases/"
-            )
-
-            credentials {
-                username = nexusUsername
-                password = nexusPassword
-            }
+        sonatype {
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
+}
 
+publishing {
     publications.withType<MavenPublication> {
-        //artifact(javadocJar.get())
-
         pom {
             name.set("Multiplatform expressions evaluator")
             description.set("Kotlin multiplatform runtime infix expressions evaluator.")
@@ -55,7 +44,6 @@ publishing {
             scm {
                 url.set("https://github.com/murzagalin/multiplatform-expressions-evaluator")
             }
-
         }
     }
 }
