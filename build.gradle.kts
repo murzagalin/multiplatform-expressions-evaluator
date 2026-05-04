@@ -1,5 +1,5 @@
 plugins {
-    kotlin("multiplatform") version "1.8.0"
+    kotlin("multiplatform") version "2.3.21"
     id("maven-publish")
     id("signing")
 }
@@ -72,63 +72,37 @@ repositories {
 
 kotlin {
 
-    targets {
-        jvm {
-            compilations.all {
-                kotlinOptions.jvmTarget = "1.8"
-            }
-            testRuns["test"].executionTask.configure {
-                useJUnit()
-            }
+    jvm {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
         }
-        js(BOTH) {
-            browser {
-                commonWebpackConfig {
-                    cssSupport {
-                        enabled = true
-                    }
-                }
-            }
-            nodejs()
+        testRuns["test"].executionTask.configure {
+            useJUnit()
         }
-
-        macosArm64()
-        iosX64()
-        iosArm64()
-        iosArm32()
-        iosSimulatorArm64()
-        watchosArm32()
-        watchosArm64()
-        watchosX86()
-        watchosX64()
-        watchosSimulatorArm64()
-        tvosArm64()
-        tvosX64()
-        tvosSimulatorArm64()
+    }
+    js {
+        browser()
+        nodejs()
     }
 
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
+    // Apple targets
+    macosArm64()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    watchosArm32()
+    watchosArm64()
+    watchosSimulatorArm64()
+    tvosArm64()
+    tvosSimulatorArm64()
 
-    
+    // Desktop/Server targets
+    linuxX64()
+    mingwX64()
+
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
-        val jvmMain by getting
-        val jvmTest by getting
-        val jsMain by getting
-        val jsTest by getting
-        val nativeMain by getting
-        val nativeTest by getting
     }
 }
