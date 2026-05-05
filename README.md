@@ -1,6 +1,6 @@
 # Kotlin multiplatform expressions evaluator
 
-[![Version](https://maven-badges.herokuapp.com/maven-central/io.github.murzagalin/multiplatform-expressions-evaluator/badge.svg?style=flat)](https://search.maven.org/search?q=a:multiplatform-expressions-evaluator)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.murzagalin/multiplatform-expressions-evaluator?style=flat)](https://central.sonatype.com/artifact/io.github.murzagalin/multiplatform-expressions-evaluator)
 
 
 This is a kotlin multiplatform runtime [infix](https://en.wikipedia.org/wiki/Infix_notation) expressions evaluator.
