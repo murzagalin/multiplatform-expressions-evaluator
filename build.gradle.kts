@@ -21,8 +21,13 @@ nexusPublishing {
     }
 }
 
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+}
+
 publishing {
     publications.withType<MavenPublication> {
+        artifact(javadocJar)
         pom {
             name.set("Multiplatform expressions evaluator")
             description.set("Kotlin multiplatform runtime infix expressions evaluator.")
