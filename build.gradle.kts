@@ -21,12 +21,13 @@ nexusPublishing {
     }
 }
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-}
-
 publishing {
     publications.withType<MavenPublication> {
+        val publicationName = this.name
+        val javadocJar = tasks.register("${publicationName}JavadocJar", Jar::class) {
+            archiveClassifier.set("javadoc")
+            archiveAppendix.set(publicationName)
+        }
         artifact(javadocJar)
         pom {
             name.set("Multiplatform expressions evaluator")
